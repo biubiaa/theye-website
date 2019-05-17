@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/mac.css">
+<!--    <script type="text/javascript" src="http://127.0.0.1:8080/js/jquery-3.4.0.min.js"></script>-->
+<!--    <script type="text/javascript" src="http://127.0.0.1:8080/js/bootstrap.min.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/bootstrap.min.css">
+    <link href="http://127.0.0.1:8080/css/city-picker.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/bootstrap.min.js"></script>
+    <script src="http://127.0.0.1:8080/js/city-picker.data.js"></script>
+    <script src="http://127.0.0.1:8080/js/city-picker.js"></script>
+    <script src="http://127.0.0.1:8080/js/main.js"></script>
+    <style>
+        .div-inline{
+            display: inline;
+        }</style>
+    <title>图片提问</title>
+</head>
+<body>
+
+<div class="top_div">
+    <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
+    <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
+    <div class="div-inline">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">提问大厅</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的提问</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
+
+        <a  style="float: right"  th:if="${session.userId==null}" href="http://127.0.0.1:8080/register1" >注册&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href="http://127.0.0.1:8080/login" th:if="${session.userId==null}" style="float: right"  >登录&nbsp;&nbsp;</a>
+    </div>
+    <!--<a th:if="${session.user != null}" style="float: right"  >我的信息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>-->
+    <ul style="float: right; " th:if="${session.userId!=null}" class="nav nav-tabs">
+
+        <li class="dropdown">
+            <a th:if="${session.userId!=null}" th:text="${'你好，'+session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" style="min-width:100%;">
+                <li >
+                    <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
+                <li >
+                    <a href="#">修改密码</a></li>
+                <li >
+                    <a href="http://127.0.0.1:8080/deposit">充值</a></li>
+                <li >
+                    <a href="http://127.0.0.1:8080/signout">注销</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div style="width: 500px;margin: 100px auto">
+
+    <form class="form-horizontal" action="http://127.0.0.1:8080/addpicappmes" method="post" role="form">
+        <div class="form-group">
+            <label for="subject" class="col-sm-2 control-label">主题</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="请输入主题">
+            </div>
+        </div>
+        <div class="form-group" style="width: 500px;margin: 0 auto">
+            <div class="form-group">
+                <label for="introduce" class="col-sm-2 control-label" > 提问详情</label>
+                <div class="col-sm-10">
+                <textarea class="form-control" name="introduce" id="introduce" rows="3" ></textarea>
+            </div>
+            </div>
+        </div>
+<!--            <div class="container" style="display: inline">-->
+                <div class="docs-methods" style="width: 500px;margin: 0 auto;">
+                    <!--<form class="form-inline">-->
+                    <div id="distpicker">
+                        <div class="form-group" style="width: 500px">
+                            <label for="city-picker3" class="col-sm-2 control-label">地区</label>
+                            <div style="position: relative;height: 35px;float: right">
+                                <input id="city-picker3"  name="city-picker3" class="form-control"readonly type="text" value="" data-toggle="city-picker" style="width:380px">
+
+                                <div class="form-group" >
+                                    <button class="btn btn-danger" id="destroy" type="button" style="float: right;height: 35px;display: inline">确定</button>
+                                    <button class="btn btn-warning" id="reset" type="button" style="float: right;height: 35px;display: inline">重置</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--            </div>-->
+
+        <div class="form-group" style="margin: 50px auto">
+<!--            <div class="form-inline">-->
+            <label for="money" class="col-sm-2 control-label" style="white-space:nowrap">奖赏金额</label>
+            <div class="col-sm-10">
+                <input type="number"  class="form-control"  name="money" value="'+data+'" id="money" min="0"/>
+            </div>
+<!--            </div>-->
+        </div>
+
+        <div class="form-group" >
+            <div class="col-sm-offset-2 col-sm-10" >
+                <button type="submit" class="btn btn-default" style="width: 100px;margin: 0 140px;">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+
+</html>

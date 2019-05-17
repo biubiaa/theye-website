@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/mac.css">
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/bootstrap.min.js"></script>
+
+    <title>Title</title>
+    <style>
+        .div_center{
+            width: 320px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+
+<p/><p/>
+<div class="div_center">
+    &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="http://127.0.0.1:8080/3.png">
+    <p/><p/>
+    <p style="font-size: 20px ;font-weight: bold; font-family: 'Lucida Handwriting'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Register&nbsp;your&nbsp;account</p>
+
+    <form action="http://127.0.0.1:8080/registermes1" method="post" onsubmit=" return check()" class="form-horizontal" role="form">
+        <div class="form-group">
+            &nbsp;&nbsp; <p style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;登录账号：</p>
+            <div class="col-sm-10">
+                 <input type="text"  id="userId" class="form-control" name="userId"  placeholder="请输入账号"><p/>
+            </div>
+        </div>
+        <div class="form-group">
+            <p style="font-weight: bold; ">&nbsp;&nbsp;&nbsp;&nbsp;密码：</p>
+            <div class="col-sm-10">
+                <input width="300px" type="password" name="password1" class="form-control" id="password1" placeholder="请输入密码">
+            </div>
+        </div>
+        <div class="form-group">
+             <p style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;确认密码：</p>
+            <div class="col-sm-10">
+              <input width="300px" type="password" name="password2" class="form-control" id="password2" placeholder="请确保两次密码相同">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="submit" type="submit" class="btn btn-default">注册</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    function check() {
+        var userId = document.getElementById("userId").value;
+        var pwd1 = document.getElementById("password1").value;
+        var pwd2 = document.getElementById("password2").value;
+        var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+        if(reg.test(userId)){alert("账号不能包含包含汉字！");return false }
+        <!-- 对比两次输入的密码 -->
+        if(pwd1 == pwd2) {
+            return true;
+        }
+        if(userId==''){
+            alert("账号不能为空");
+            return false;
+        }
+        if(pwd1==''){
+            alert("密码不能为空");
+            return false;
+        }
+        else {
+            alert("两次密码不相同，请重新输入后在提交");
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

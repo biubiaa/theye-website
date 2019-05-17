@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/bootstrap.min.css">
+    <link href="http://127.0.0.1:8080/css/city-picker.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/mac.css">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/cityselect.css">
+    <script type="text/javascript" src="http://127.0.0.1:8080/cityselect.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/bootstrap.min.js"></script>
+    <script src="http://127.0.0.1:8080/js/city-picker.data.js"></script>
+    <script src="http://127.0.0.1:8080/js/city-picker.js"></script>
+    <script src="http://127.0.0.1:8080/js/main.js"></script>
+
+    <style>
+        .div-inline{
+            display: inline;
+        }
+        .div_select{
+            width: 980px;
+            /*height: 1px;*/
+            margin: 0 auto;
+            /*background: #00b3ee;*/
+        }
+    </style>
+    <title>请求大厅</title>
+
+</head>
+<body>
+<div class="top_div">
+    <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
+    <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
+    <div class="div-inline">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">提问大厅</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的提问</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
+
+        <a  style="float: right"  th:if="${session.userId==null}" href="http://127.0.0.1:8080/register1" >注册&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href="http://127.0.0.1:8080/login" th:if="${session.userId==null}" style="float: right"  >登录&nbsp;&nbsp;</a>
+    </div>
+    <!--<a th:if="${session.user != null}" style="float: right"  >我的信息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>-->
+    <ul style="float: right; " th:if="${session.userId!=null}" class="nav nav-tabs">
+
+        <li class="dropdown">
+            <a th:if="${session.userId!=null}" th:text="${'你好，'+session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" style="min-width:100%;">
+                <li >
+                    <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
+                <li >
+                    <a href="#">修改密码</a></li>
+                <li >
+                    <a href="http://127.0.0.1:8080/deposit">充值</a></li>
+                <li >
+                    <a href="http://127.0.0.1:8080/signout">注销</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div style="width: 980px;margin: 20px auto">
+    <form action="http://127.0.0.1:8080/selectbycity" method="post" class="form-horizontal" role="form">
+        <input type="text" style="display:none"/>
+
+        <input type="password" style="display:none"/>
+        <div class="div_select" >
+            <div class="form-group" style="width: 500px;margin: 0 auto">
+                <div class="form-group"style="width: 700px;">
+
+                    <div class="form-inline">
+                        <button type="submit" id="ccc" style="float: right" class="btn btn-default" >查询</button>
+                        <label for="ccc" class="col-sm-2 control-label" style="float: right;width: 1px"></label>
+                        <select id="selecrr" class="form-control" style="float: right">
+                            <option>已解决</option>
+                            <option>未解决</option>
+                        </select>
+                        <label for="selecrr" class="col-sm-2 control-label" style="float: right;width: 90px">选择类型</label>
+
+                        <input type="text" class="form-control " style="width: 200px;float: right" id="citySelect" name="city" placeholder="请输入目的地">
+                        </a> <label for="citySelect" class="col-sm-2 control-label" style="float: right"> 选择地区</label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<script type="text/javascript">
+    var test=new Vcity.CitySelector({input:'citySelect'});
+</script>
+</body>
+</html>

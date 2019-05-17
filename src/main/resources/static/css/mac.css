@@ -1,0 +1,38 @@
+.top_div{
+    width: 980px;
+    height: 60px;
+    line-height: 60px;
+    margin:0 auto
+}
+.juzhong{
+    background-color: #c4e3f3;
+    width: 980px;
+    height: 60px;
+    top: 20px;
+    line-height: 30px;
+    /*left: 200px;*/
+    margin:0 auto
+}
+#kaoyou{
+    float: right;
+    ;
+}
+.sylupic{
+    /*position: absolute;*/
+    width: 980px;
+    margin: 0 auto;
+    /*top: 100px;*/
+    /*left: 400px;*/
+}
+
+
+
+.shdiv{
+    background-color: inherit;
+    width: 980px;
+    height: 30px;
+    top: 20px;
+    line-height: 30px;
+    /*left: 200px;*/
+    margin:0 auto
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/mac.css">
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/bootstrap.min.js"></script>
+
+    <style>
+        .div-inline{
+            display: inline;
+        }</style>
+    <title>首页</title>
+</head>
+<body>
+
+<div class="top_div">
+    <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
+    <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
+    <div class="div-inline">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">提问大厅</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的提问</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
+
+        <a  style="float: right"  th:if="${session.userId==null}" href="http://127.0.0.1:8080/register1" >注册&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href="http://127.0.0.1:8080/login" th:if="${session.userId==null}" style="float: right"  >登录&nbsp;&nbsp;</a>
+    </div>
+    <!--<a th:if="${session.user != null}" style="float: right"  >我的信息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>-->
+    <ul style="float: right; " th:if="${session.userId!=null}" class="nav nav-tabs">
+
+        <li class="dropdown">
+            <a th:if="${session.userId!=null}" th:text="${'你好，'+session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" style="min-width:100%;">
+                <li >
+                    <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
+                <li >
+                    <a href="#">修改密码</a></li>
+
+                <li >
+                    <a href="http://127.0.0.1:8080/signout">注销</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div style="width:700px ;height: 125px; display: flex; justify-content:  space-around  ;margin: 100px auto;">
+        <a class="btn btn-default" style=" width: 125px;height: 125px" href="http://127.0.0.1:8080/recharge?money=6"><p style="margin: 45px auto;color: #2b669a">充值6元</p></a>
+        <a class="btn btn-default" style=" width: 125px;height: 125px" href="http://127.0.0.1:8080/recharge?money=38"><p style="margin: 45px auto;color: #2b669a">充值38元</p></a>
+
+        <a class="btn btn-default" style=" width: 125px;height: 125px" href="http://127.0.0.1:8080/recharge?money=68"><p style="margin: 45px auto;color: #2b669a">充值68元</p></a>
+
+
+
+
+
+
+</div>
+<div style="width:700px ;height: 200px;display: flex; justify-content:  space-around  ;margin: 0 auto;">
+    <a class="btn btn-default" style=" width: 125px;height: 125px" href="http://127.0.0.1:8080/recharge?money=98"><p style="margin: 45px auto;color: #2b669a">充值98元</p></a>
+    <a class="btn btn-default" style=" width: 125px;height: 125px" href="http://127.0.0.1:8080/recharge?money=198"><p style="margin: 45px auto;color: #2b669a">充值198元</p></a>
+    <a class="btn btn-default" style=" width: 125px;height: 125px" href="http://127.0.0.1:8080/recharge?money=368"><p style="margin: 45px auto;color: #2b669a">充值368元</p></a>
+
+
+</div>
+</div>
+
+</body>
+</html>

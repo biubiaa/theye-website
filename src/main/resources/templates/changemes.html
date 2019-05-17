@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/bootstrap.min.css">
+    <link href="http://127.0.0.1:8080/css/city-picker.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/bootstrap.min.js"></script>
+    <script src="http://127.0.0.1:8080/js/city-picker.data.js"></script>
+    <script src="http://127.0.0.1:8080/js/city-picker.js"></script>
+    <script src="http://127.0.0.1:8080/js/main.js"></script>
+
+    <style>
+        .div_center{
+            width: 320px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+        .div-inline{
+            display: inline;
+        }</style>
+    <title>我的答案</title>
+</head>
+<body>
+
+<div class="top_div">
+    <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
+    <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
+    <div class="div-inline">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">提问大厅</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的提问</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
+
+        <a  style="float: right"  th:if="${session.userId==null}" href="http://127.0.0.1:8080/register1" >注册&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href="http://127.0.0.1:8080/login" th:if="${session.userId==null}" style="float: right"  >登录&nbsp;&nbsp;</a>
+    </div>
+    <!--<a th:if="${session.user != null}" style="float: right"  >我的信息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>-->
+    <ul style="float: right; " th:if="${session.userId!=null}" class="nav nav-tabs">
+
+        <li class="dropdown">
+            <a th:if="${session.userId!=null}" th:text="${'你好，'+session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" style="min-width:100%;">
+                <li >
+                    <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
+                <li >
+                    <a href="#">修改密码</a></li>
+                <li >
+                    <a href="http://127.0.0.1:8080/deposit">充值</a></li>
+                <li >
+                    <a href="http://127.0.0.1:8080/signout">注销</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="div_center">
+<form action="http://127.0.0.1:8080/changemes" onsubmit=" return check()" method="post" class="form-horizontal" role="form" >
+    <div class="form-group">
+        <label for="nickName" class="col-sm-2 control-label">昵称</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control"  name="nickName" id="nickName" th:placeholder="${userMes.getNickname()}" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">邮箱</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="email" th:placeholder="${userMes.getEmail()}" id="email" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="phone" class="col-sm-2 control-label">手机</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="phone" th:placeholder="${userMes.getPhone()}" id="phone" >
+        </div>
+    </div>
+    <p style="font-weight: bold">常驻地区<p/>
+    <!-- Content -->
+    <div class="container">
+        <div class="docs-methods">
+            <!--<form class="form-inline">-->
+            <div id="distpicker">
+                <div class="form-group">
+                    <!--<label for="city-picker3" class="col-sm-2 control-label">常驻地区</label>-->
+
+                    <div style="position: relative;">
+                        <input id="city-picker3" name="city-picker3" th:placeholder="${userMes.getRegion()}" class="form-control" readonly type="text" value="" data-toggle="city-picker" style="width: 320px">
+                    </div>
+                </div>
+                <!--<div class="form-group">-->
+                <!--<button class="btn btn-warning" id="reset" type="button" style="float: right">重置</button>-->
+                <!--<button class="btn btn-danger" id="destroy" type="button" style="float: right">确定</button>-->
+                <!--</div>-->
+            </div>
+            <!--</form>-->
+        </div>
+
+    </div>
+    <div class="form-group">
+        <button class="btn btn-warning" id="reset" type="button" style="float: right">重置</button>
+        <button class="btn btn-danger" id="destroy" type="button" style="float: right">确定</button>
+    </div>
+    <div class="form-group">
+        <label for="signature">个性签名</label>
+        <textarea class="form-control" th:placeholder="${userMes.getSignature()}" id="signature" name="signature" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            &nbsp;&nbsp;  &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" id="submit" class="btn btn-default">  &nbsp;&nbsp;提交信息&nbsp;&nbsp;</button>
+            <!--<button  type="button" class="btn btn-default" href="http://127.0.0.1:8080/" style="float: right;background-color: #bce8f1"><a href="http://127.0.0.1:8080/" style="color: black" > 跳过</a></button>-->
+        </div>
+    </div>
+
+</form>
+</div>
+</body>
+<script>
+    function check() {
+        var nickName = document.getElementById("nickName").value;
+        if(nickName==null) return false;
+        return true;
+    }
+</script>
+</html>

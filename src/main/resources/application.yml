@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://111.230.92.97:3306/bteye
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+mybatis:
+  mapper-locations: classpath:com/example/demo/mapper/*Mapper.xml
+  type-aliases-package: com.example.demo.dao
+  config-location: classpath:mybatis-config.xml
+
