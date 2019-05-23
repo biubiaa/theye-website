@@ -51,5 +51,6 @@ public interface PicAnswerMapper {
     List<PicAnswer> selectAnswerByUserId(String userId);
     int selectSumByAppId(int picId);
     List<PicAnswer> selectByPicAppId(int picAppId);
+    PicAnswer selectByAnswerUserId(int picappId,String userId);
 
 }

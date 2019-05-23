@@ -74,9 +74,14 @@
     from pic_answer
     where picapp_id = #{picId,jdbcType=INTEGER}
   </select>
-  <select id="selectByPicAppId" resultType="java.lang.Integer">
+  <select id="selectByPicAppId" resultMap="BaseResultMap">
  select *
     from pic_answer
     where picapp_id = #{picappId,jdbcType=INTEGER}
+  </select>
+    <select id="selectByAnswerUserId" resultMap="BaseResultMap">
+ select *
+    from pic_answer
+    where picapp_id = #{picappId,jdbcType=INTEGER} and user_id =#{userId,jdbcType=VARCHAR}
   </select>
 </mapper>

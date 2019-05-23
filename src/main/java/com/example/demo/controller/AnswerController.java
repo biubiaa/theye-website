@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dao.PicAnswer;
+import com.example.demo.dto.SpecificPicAnswer;
 import com.example.demo.dto.ZSPicMyAnswer;
 import com.example.demo.dto.ZSVideoMyAnswer;
 import com.example.demo.service.impl.PicAnswerImpl;
@@ -32,15 +33,15 @@ public class AnswerController {
 
     @RequestMapping(value = "addpicpic")
     public String addPicPic1(@RequestParam("appid") String  picAppId,@RequestParam("images")MultipartFile file, HttpServletRequest request,ModelMap modelMap) throws IOException {
-        System.out.println(file.getOriginalFilename());
-
+//        System.out.println(file.getOriginalFilename());
+        String userId = (String) request.getSession().getAttribute("userId");
         String pathname = "";
         String returnPath = "";
         if (!file.isEmpty()){
             String fileName = file.getOriginalFilename();
             File path = new File(ResourceUtils.getURL("classpath:").getPath());//获取Spring boot项目的根路径，在开发时获取到的是/target/classes/
 //            System.out.println(path.getPath());//如果你的图片存储路径在static下，可以参考下面的写法
-            File uploadFile = new File(path.getAbsolutePath(), "static/images/upload/pic/"+picAppId+"/");//开发测试模式中 获取到的是/target/classes/static/images/upload/
+            File uploadFile = new File(path.getAbsolutePath(), "static/images/upload/pic/"+picAppId+"/"+userId+"/");//开发测试模式中 获取到的是/target/classes/static/images/upload/
             if (!uploadFile.exists()){
                 uploadFile.mkdirs();
             }
@@ -57,7 +58,7 @@ public class AnswerController {
             pathname = savePath+ "/" + diskFileName;
             file.transferTo(new File(pathname));//文件转存
             PicAnswer picAnswer = new PicAnswer();
-            picAnswer.setPicAdress("images/upload/pic/"+picAppId+"/");
+            picAnswer.setPicAdress("images/upload/pic/"+picAppId+"/"+userId+"/");
             picAnswer.setPicappId(Integer.parseInt(picAppId));
             picAnswer.setUserId((String) request.getSession().getAttribute("userId"));
             picAnswerimpl.insertNewAnswer(picAnswer);
@@ -66,9 +67,8 @@ public class AnswerController {
 //            System.out.println(pathname);
 
 
-
         }//UploadResponseData 自定义返回数据类型实体{int code, String msg, Object data}
-        String userId = (String) request.getSession().getAttribute("userId");
+        System.out.println("sasaasa");
         List<ZSPicMyAnswer> pics = picAnswerimpl.getPicAnswerByuserId(userId);
         List<ZSVideoMyAnswer> videos = videoAnswerService.getVidelAnswerByUserId(userId);
         modelMap.addAttribute("picAnswer",pics);
@@ -86,19 +86,43 @@ public class AnswerController {
         modelMap.addAttribute("picAnswers",pics);
         modelMap.addAttribute("videoAnswers",videos);
         return "myanswer";
-
     }
     /**
      * 具体图片答案界面
      * */
-    @RequestMapping(value = "ppp",method = RequestMethod.GET)
+    @RequestMapping(value = "picanswer",method = RequestMethod.GET)
     public String sPicAnswer(@RequestParam(value = "picAnswerId")int picAnswerId, HttpServletRequest request, ModelMap modelMap) throws FileNotFoundException {
         String userId = (String) request.getSession().getAttribute("userId");
-        picAnswerimpl.getAnswersBy(picAnswerId);
+//        System.out.println(picAnswerId);
+        SpecificPicAnswer specificPicAnswer = picAnswerimpl.getAnswersBy(picAnswerId,userId);
+
+        modelMap.addAttribute("picAnswerInfo",specificPicAnswer);
         //查询该问题所有答案
 
-        return "pecificAnswer/picAnswer";
+        return "picanswer";
     }
+    /**
+     * 根据某请求的第几个回答显示答案
+     * */
+    @RequestMapping(value = "ppicanswer",method = RequestMethod.GET)
+    public String ppicAnswer(@RequestParam("count") int count,@RequestParam("picId")int picId,HttpServletRequest request,ModelMap modelMap) throws FileNotFoundException {
+        SpecificPicAnswer specificPicAnswer = picAnswerimpl.selectByAppIdAndCount(picId,count);
+        modelMap.addAttribute("picAnswerInfo",specificPicAnswer);
+        return "picanswer";
+    }
+    /**
+     * 查看一个请求的第一个回答
+     * */
+    @RequestMapping(value = "getPicFirstAnswer",method = RequestMethod.GET)
+    public String getPicFirstAnswer(@RequestParam("picAppId")int picAppId,ModelMap modelMap) throws FileNotFoundException {
+
+        SpecificPicAnswer specificPicAnswer = picAnswerimpl.selectByAppIdAndCount(picAppId,1);
+        modelMap.addAttribute("picAnswerInfo",specificPicAnswer);
+
+        return "picanswer";
+    }
+
+
     /**
      * 具体图片答案界面
      * */

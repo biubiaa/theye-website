@@ -24,6 +24,7 @@
     <div class="div-inline">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">提问大厅</a>
+<!--        <a href="http://127.0.0.1:8080/shuayishu" style="font-size: 20px">刷一刷</a>-->
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的提问</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
 
@@ -88,33 +89,12 @@
             <td th:text="${picapp.getAppTime()}"></td>
             <td>
                 <div class="form-inline">
-                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                <a class="btn btn-primary btn-sm"  th:href="'http://127.0.0.1:8080/getPicFirstAnswer?picAppId='+${picapp.getAppId()}">
                     查看回答
-                </button>
+                </a>
                     <a class="btn btn-primary btn-sm" onclick="confirmdelete()" th:href="@{'http://127.0.0.1:8080/deletepicapp?id='+${picapp.getAppId()}}">删除</a>
                 </div>
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
-                            </div>
-                            <div class="modal-body">按下 ESC 按钮退出。</div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                <button type="button" class="btn btn-primary">提交更改</button>
-                            </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div>
             </td>
-<!--          <td th:if="${not #strings.isEmpty(picapp.getAppSubject())}">-->
-<!--                    <a class="btn btn-sm btn-primary" th:if="${not #strings.isEmpty(picapp.getAppSubject())}" >编辑</a>-->
-<!--            <button  th:if="${not #strings.isEmpty(picapp.getAppSubject())}" class="btn btn-sm btn-danger deleteBtn">删除-->
-<!--            </button>-->
-<!--            </td>-->
-
         </tr>
         </tbody>
     </table>

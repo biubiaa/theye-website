@@ -19,6 +19,16 @@ public class SpecificPicAnswer {
     private int count;
     private int sum;
 
+    public int getPicAppId() {
+        return picAppId;
+    }
+
+    public void setPicAppId(int picAppId) {
+        this.picAppId = picAppId;
+    }
+
+    private int picAppId;
+
 
 
     public int getPicAnswerId() {
