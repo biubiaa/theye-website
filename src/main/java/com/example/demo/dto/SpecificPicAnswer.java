@@ -18,7 +18,7 @@ public class SpecificPicAnswer {
     private List<String> imgs;
     private int count;
     private int sum;
-
+    private int picAppId;
     public int getPicAppId() {
         return picAppId;
     }
@@ -27,7 +27,7 @@ public class SpecificPicAnswer {
         this.picAppId = picAppId;
     }
 
-    private int picAppId;
+
 
 
 

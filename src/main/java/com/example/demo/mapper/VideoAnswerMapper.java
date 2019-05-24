@@ -48,4 +48,8 @@ public interface VideoAnswerMapper {
     int updateByPrimaryKey(VideoAnswer record);
 //    VideoAnswer selectByUserAndAppId(String userId,int )
     List<VideoAnswer> selectByUserId(String userId);
+    List<VideoAnswer> chachong(String userId,int videoappId);
+    int selectSumByAppId(int videoappId);
+    VideoAnswer selectByAnswerUserId(int videoappId,String userId);
+    List<VideoAnswer> selectByVideoAppId(int videoappId);
 }

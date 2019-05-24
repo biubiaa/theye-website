@@ -39,11 +39,11 @@
     <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
     <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
     <div class="div-inline">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">提问大厅</a>
-<!--        <a href="http://127.0.0.1:8080/shuayishu" style="font-size: 20px">刷一刷</a>-->
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的提问</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">提问大厅</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" style="font-size: 20px">刷一刷</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的提问</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
 
         <a  style="float: right"  th:if="${session.userId==null}" href="http://127.0.0.1:8080/register1" >注册&nbsp;&nbsp;&nbsp;&nbsp;</a>
         <a href="http://127.0.0.1:8080/login" th:if="${session.userId==null}" style="float: right"  >登录&nbsp;&nbsp;</a>
@@ -241,32 +241,33 @@
                         回答
                     </button>
                 </div>
-                <div class="modal fade" th:id="'myModalvideo1'+${picapp.getAppId()}"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-                    <div class="modal-dialog" style="margin: 150px auto;">
+<!--                查看简介-->
+                <div class="modal fade" th:id="'myModalvideo1'+${picapp.getAppId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title" id="myModalLabel1">描述</h4>
+                                <h4 class="modal-title" id="myModalLabel1">简介</h4>
                             </div>
                             <div class="modal-body" th:text="${picapp.getIntroduce()}"></div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-<!--                                <button type="button" class="btn btn-primary">提交更改</button>-->
+
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
                 </div>
-
-                <div class="modal fade" th:id="'myModalpic2'+${picapp.getAppId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel5" aria-hidden="true">
+<!--                上传答案-->
+                <div class="modal fade" th:id="'myModalvideo2'+${picapp.getAppId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
                     <div class="modal-dialog" >
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title" id="myModalLabel5">上传答案</h4>
+                                <h4 class="modal-title" id="myModalLabel7">上传答案</h4>
                             </div>
                             <div style="width: 300px;margin: 0 auto;">
-                                <form class="form" action="http://127.0.0.1:8080/addpicpic" method="post" enctype="multipart/form-data"  id="pollutionForm1">
-                                    <input type="file" class="file"  th:id="'pic'+${picapp.getAppId()}" multiple="multiple" name="images">
+                                <form class="form" action="http://127.0.0.1:8080/addvideovideo" method="post" enctype="multipart/form-data"  >
+                                    <input type="file" class="file"  th:id="'pic'+${picapp.getAppId()}" multiple="multiple" name="video">
                                     <textarea name="appid" th:text="${picapp.getAppId()}" hidden="hidden"></textarea>
                                     <button   type="submit"  class="btn btn-default" >确认上传</button>
                                 </form>

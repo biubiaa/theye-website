@@ -22,11 +22,11 @@
     <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
     <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
     <div class="div-inline">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">提问大厅</a>
-<!--        <a href="http://127.0.0.1:8080/shuayishu" style="font-size: 20px">刷一刷</a>-->
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的提问</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">提问大厅</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" style="font-size: 20px">刷一刷</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的提问</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
 
         <a  style="float: right"  th:if="${session.userId==null}" href="http://127.0.0.1:8080/register1" >注册&nbsp;&nbsp;&nbsp;&nbsp;</a>
         <a href="http://127.0.0.1:8080/login" th:if="${session.userId==null}" style="float: right"  >登录&nbsp;&nbsp;</a>
@@ -39,6 +39,8 @@
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu" style="min-width:100%;">
+                <li >
+                    <a href="http://127.0.0.1:8080/message" th:text="'消息'"></a></li>
                 <li >
                     <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
                 <li >
@@ -53,6 +55,7 @@
     
 </div>
 <div style="width: 800px ;margin: 10px auto">
+
 <div class="btn-group" style="float: right;">
     <button type="button" class="btn btn-default">发起提问</button>
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -64,6 +67,7 @@
         <li><a href="http://127.0.0.1:8080/addvideoapppage">视频提问</a></li>
     </ul>
 </div>
+
 </div>
 <div style="margin: 60px auto;width: 900px">
     <label for="picapptable">我的图片请求</label>
@@ -124,26 +128,12 @@
             <td th:text="${picapp.getAppTime()}"></td>
             <td>
                 <div class="form-inline">
-                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal1">
+                    <a class="btn btn-primary btn-sm" th:href="'http://127.0.0.1:8080/getVideoFirstAnswer?videoAppId='+${picapp.getAppId()}">
                         查看回答
-                    </button>
-                    <a class="btn btn-primary btn-sm" onclick="confirmdelete()" th:href="@{'http://127.0.0.1:8080/deletepicapp?id='+${picapp.getAppId()}}">删除</a>
+                    </a>
+                    <a class="btn btn-primary btn-sm" onclick="confirmdelete()" th:href="@{'http://127.0.0.1:8080/deletevideoapp?id='+${picapp.getAppId()}}">删除</a>
                 </div>
-                <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title" id="myModalLabel1">模态框（Modal）标题</h4>
-                            </div>
-                            <div class="modal-body">按下 ESC 按钮退出。</div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                <button type="button" class="btn btn-primary">提交更改</button>
-                            </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div>
+
             </td>
             <!--          <td th:if="${not #strings.isEmpty(picapp.getAppSubject())}">-->
             <!--                    <a class="btn btn-sm btn-primary" th:if="${not #strings.isEmpty(picapp.getAppSubject())}" >编辑</a>-->

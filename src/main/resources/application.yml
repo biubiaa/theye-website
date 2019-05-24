@@ -11,6 +11,10 @@ spring:
     password: 123456
     url: jdbc:mysql://111.230.92.97:3306/bteye
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
 
 
 mybatis:

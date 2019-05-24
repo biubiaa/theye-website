@@ -105,14 +105,11 @@ public class QuestionController {
             videoAppMes.setAmazing(0);
             videoAppMes.setRegion(region);
             if(videoAppService.addApp(videoAppMes)==1) {
-                model.addAttribute("subject",subject);
-                model.addAttribute("nickname",userServiceimpl.gerNickName(userId));
-                model.addAttribute("introduce",introduce);
-                Date date = picAppService.getfabuDate(userId,subject);
-                model.addAttribute("date",date);
-                model.addAttribute("money",money);
-                model.addAttribute("state","未解决");
-                return "picmes";
+                List<ZSPicAppMes> zsAppMesss = picAppService.getPicAppsByUserId(userId);
+                List<ZSVideoAppMes> videoAppMes1 = videoAppService.selectByUserId(userId);
+                model.addAttribute("picapps",zsAppMesss);
+                model.addAttribute("videoapps",videoAppMes1);
+                return "myquestion";
             }else {
                 response.setContentType("text/html;charset=utf-8");
                 PrintWriter out = response.getWriter();

@@ -84,9 +84,7 @@ public class PicAnswerImpl {
 
         int count = 0;
         List<PicAnswer> picAnswers = picAnswerMapper.selectByPicAppId(picAnswer.getPicappId());
-        System.out.println("answers:"+picAnswers.size());
 
-        System.out.println(picAnswers.get(0).getPicappId());
         for (PicAnswer p: picAnswers
              ) {
             count++;
@@ -97,6 +95,7 @@ public class PicAnswerImpl {
         PicAppMes picAppMes = picAppMesMapper.selectByPrimaryKey(picAnswer.getPicappId());
         UserMes appUserMes = userMesMapper.selectByPrimaryKey(picAppMes.getUserId());
         UserMes answerUserMes = userMesMapper.selectByPrimaryKey(picAnswer.getUserId());
+
         specificPicAnswer.setSum(sum);
         specificPicAnswer.setAnswerTIme(picAnswer.getAppTime());
         specificPicAnswer.setAnswerUserId(picAnswer.getUserId());
@@ -111,6 +110,7 @@ public class PicAnswerImpl {
         specificPicAnswer.setPicAnswerId(picAnswer.getPicId());
         specificPicAnswer.setPicAppId(picAppId);
         //查看路径下有多少文件
+
         String path = picAnswer.getPicAdress();//url路径
         List<String> imgPaths = new ArrayList<String>();
         File path1 = new File(ResourceUtils.getURL("classpath:").getPath());//获取Spring boot项目的根路径，在开发时获取到的是/target/classes/
@@ -139,40 +139,43 @@ public class PicAnswerImpl {
 //        int count = 0;
         List<PicAnswer> picAnswers = picAnswerMapper.selectByPicAppId(picAppId);
 //        System.out.println("answers:"+picAnswers.size());
+        if(picAnswers.isEmpty()){
+            return null;
+        }else {
+            PicAnswer picAnswer = picAnswers.get(count - 1);
+            PicAppMes picAppMes = picAppMesMapper.selectByPrimaryKey(picAppId);
+            UserMes appUserMes = userMesMapper.selectByPrimaryKey(picAppMes.getUserId());
+            UserMes answerUserMes = userMesMapper.selectByPrimaryKey(picAnswer.getUserId());
+            specificPicAnswer.setSum(sum);
+            specificPicAnswer.setAnswerTIme(picAnswer.getAppTime());
+            specificPicAnswer.setAnswerUserId(picAnswer.getUserId());
+            //是第几个
+            specificPicAnswer.setCount(count);
+            specificPicAnswer.setAskTime(picAppMes.getAppTime());
+            specificPicAnswer.setAnswerUserName(answerUserMes.getNickname());
+            specificPicAnswer.setAnswerUserId(answerUserMes.getUserId());
+            specificPicAnswer.setOriginUserId(appUserMes.getUserId());
+            specificPicAnswer.setOriginUserName(appUserMes.getNickname());
+            specificPicAnswer.setSubject(picAppMes.getAppSubject());
+            specificPicAnswer.setPicAnswerId(picAnswer.getPicId());
+            specificPicAnswer.setPicAppId(picAppId);
 
-        PicAnswer picAnswer = picAnswers.get(count-1);
-        PicAppMes picAppMes = picAppMesMapper.selectByPrimaryKey(picAppId);
-        UserMes appUserMes = userMesMapper.selectByPrimaryKey(picAppMes.getUserId());
-        UserMes answerUserMes = userMesMapper.selectByPrimaryKey(picAnswer.getUserId());
-        specificPicAnswer.setSum(sum);
-        specificPicAnswer.setAnswerTIme(picAnswer.getAppTime());
-        specificPicAnswer.setAnswerUserId(picAnswer.getUserId());
-        //是第几个
-        specificPicAnswer.setCount(count);
-        specificPicAnswer.setAskTime(picAppMes.getAppTime());
-        specificPicAnswer.setAnswerUserName(answerUserMes.getNickname());
-        specificPicAnswer.setAnswerUserId(answerUserMes.getUserId());
-        specificPicAnswer.setOriginUserId(appUserMes.getUserId());
-        specificPicAnswer.setOriginUserName(appUserMes.getNickname());
-        specificPicAnswer.setSubject(picAppMes.getAppSubject());
-        specificPicAnswer.setPicAnswerId(picAnswer.getPicId());
-        specificPicAnswer.setPicAppId(picAppId);
+            //查看路径下有多少文件
+            String path = picAnswer.getPicAdress();//url路径
 
-        //查看路径下有多少文件
-        String path = picAnswer.getPicAdress();//url路径
-
-        List<String> imgPaths = new ArrayList<String>();
-        File path1 = new File(ResourceUtils.getURL("classpath:").getPath());//获取Spring boot项目的根路径，在开发时获取到的是/target/classes/
-        File pathth = new File(path1.getAbsolutePath(),"static/images/upload/pic/"+picAppId+"/"+picAnswer.getUserId()+"/");
-        File[] files = pathth.listFiles();
-        for (File f: files
-        ) {
-            String fileName = f.getName();
-            String imgPath = "images/upload/pic/"+picAppId+"/"+picAnswer.getUserId()+"/"+fileName;
-            imgPaths.add(imgPath);
+            List<String> imgPaths = new ArrayList<String>();
+            File path1 = new File(ResourceUtils.getURL("classpath:").getPath());//获取Spring boot项目的根路径，在开发时获取到的是/target/classes/
+            File pathth = new File(path1.getAbsolutePath(), "static/images/upload/pic/" + picAppId + "/" + picAnswer.getUserId() + "/");
+            File[] files = pathth.listFiles();
+            for (File f : files
+            ) {
+                String fileName = f.getName();
+                String imgPath = "images/upload/pic/" + picAppId + "/" + picAnswer.getUserId() + "/" + fileName;
+                imgPaths.add(imgPath);
+            }
+            specificPicAnswer.setImgs(imgPaths);
+            return specificPicAnswer;
         }
-        specificPicAnswer.setImgs(imgPaths);
-        return specificPicAnswer;
 
     }
 }
