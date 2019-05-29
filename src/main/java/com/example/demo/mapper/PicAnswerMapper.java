@@ -4,6 +4,7 @@ import com.example.demo.dao.PicAnswer;
 import com.example.demo.dao.PicAppMes;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -52,5 +53,6 @@ public interface PicAnswerMapper {
     int selectSumByAppId(int picId);
     List<PicAnswer> selectByPicAppId(int picAppId);
     PicAnswer selectByAnswerUserId(int picappId,String userId);
+    ArrayList<Integer> getAllAuthId();
 
 }

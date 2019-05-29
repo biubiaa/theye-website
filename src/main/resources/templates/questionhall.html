@@ -40,9 +40,9 @@
     <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
     <div class="div-inline">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">提问大厅</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">悬赏大厅</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" style="font-size: 20px">刷一刷</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的提问</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的悬赏</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
 
         <a  style="float: right"  th:if="${session.userId==null}" href="http://127.0.0.1:8080/register1" >注册&nbsp;&nbsp;&nbsp;&nbsp;</a>

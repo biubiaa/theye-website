@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.BeanConfig;
 import com.example.demo.dao.PicAnswer;
 import com.example.demo.dao.VideoAnswer;
 import com.example.demo.dto.*;

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
 
-    <classPathEntry location="/home/terry/Documents/javapath/mysql-connector-java-5.1.46.jar"/>
+    <classPathEntry location="/home/terry/Documents/mysql-connector-java-8.0.15.jar"/>
 
     <context id="context" targetRuntime="MyBatis3Simple">
         <commentGenerator>
@@ -12,8 +12,8 @@
             <property name="suppressDate" value="true"/>
         </commentGenerator>
 
-        <jdbcConnection userId="root" password="root" driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/bteye"/>
+        <jdbcConnection userId="root" password="123456" driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://111.230.92.97:3306/bteye"/>
 
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -33,18 +33,18 @@
         </javaClientGenerator>
 
 
-        <table schema="bteye" tableName="bill_schedule" enableCountByExample="false" enableDeleteByExample="false"
+        <table schema="bteye" tableName="video_awsome" enableCountByExample="false" enableDeleteByExample="false"
         enableSelectByExample="false" enableUpdateByExample="false"/>
-        <table schema="bteye" tableName="pic_answer" enableCountByExample="false" enableDeleteByExample="false"
-        enableSelectByExample="false" enableUpdateByExample="false"/>
-        <table schema="bteye" tableName="pic_app_mes" enableCountByExample="false" enableDeleteByExample="false"
-        enableSelectByExample="false" enableUpdateByExample="false"/>
-        <table schema="bteye" tableName="user_mes" enableCountByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" enableUpdateByExample="false"/>
-        <table schema="bteye" tableName="video_answer" enableCountByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" enableUpdateByExample="false"/>
-        <table schema="bteye" tableName="video_app_mes" enableCountByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" enableUpdateByExample="false"/>
+<!--        <table schema="bteye" tableName="pic_answer" enableCountByExample="false" enableDeleteByExample="false"-->
+<!--        enableSelectByExample="false" enableUpdateByExample="false"/>-->
+<!--        <table schema="bteye" tableName="pic_app_mes" enableCountByExample="false" enableDeleteByExample="false"-->
+<!--        enableSelectByExample="false" enableUpdateByExample="false"/>-->
+<!--        <table schema="bteye" tableName="user_mes" enableCountByExample="false" enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false" enableUpdateByExample="false"/>-->
+<!--        <table schema="bteye" tableName="video_answer" enableCountByExample="false" enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false" enableUpdateByExample="false"/>-->
+<!--        <table schema="bteye" tableName="video_app_mes" enableCountByExample="false" enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false" enableUpdateByExample="false"/>-->
 
     </context>
 </generatorConfiguration>

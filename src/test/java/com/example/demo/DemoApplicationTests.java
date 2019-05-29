@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.util.SpringUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,12 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.ResourceUtils;
+import redis.clients.jedis.Jedis;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Set;
+import java.util.TreeSet;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,9 +46,20 @@ public class DemoApplicationTests {
      }
      @Test
     public void testRedis(){
-         //得到一个连接
-         RedisConnection conn = factory.getConnection();
-         conn.set("hello".getBytes(), "world".getBytes());
-         System.out.println(new String(conn.get("hello".getBytes())));
+        Jedis jedis = (Jedis) SpringUtil.getBean("jedis");
+//         Jedis jedis = new Jedis("127.0.0.1");
+//         jedis.auth("123456");
+         jedis.set("a","xutianhaoniubi");
+         String get = jedis.get("a");
+         System.out.println("a:"+get);
+     }
+     @Test
+    public void setTest(){
+        String a = new String("aaaa");
+        String b = new String("aaaa");
+        TreeSet<String > c = new TreeSet<String>();
+        c.add(a);
+         System.out.println("$$$$$$$$$$$$$$$$:"+c.contains(b));
+
      }
 }
