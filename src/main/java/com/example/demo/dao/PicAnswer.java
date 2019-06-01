@@ -12,16 +12,19 @@ public class PicAnswer {
      */
     private Integer picId;
 
-    public Integer getAwosome() {
-        return awosome;
-    }
 
-    public void setAwosome(Integer awosome) {
-        this.awosome = awosome;
-    }
 
     private Integer state;
-    private  Integer awosome;
+    private  Integer awsome;
+
+    public Integer getAwsome() {
+        return awsome;
+    }
+
+    public void setAwsome(Integer awsome) {
+        this.awsome = awsome;
+    }
+
     public Integer getState() {
         return state;
     }

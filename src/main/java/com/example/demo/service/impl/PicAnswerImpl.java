@@ -4,10 +4,13 @@ import com.example.demo.dao.PicAnswer;
 import com.example.demo.dao.PicAppMes;
 import com.example.demo.dao.UserMes;
 import com.example.demo.dto.SpecificPicAnswer;
+import com.example.demo.dto.VerifyNum;
+import com.example.demo.dto.VerifyPicAnswer;
 import com.example.demo.dto.ZSPicMyAnswer;
 import com.example.demo.mapper.PicAnswerMapper;
 import com.example.demo.mapper.PicAppMesMapper;
 import com.example.demo.mapper.UserMesMapper;
+import com.example.demo.mapper.VideoAnswerMapper;
 import com.example.demo.util.DeleteFileFolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,8 @@ public class PicAnswerImpl {
     PicAppMesMapper picAppMesMapper;
     @Autowired
     UserMesMapper userMesMapper;
+    @Autowired
+    VideoAnswerMapper videoAnswerMapper;
     public int insertNewAnswer(PicAnswer picAnswer){
 
         //先查询是否有该条记录，若没有则添加，有则不进行操作
@@ -111,7 +116,7 @@ public class PicAnswerImpl {
         specificPicAnswer.setPicAppId(picAppId);
         //查看路径下有多少文件
 
-        String path = picAnswer.getPicAdress();//url路径
+
         List<String> imgPaths = new ArrayList<String>();
         File path1 = new File(ResourceUtils.getURL("classpath:").getPath());//获取Spring boot项目的根路径，在开发时获取到的是/target/classes/
         File pathth = new File(path1.getAbsolutePath(),"static/images/upload/pic/"+picAppId+"/"+userId+"/");
@@ -177,5 +182,48 @@ public class PicAnswerImpl {
             return specificPicAnswer;
         }
 
+    }
+    /**
+     * 返回未经审核的答案信息
+     * */
+    public VerifyPicAnswer verifyPicAnswer() throws FileNotFoundException {
+        ArrayList<PicAnswer> picAnswers = picAnswerMapper.selectNoVerifyAnswer();
+        int sum = picAnswers.size();
+        VerifyPicAnswer v = new VerifyPicAnswer();
+        if(sum ==0){
+            return null;
+        }else {
+            PicAppMes picAppMes = picAppMesMapper.selectByPrimaryKey(picAnswers.get(0).getPicappId());
+            v.setSubject(picAppMes.getAppSubject());
+            v.setIntroduce(picAppMes.getIntroduce());
+            v.setPicAnswerId(picAnswers.get(0).getPicId());
+            ArrayList<String> imgPaths = new ArrayList<String>();
+            File path1 = new File(ResourceUtils.getURL("classpath:").getPath());//获取Spring boot项目的根路径，在开发时获取到的是/target/classes/
+            File pathth = new File(path1.getAbsolutePath(), "static/images/upload/pic/" + picAppMes.getAppId() + "/" + picAnswers.get(0).getUserId() + "/");
+            File[] files = pathth.listFiles();
+            for (File f : files
+            ) {
+                String fileName = f.getName();
+                String imgPath = "images/upload/pic/" + picAppMes.getAppId() + "/" + picAnswers.get(0).getUserId() + "/" + fileName;
+                imgPaths.add(imgPath);
+            }
+            v.setImgs(imgPaths);
+        }
+        return v;
+    }
+    /**
+     * 获取未经过审核的答案总数
+     * */
+    public VerifyNum getNoVerifiedAnswerNum(){
+        VerifyNum v = new VerifyNum();
+        v.setPicAnswerNum(picAnswerMapper.selectCountOfNoVerified());
+        v.setVideoAnswerNum(videoAnswerMapper.selectCountOfNoVerified());
+        return v;
+    }
+    /**
+     * 答案审核通过
+     * */
+    public int yesPicAnswer(int picAnswerId,int state){
+       return picAnswerMapper.changeState(picAnswerId,state);
     }
 }

@@ -1,8 +1,15 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.config.AdminRealm;
 import com.example.demo.dao.UserMes;
 import com.example.demo.mapper.UserMesMapper;
 import com.example.demo.service.UserService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +23,28 @@ public class UserServiceimpl implements UserService {
     UserMesMapper userMesMapper;
     //检查密码
     @Override
-    public int checkPass(String id, String pass) {
-        System.out.println("dasasdad");
+    public int checkPass(String id, String pwd) {
+        Md5Hash md5Hash = new Md5Hash(pwd,"xth.com",10);
+        pwd = md5Hash.toString();
+
+        //先加密这里还没有写
+        UsernamePasswordToken token = new UsernamePasswordToken(id,pwd);
+
+        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        AdminRealm adminRealm = new AdminRealm();
+        adminRealm.setPwd(userMesMapper.selectByPrimaryKey(id).getPassword());
+        securityManager.setRealm(adminRealm);
+        SecurityUtils.setSecurityManager(securityManager);
+        Subject subject = SecurityUtils.getSubject();
         try {
-            UserMes mes = userMesMapper.selectByPrimaryKey(id);
-            if(pass.equals(mes.getPassword())){
+            subject.login(token);
+            if (subject.isAuthenticated()) {
                 return 1;
-            }else {
-                return 0;
             }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        }catch (AuthenticationException e){
             return 0;
         }
+        return 0;
     }
     //获取昵称
     public String gerNickName(String userId){

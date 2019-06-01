@@ -49,16 +49,31 @@
             </ul>
         </li>
     </ul>
-    <div style="width: 800px">
-        <form class="form-inline " role="form" style="float: right">
-            <div class="form-group">
-                <select id="type" name="type" class="form-control">
-                    <option value="pic">图片悬赏</option>
-                    <option value="video">视频悬赏</option>
-                </select>
-            </div>
-            <button type="submit" id="submit" class="btn btn-default">确认</button>
-        </form>
+
+</div>
+<div style="width: 800px;margin: 0 auto;">
+    <form class="form-inline " role="form" style="float: right">
+        <div class="form-group">
+            <select id="type" name="type" class="form-control">
+                <option value="pic">图片悬赏</option>
+                <option value="video">视频悬赏</option>
+            </select>
+        </div>
+        <button type="submit" id="submit" class="btn btn-default">确认</button>
+    </form>
+</div>
+<div style="width: 900px;height: 1000px;margin: 50px auto;text-align: center">
+    <label id="subject" th:text="'地点：'${saVideoAnswer.getSubject()}"></label>
+    <label id="introduce" th:text="'悬赏描述：'${saVideoAnswer.getIntroduce()}"></label>
+    <label id="answerUserAndAwsome" th:text="'回答人：'${saVideoAnswer.getNickName()}+'     点赞数量：'+${saVideoAnswer.getAwsome()}"></label>
+    <video controls="controls" autoplay="autoplay" style="width: 600px;margin: 0 auto;">
+        <source th:src="${saVideoAnswer.getVideo()}" type="video/mp4" />
+    </video>
+    <div class="form-group">
+        <div class="form-inline">
+            <a class="btn btn-default" th:href="'http://127.0.0.1:8080/videoawsome?videoAnswerId='+${saVideoAnswer.getAnswerId()}">点赞</a>
+            <a class="btn btn-default" href="http://127.0.0.1:8080/picshuanext">下一条</a>
+        </div>
     </div>
 </div>
 </body>

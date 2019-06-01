@@ -94,7 +94,6 @@ public class UserController {
             out.println ("<script language=javascript>alert('账户或密码不能为空')</script>");
             return "login";
         }
-
     }
 
     //注册1提交地址

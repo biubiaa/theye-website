@@ -54,5 +54,10 @@ public interface PicAnswerMapper {
     List<PicAnswer> selectByPicAppId(int picAppId);
     PicAnswer selectByAnswerUserId(int picappId,String userId);
     ArrayList<Integer> getAllAuthId();
+    int picAwsome(PicAnswer picAnswer);
+    //返回未审核的图片信息
+    ArrayList<PicAnswer> selectNoVerifyAnswer();
+    int selectCountOfNoVerified();
+    int changeState(int picId,int state);
 
 }

@@ -106,7 +106,7 @@ public class AnswerController {
      * 上传视频答案
      * */
     @RequestMapping(value = "addvideovideo")
-    public String addVideoAnswer(@RequestParam("appid") int  picAppId, @RequestParam("images")MultipartFile file, HttpServletResponse response, HttpServletRequest request, ModelMap modelMap) throws IOException {
+    public String addVideoAnswer(@RequestParam("appid") int  picAppId, @RequestParam("video")MultipartFile file, HttpServletResponse response, HttpServletRequest request, ModelMap modelMap) throws IOException {
         String userId = (String) request.getSession().getAttribute("userId");
 
         String pathname = "";
@@ -115,7 +115,7 @@ public class AnswerController {
             String fileName = file.getOriginalFilename();
             File path = new File(ResourceUtils.getURL("classpath:").getPath());//获取Spring boot项目的根路径，在开发时获取到的是/target/classes/
 //            System.out.println(path.getPath());//如果你的图片存储路径在static下，可以参考下面的写法
-            File uploadFile = new File(path.getAbsolutePath(), "static/images/upload/pic/"+picAppId+"/"+userId+"/");//开发测试模式中 获取到的是/target/classes/static/images/upload/
+            File uploadFile = new File(path.getAbsolutePath(), "static/images/upload/video/"+picAppId+"/"+userId+"/");//开发测试模式中 获取到的是/target/classes/static/images/upload/
             if (!uploadFile.exists()){
                 uploadFile.mkdirs();
             }
@@ -132,7 +132,7 @@ public class AnswerController {
             pathname = savePath+ "/" + diskFileName;
             file.transferTo(new File(pathname));//文件转存
             VideoAnswer videoAnswer = new VideoAnswer();
-            videoAnswer.setVedioAdress("video/upload/pic/"+picAppId+"/"+userId+"/"+name+"."+end);
+            videoAnswer.setVedioAdress("images/upload/video/"+picAppId+"/"+userId+"/"+name+"."+end);
             videoAnswer.setVedioappId(picAppId);
             videoAnswer.setUserId(userId);
 

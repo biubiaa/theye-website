@@ -54,18 +54,6 @@
     </ul>
 
 </div>
-<div style="width: 800px ;margin: 10px auto">
-    <div class="btn-group" style="float: right;">
-        <button type="button" class="btn btn-default">发起提问</button>
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">切换下拉菜单</span>
-        </button>
-        <ul class="dropdown-menu" role="menu" style="min-width:100%;">
-            <li ><a href="http://127.0.0.1:8080/addpicapppage">图片提问</a></li>
-            <li><a href="http://127.0.0.1:8080/addvideoapppage">视频提问</a></li>
-        </ul>
-    </div>
 </div>
 <div style="margin: 60px auto;width: 900px">
     <label for="picapptable">我的图片请求</label>
@@ -154,7 +142,7 @@
                     <button class="btn btn-primary btn-sm" data-toggle="modal" th:href="'#myModalvideo1'+${videoAnswer.getVideoAnswerId()}" >
                         查看介绍
                     </button>
-                    <a class="btn btn-primary btn-sm" th:href="'http://127.0.0.1:8080/picanswer?picAnswerId='+${videoAnswer.getVideoAnswerId()}">查看详情</a>
+                    <a class="btn btn-primary btn-sm" th:href="'http://127.0.0.1:8080/videoanswer?videoAnswerId='+${videoAnswer.getVideoAnswerId()}">查看详情</a>
 
 
                 </div>

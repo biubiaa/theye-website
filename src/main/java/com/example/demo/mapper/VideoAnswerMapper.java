@@ -3,6 +3,7 @@ package com.example.demo.mapper;
 import com.example.demo.dao.VideoAnswer;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -48,8 +49,12 @@ public interface VideoAnswerMapper {
     int updateByPrimaryKey(VideoAnswer record);
 //    VideoAnswer selectByUserAndAppId(String userId,int )
     List<VideoAnswer> selectByUserId(String userId);
-    List<VideoAnswer> chachong(String userId,int videoappId);
-    int selectSumByAppId(int videoappId);
-    VideoAnswer selectByAnswerUserId(int videoappId,String userId);
-    List<VideoAnswer> selectByVideoAppId(int videoappId);
+    List<VideoAnswer> chachong(String userId,int vedioappId);
+    int selectSumByAppId(int vedioappId);
+    VideoAnswer selectByAnswerUserId(int vedioappId,String userId);
+    List<VideoAnswer> selectByVideoAppId(int vedioappId);
+    ArrayList<Integer> getAllAuthId();
+    int selectCountOfNoVerified();
+    ArrayList<VideoAnswer> selectNoVerifyAnswer();
+    int changeState(int videoId,int state);
 }

@@ -5,6 +5,11 @@ import java.util.ArrayList;
 public class SaPicAnswer {
     private Integer answerId;
     private String subject;
+    private String introduce;
+    private String answerUserId;
+    private String nickName;
+    private ArrayList<String> imgs;
+    private Integer awsome;
 
     public Integer getAnswerId() {
         return answerId;
@@ -14,11 +19,7 @@ public class SaPicAnswer {
         this.answerId = answerId;
     }
 
-    private String introduce;
-    private String answerUserId;
-    private String nickName;
-    private ArrayList<String> imgs;
-    private Integer awsome;
+
 
     public String getSubject() {
         return subject;

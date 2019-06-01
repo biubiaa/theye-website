@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/mac.css">
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/bootstrap.min.js"></script>
+
+    <title>图片审核</title>
+</head>
+<body>
+<nav class="navbar navbar-default" style="height: 60px;line-height: 60px;" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#example-navbar-collapse">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <img src="http://127.0.0.1:8080/3.png" style="float: left;height: 50px"> <a class="navbar-brand" style="font-size: 25px">&nbsp;&nbsp;&nbsp;千里眼</a>
+        </div>
+        <div class="collapse navbar-collapse" id="example-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li style="width: 250px">&nbsp;&nbsp;&nbsp;</li>
+                <li class="active"> <div class="form-inline">
+                    <div class="form-group">
+                        <a href="http://127.0.0.1:8080/verifypic" style="font-size: 18px;color: #3c3c3c">审核图片悬赏答案</a>
+                        <label style="font-size: 12px;color: #3c3c3c" th:text="'('+${sum.getPicAnswerNum()}+')'"></label>
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    </div>
+                </div></li>
+                <li>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <a href="http://127.0.0.1:8080/verifyvedio" style="font-size: 18px;color: #3c3c3c">审核视频悬赏答案</a><label style="font-size: 12px;color: #3c3c3c" th:text="'('+${sum.getVideoAnswerNum()}+')'"></label>
+                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="#">封禁记录</a></li>
+                <!--                <li class="dropdown">-->
+                <!--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
+                <!--                        Java <b class="caret"></b>-->
+                <!--                    </a>-->
+                <!--                    <ul class="dropdown-menu">-->
+                <!--                        <li><a href="#">jmeter</a></li>-->
+                <!--                        <li><a href="#">EJB</a></li>-->
+                <!--                        <li><a href="#">Jasper Report</a></li>-->
+                <!--                        <li class="divider"></li>-->
+                <!--                        <li><a href="#">分离的链接</a></li>-->
+                <!--                        <li class="divider"></li>-->
+                <!--                        <li><a href="#">另一个分离的链接</a></li>-->
+                <!--                    </ul>-->
+                <!--                </li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<div style="width: 900px;margin: 20px auto;text-align: center">
+    <label id="subject" th:text="'地点：'+${videoAnswerInfo.getSubject()}"></label>
+    <p></p>
+    <label id="introduce" th:text="'悬赏描述：'+${videoAnswerInfo.getIntroduce()}"></label>
+    <p></p>
+
+        <video controls="controls" autoplay="autoplay" style="width: 600px;margin: 0 auto;">
+            <source th:src="${videoAnswerInfo.getVideo()}" type="video/mp4" />
+        </video>
+
+
+    <div class="form-group">
+        <div class="form-inline">
+            <a class="btn btn-danger" th:href="'http://127.0.0.1:8080/nopicanswer?videoAnswerId='+${videoAnswerInfo.getPicAnswerId()}">违规</a>
+            <a class="btn btn-success" th:href="'http://127.0.0.1:8080/yespicanswer?videoAnswerId='+${videoAnswerInfo.getPicAnswerId()}">通过</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

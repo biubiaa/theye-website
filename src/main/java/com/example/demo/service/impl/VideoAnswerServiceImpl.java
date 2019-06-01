@@ -4,6 +4,7 @@ import com.example.demo.dao.UserMes;
 import com.example.demo.dao.VideoAnswer;
 import com.example.demo.dao.VideoAppMes;
 import com.example.demo.dto.SpecificVideoAnswer;
+import com.example.demo.dto.VerifyVideoAnswer;
 import com.example.demo.dto.ZSVideoMyAnswer;
 import com.example.demo.mapper.UserMesMapper;
 import com.example.demo.mapper.VideoAnswerMapper;
@@ -28,6 +29,7 @@ public class VideoAnswerServiceImpl {
      * */
     public int insertVideoAnswer(VideoAnswer videoAnswer){
         //先查询是否有该条记录
+//        System.out.println(videoAnswer.getVedioappId());
         List<VideoAnswer> videoAnswers = videoAnswerMapper.chachong(videoAnswer.getUserId(),videoAnswer.getVedioappId());
         if(videoAnswers.isEmpty()){
             videoAnswerMapper.insert(videoAnswer);
@@ -132,6 +134,29 @@ public class VideoAnswerServiceImpl {
             specificVideoAnswer.setVideo("http://127.0.0.1:8080/" + videoAnswer.getVedioAdress());
             return specificVideoAnswer;
         }
-
+    }
+    /**
+     * 审核展示的视频信息
+     * */
+    public VerifyVideoAnswer vv(){
+        VerifyVideoAnswer verifyVideoAnswer = new VerifyVideoAnswer();
+        ArrayList<VideoAnswer> videoAnswers = videoAnswerMapper.selectNoVerifyAnswer();
+        if(videoAnswers.size()==0){
+            return null;
+        }else {
+            VideoAnswer videoAnswer = videoAnswers.get(0);
+            VideoAppMes videoAppMes = videoAppMesMapper.selectByPrimaryKey(videoAnswer.getVedioappId());
+            verifyVideoAnswer.setVideo("http://127.0.0.1:8080/" + videoAnswer.getVedioAdress());
+            verifyVideoAnswer.setSubject(videoAppMes.getAppSubject());
+            verifyVideoAnswer.setIntroduce(videoAppMes.getIntroduction());
+            verifyVideoAnswer.setPicAnswerId(videoAnswer.getVedioId());
+            return verifyVideoAnswer;
+        }
+    }
+    /**
+     * 视频答案审核通过
+     * */
+    public int changeState(int videoAnswerId,int state){
+        return videoAnswerMapper.changeState(videoAnswerId,state);
     }
 }

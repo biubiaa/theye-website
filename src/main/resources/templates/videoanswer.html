@@ -51,10 +51,13 @@
         </li>
     </ul>
 
-
-<!--    播放视频-->
-    <video th:src="${videoAnswerInfo.getVideo()}" style="width: 600px;margin: 0 auto;"></video>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;答案详情</p>
+<!--    播放视频-->
+    <div style="text-align: center">
+    <video controls="controls" autoplay="autoplay" style="width: 600px;margin: 0 auto;">
+        <source th:src="${videoAnswerInfo.getVideo()}" type="video/mp4" />
+    </video>
+    </div>
 
     <nav aria-label="Page navigation" style="text-align: center" >
         <ul class="pagination" th:each="i:${#numbers.sequence(1,videoAnswerInfo.getSum())}">

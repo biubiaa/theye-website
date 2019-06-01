@@ -49,4 +49,5 @@ public interface VideoAppMesMapper {
     int selectMaxappid();
     List<VideoAppMes> selectByCity(String region, int solve);
     List<VideoAppMes> selectByUserId(String userId);
+
 }

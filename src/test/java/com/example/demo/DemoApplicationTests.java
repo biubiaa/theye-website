@@ -1,6 +1,15 @@
 package com.example.demo;
 
+import com.example.demo.config.AdminRealm;
+import com.example.demo.mapper.AdminMapper;
+import com.example.demo.service.impl.AdminServiceImpl;
+import com.example.demo.service.impl.UserServiceimpl;
 import com.example.demo.util.SpringUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.subject.Subject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +30,12 @@ import java.util.TreeSet;
 public class DemoApplicationTests {
     @Autowired
     RedisConnectionFactory factory;
+    @Autowired
+    AdminMapper adminMapper;
+    @Autowired
+    AdminServiceImpl adminService;
+    @Autowired
+    UserServiceimpl userServiceimpl;
     @Test
     public void contextLoads() {
     }
@@ -62,4 +77,46 @@ public class DemoApplicationTests {
          System.out.println("$$$$$$$$$$$$$$$$:"+c.contains(b));
 
      }
+     @Test
+     public void getAdminPwd(){
+        String pwd = adminMapper.selectPwd("admin");
+         System.out.println(pwd);
+     }
+     @Test
+    public void shi1roTest(){
+        String pwd = new AdminRealm().getPwd();
+         System.out.println(pwd);
+     }
+    @Test
+    public void shiroTest(){
+        DefaultSecurityManager defaultSecurityManager = new DefaultSecurityManager();
+        AdminRealm adminRealm = new AdminRealm();
+        adminRealm.setPwd(adminMapper.selectPwd("admin"));
+        defaultSecurityManager.setRealm(adminRealm);
+        SecurityUtils.setSecurityManager(defaultSecurityManager);
+        UsernamePasswordToken token = new UsernamePasswordToken("admin","123456");
+        Subject subject = SecurityUtils.getSubject();
+        subject.login(token);
+        try {
+            if (subject.isAuthenticated() == true) {
+                System.out.println("登录成功");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("登录失败");
+        }
+    }
+    @Test
+    public void adminLoginTest(){
+        System.out.println(adminService.login("admin","123456"));
+    }
+    @Test
+    public void md5Test(){
+        Md5Hash md5Hash = new Md5Hash("1","xth.com",10);
+        System.out.println(md5Hash.toString());
+    }
+    @Test
+    public void userLoginTest(){
+        System.out.println(userServiceimpl.checkPass("1","1"));
+    }
 }
