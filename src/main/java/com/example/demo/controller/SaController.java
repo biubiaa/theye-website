@@ -30,9 +30,6 @@ public class SaController {
         SaPicAnswer saPicAnswer = saService.getRandomPic(userId);
         System.out.println(saPicAnswer);
         if(saPicAnswer==null){//没有满足条件的图片回答
-            response.setContentType("text/html;charset=utf-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script language=javascript>alert('暂时没有满足条件的图片悬赏回答，请过段时间在来刷一刷')</script>");
             return "nilshua";
         }
         else {
@@ -65,7 +62,7 @@ public class SaController {
             if (saVideoAnswer == null) {//没有满足条件的图片回答
                 response.setContentType("text/html;charset=utf-8");
                 PrintWriter out = response.getWriter();
-                out.println("<script language=javascript>alert('暂时没有满足条件的图片悬赏回答，请过段时间在来刷一刷')</script>");
+                out.println("<script language=javascript>alert('暂时没有满足条件的视频悬赏回答，请过段时间在来刷一刷')</script>");
                 return "nilshua";
             } else {
                 modelMap.addAttribute("saVideoAnswer", saVideoAnswer);

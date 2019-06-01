@@ -56,11 +56,15 @@ public class PicAnswerImpl {
             int appId = p.getPicappId();
             PicAppMes picAppMes =  picAppMesMapper.selectByPrimaryKey(appId);
             z1.setIntroduce(picAppMes.getIntroduce());
-            if(picAppMes.getSolve()==1){
-                z1.setOk(picAppMes.getRightUserId()==userId?"已采纳":"未采纳");
-            }else {
+            if(p.getState()==0)
                 z1.setOk("审核中");
-            }
+            if(p.getState()==1)
+                z1.setOk("已审核");
+            if(p.getState()==2)
+                z1.setOk("中榜");
+            if(p.getState()==3)
+                z1.setOk("违规");
+
             z1.setSubject(picAppMes.getAppSubject());
             String originUserId = picAppMes.getUserId();
             UserMes userMes = userMesMapper.selectByPrimaryKey(originUserId);

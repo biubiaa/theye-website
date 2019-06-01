@@ -150,12 +150,12 @@ public class AdminController {
                 out.println("<script language=javascript>alert('操作失败请重新尝试')</script>");
                 modelMap.addAttribute("sum",num);
                 modelMap.addAttribute("videoAnswerInfo",verifyVideoAnswer);
-                return "adminpic";
+                return "adminvideo";
             }
         }else {
             modelMap.addAttribute("sum",num);
-            modelMap.addAttribute("picAnswerInfo",verifyVideoAnswer);
-            return "adminpic";
+            modelMap.addAttribute("videoAnswerInfo",verifyVideoAnswer);
+            return "adminpicvideo";
         }
     }
 
@@ -163,10 +163,60 @@ public class AdminController {
      * 图片答案违规
      * */
     @RequestMapping(value = "nopicanswer")
-    public String noPicAnswer(ModelMap modelMap,HttpServletResponse response,@RequestParam(value = "videoAnswerId")Integer videoAnswerId){
+    public String noPicAnswer(ModelMap modelMap,HttpServletResponse response,@RequestParam(value = "picAnswerId")Integer picAnswerId) throws IOException {
+        int flag = picAnswer.yesPicAnswer(picAnswerId,3);
 
+        VerifyPicAnswer verifyPicAnswer = picAnswer.verifyPicAnswer();
+        VerifyNum sum = picAnswer.getNoVerifiedAnswerNum();
+        if(verifyPicAnswer == null){
+            if (flag==1) {
+                modelMap.addAttribute("sum", sum);
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.println("<script language=javascript>alert('当前没有未通过审核的答案')</script>");
+                return "adminpicnil";
+            }else {
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.println("<script language=javascript>alert('操作失败请重新尝试')</script>");
+                modelMap.addAttribute("sum",sum);
+                modelMap.addAttribute("picAnswerInfo",verifyPicAnswer);
+                return "adminpic";
+            }
+        }else {
+            modelMap.addAttribute("sum",sum);
+            modelMap.addAttribute("picAnswerInfo",verifyPicAnswer);
+            return "adminpic";
+        }
     }
     /**
      * 视频答案违规
      * */
+    @RequestMapping(value = "novideoanswer")
+    public String noVideoAnswer(ModelMap modelMap,HttpServletResponse response,@RequestParam(value = "videoAnswerId")Integer videoAnswerId) throws IOException {
+        int flag = videoAnswerService.changeState(videoAnswerId,3);
+        VerifyVideoAnswer verifyVideoAnswer = videoAnswerService.vv();
+        VerifyNum num = picAnswer.getNoVerifiedAnswerNum();
+        if(verifyVideoAnswer == null){
+            if (flag==1) {
+                modelMap.addAttribute("sum", num);
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.println("<script language=javascript>alert('当前没有未通过审核的答案')</script>");
+                return "adminpicnil";
+            }else {
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.println("<script language=javascript>alert('操作失败请重新尝试')</script>");
+                modelMap.addAttribute("sum",num);
+                modelMap.addAttribute("videoAnswerInfo",verifyVideoAnswer);
+                return "adminvideo";
+            }
+        }else {
+            modelMap.addAttribute("sum",num);
+            modelMap.addAttribute("videoAnswerInfo",verifyVideoAnswer);
+            return "adminpicvideo";
+        }
+    }
+
 }

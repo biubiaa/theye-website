@@ -52,11 +52,15 @@ public class VideoAnswerServiceImpl {
             int  appId = v.getVedioappId();
             VideoAppMes videoAppMes = videoAppMesMapper.selectByPrimaryKey(appId);
             zsVideoMyAnswer.setIntroduce(videoAppMes.getIntroduction());
-            if(videoAppMes.getSolve()==1) {
-                zsVideoMyAnswer.setOk(videoAppMes.getRightUserId() == userId ? "已采纳" : "未采纳");
-            }else {
+            if(v.getState()==0)
                 zsVideoMyAnswer.setOk("审核中");
-            }
+            if(v.getState()==1)
+                zsVideoMyAnswer.setOk("已审核");
+            if(v.getState()==2)
+                zsVideoMyAnswer.setOk("中榜");
+            if(v.getState()==3)
+                zsVideoMyAnswer.setOk("违规");
+
             zsVideoMyAnswer.setSubject(videoAppMes.getAppSubject());
             String appUserId = videoAppMes.getUserId();
             UserMes um = userMesMapper.selectByPrimaryKey(appUserId);

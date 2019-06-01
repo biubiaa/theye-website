@@ -63,9 +63,9 @@
     </form>
 </div>
 <div style="width: 900px;height: 1000px;margin: 50px auto;text-align: center">
-    <label id="subject" th:text="'地点：'${saVideoAnswer.getSubject()}"></label>
-    <label id="introduce" th:text="'悬赏描述：'${saVideoAnswer.getIntroduce()}"></label>
-    <label id="answerUserAndAwsome" th:text="'回答人：'${saVideoAnswer.getNickName()}+'     点赞数量：'+${saVideoAnswer.getAwsome()}"></label>
+    <label id="subject" th:text="'地点：'+${saVideoAnswer.getSubject()}"></label>
+    <label id="introduce" th:text="'悬赏描述：'+${saVideoAnswer.getIntroduce()}"></label>
+    <label id="answerUserAndAwsome" th:text="'回答人：'+${saVideoAnswer.getNickName()}+'     点赞数量：'+${saVideoAnswer.getAwsome()}"></label>
     <video controls="controls" autoplay="autoplay" style="width: 600px;margin: 0 auto;">
         <source th:src="${saVideoAnswer.getVideo()}" type="video/mp4" />
     </video>

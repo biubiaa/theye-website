@@ -14,7 +14,7 @@
         td{text-align: center}
         th{text-align: center}
     </style>
-    <title>我的提问</title>
+    <title>我的回答</title>
 </head>
 <body>
 
@@ -56,7 +56,7 @@
 </div>
 </div>
 <div style="margin: 60px auto;width: 900px">
-    <label for="picapptable">我的图片请求</label>
+    <label for="picapptable">图片回答</label>
     <table id="picapptable" th:if="${picAnswers}!=null" class="table table-striped table-sm" align="center">
         <thead>
         <tr>
@@ -72,7 +72,12 @@
         <tr th:each="picAnswer:${picAnswers}">
             <td th:text="${picAnswer.getSubject()}"></td>
             <td th:text="${picAnswer.getAskUserName()}"></td>
-            <td th:text="${picAnswer.getOk()}"></td>
+            <td >
+                <span class="label label-warning" th:if="${picAnswer.getOk().equals('审核中')}">审核中</span>
+                <span class="label label-primary" th:if="${picAnswer.getOk().equals('已审核')}">已审核</span>
+                <span class="label label-success" th:if="${picAnswer.getOk().equals('中榜')}" >中榜</span>
+                <span class="label label-danger" th:if="${picAnswer.getOk().equals('违规')}">违规</span>
+            </td>
 
             <td th:text="${picAnswer.getAnswerTime()}"></td>
 
@@ -116,7 +121,7 @@
 
 </div>
 <div style="margin: 60px auto;width: 900px">
-    <label for="videoanswertable">我的视频请求</label>
+    <label for="videoanswertable">视频回答</label>
     <table id="videoanswertable" th:if="${videoAnswers}!=null" class="table table-striped table-sm" align="center">
         <thead>
         <tr>
@@ -132,7 +137,12 @@
         <tr th:each="videoAnswer:${videoAnswers}">
             <td th:text="${videoAnswer.getSubject()}"></td>
             <td th:text="${videoAnswer.getAskUserName()}"></td>
-            <td th:text="${videoAnswer.getOk()}"></td>
+            <td >
+                <span class="label label-warning" th:if="${videoAnswer.getOk().equals('审核中')}">审核中</span>
+                <span class="label label-primary" th:if="${videoAnswer.getOk().equals('已审核')}">已审核</span>
+                <span class="label label-success" th:if="${videoAnswer.getOk().equals('中榜')}" >中榜</span>
+                <span class="label label-danger" th:if="${videoAnswer.getOk().equals('违规')}">违规</span>
+            </td>
 
             <td th:text="${videoAnswer.getAnswerTime()}"></td>
 

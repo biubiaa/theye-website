@@ -48,17 +48,16 @@ public class SaServiceImpl {
         }
 
         SaPicAnswer saPicAnswer = new SaPicAnswer();
-//        System.out.println("**************************::::"+picAnswerList);
         if(picAnswerList.size()==0){//若是第一次访问
-//            System.out.println("hi 111");
+            if (allAuthId.size()==0){
+                return null;
+            }
             Integer authId = allAuthId.get(0);
             jedis.sadd(userId,authId.toString());
             jedis.expire(userId,300);
             PicAnswer picAnswer = picAnswerMapper.selectByPrimaryKey(authId);
             UserMes userMes = userMesMapper.selectByPrimaryKey(picAnswer.getUserId());
             PicAppMes picAppMes =  picAppMesMapper.selectByPrimaryKey(picAnswer.getPicappId());
-
-            System.out.println("11111111111"+picAppMes.getAppSubject());
             saPicAnswer.setAnswerId(authId);
             saPicAnswer.setAnswerUserId(picAnswer.getUserId());
             saPicAnswer.setAwsome(picAnswer.getAwsome());
@@ -70,7 +69,6 @@ public class SaServiceImpl {
 //            List<String> imgPaths = new ArrayList<String>();
             File path1 = new File(ResourceUtils.getURL("classpath:").getPath());//获取Spring boot项目的根路径，在开发时获取到的是/target/classes/
             File pathth = new File(path1.getAbsolutePath(),"static/images/upload/pic/"+picAnswer.getPicappId()+"/"+originUserId+"/");
-            System.out.println(pathth.getAbsolutePath());
             File[] files = pathth.listFiles();
             for (File f: files
             ) {
@@ -82,13 +80,10 @@ public class SaServiceImpl {
             return saPicAnswer;
 
         }else {//不是第一次访问
-            System.out.println("hi 2222");
             int count = 0;
             for (Integer authId : allAuthId
             ) {
-                System.out.println(!picAnswerList.contains(authId.toString()));
                 if (!picAnswerList.contains(authId.toString())) {//若不包含
-                    System.out.println("capcapcapcpapca");
                     jedis.sadd(userId,authId.toString());
                     jedis.expire(userId,300);
 
@@ -120,9 +115,7 @@ public class SaServiceImpl {
                 }
                 count++;
             }
-            System.out.println(count);
             if(count==allAuthId.size()){//若当前最佳都已经刷新完
-                System.out.println("shushushu");
                 return null;
             }else {
                 return saPicAnswer;
@@ -144,7 +137,6 @@ public class SaServiceImpl {
         SaVideoAnswer saVideoAnswer = new SaVideoAnswer();
         if(videoAnswerList.size()==0){//若是第一次访问
             Integer authId = allAuthId.get(0);
-            System.out.println("authId:"+authId);
             jedis.sadd(userId,authId.toString());
             jedis.expire(userId,300);
             VideoAnswer videoAnswer = videoAnswerMapper.selectByPrimaryKey(authId);
@@ -165,7 +157,7 @@ public class SaServiceImpl {
             for (File f : files
             ) {
                 String fileName = f.getName();
-                String videoPath = "images/upload/pic/" +videoAnswer.getVedioappId()+ "/" + videoAnswer.getUserId()+ "/" + fileName;
+                String videoPath = "images/upload/video/" +videoAnswer.getVedioappId()+ "/" + videoAnswer.getUserId()+ "/" + fileName;
                 path = videoPath;
             }
             saVideoAnswer.setVideo(path);
@@ -274,7 +266,6 @@ public class SaServiceImpl {
     public int picAwsome(String userId,int picAnswerId){
 //        查询点没点过赞
         PicAwsome picAwsome = picAwsomeMapper.check(userId,picAnswerId);
-        System.out.println("picAwsome:"+picAwsome);
 
         if(picAwsome ==null){//没点过赞
             //插入点赞记录

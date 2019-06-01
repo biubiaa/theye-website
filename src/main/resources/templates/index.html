@@ -13,11 +13,10 @@
         }</style>
     <title>首页</title>
 </head>
-<body>
-
-<div class="top_div">
-    <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
-    <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
+<body style="background-color: #bce8f1">
+<div class="top_div" >
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/3.png"></div>
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/4.png"></div>
     <div class="div-inline">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">悬赏大厅</a>
@@ -74,12 +73,50 @@
         <script>
 
             $('#myCarousel').carousel({
-                interval: 500
+                interval: 1000
 
             })
             $('#myCarousel').carousel('cycle')
         </script>
     </div>
+<div style="width: 900px;margin: 280px auto">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active">
+                <a href="#home" data-toggle="tab">本周最佳</a>
+            </li>
+            <li><a href="#ios" data-toggle="tab">本月最佳</a></li>
+
+            <li style="float: right">图片悬赏最佳答案</li>
+        </ul>
+        <div id="myTabContent" class="tab-content" >
+            <div class="tab-pane fade in active" style="line-height: 30px;height: 60px" id="home">
+                <p>菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，更是梦想。</p>
+            </div>
+            <div class="tab-pane fade" id="ios" style="line-height: 20px;height: 60px">
+                <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
+                    TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
+            </div>
+        </div>
+
+        <ul id="myTab1" class="nav nav-tabs">
+            <li class="active">
+                <a href="#home1" data-toggle="tab">本周最佳</a>
+            </li>
+            <li><a href="#ios1" data-toggle="tab">本月最佳</a></li>
+
+            <li style="float: right">图片悬赏最佳答案</li>
+        </ul>
+        <div id="myTabContent1" class="tab-content">
+            <div class="tab-pane fade in active" id="home1">
+                <p>菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，更是梦想。</p>
+            </div>
+            <div class="tab-pane fade" id="ios1">
+                <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
+                    TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 </body>
 </html>
