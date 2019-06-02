@@ -10,6 +10,15 @@ public class SaVideoAnswer {
     private String nickName;
     private String video;
     private Integer awsome;
+    private String askUserId;
+
+    public String getAskUserId() {
+        return askUserId;
+    }
+
+    public void setAskUserId(String askUserId) {
+        this.askUserId = askUserId;
+    }
 
     public Integer getAnswerId() {
         return answerId;

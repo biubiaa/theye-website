@@ -112,7 +112,7 @@ public class DemoApplicationTests {
     }
     @Test
     public void md5Test(){
-        Md5Hash md5Hash = new Md5Hash("1","xth.com",10);
+        Md5Hash md5Hash = new Md5Hash("xutianhao1125","xth.com",10);
         System.out.println(md5Hash.toString());
     }
     @Test

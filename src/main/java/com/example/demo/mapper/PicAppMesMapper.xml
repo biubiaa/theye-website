@@ -32,11 +32,11 @@
     -->
     insert into pic_app_mes (app_id, app_subject, introduce, 
       user_id, money,
-      solve, amazing, right_user_id, 
+      solve, amazing,
       region)
     values (#{appId,jdbcType=INTEGER}, #{appSubject,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, 
       #{userId,jdbcType=VARCHAR}, #{money,jdbcType=DOUBLE},
-      #{solve,jdbcType=INTEGER}, #{amazing,jdbcType=INTEGER}, #{rightUserId,jdbcType=VARCHAR}, 
+      #{solve,jdbcType=INTEGER}, #{amazing,jdbcType=INTEGER},
       #{region,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.dao.PicAppMes">

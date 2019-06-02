@@ -21,7 +21,10 @@ public class UserController {
 
     @RequestMapping(value = "changemespage")
     public String changeMesMap(HttpServletRequest request,ModelMap model){
-        String userId = (String )request.getSession().getAttribute("userId");
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        model.addAttribute("level",level);
         UserMes userMes = userServiceimpl.selectById(userId);
         model.addAttribute(userMes);
         return "changemes";
@@ -29,7 +32,10 @@ public class UserController {
     @RequestMapping(value = "recharge")
     public String recharge(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws IOException {
         int money = Integer.parseInt(request.getParameter("money"));
-        String userId = (String)request.getSession().getAttribute("userId");
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
         int flag = userServiceimpl.recharger(userId,money);
         if(flag==1){
             response.setContentType("text/html;charset=utf-8");
@@ -59,6 +65,9 @@ public class UserController {
     @RequestMapping(value ="mymessage")
     public String mymessage(HttpServletRequest request,ModelMap model){
         String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        model.addAttribute("level",level);
         UserMes um = userServiceimpl.selectById(userId);
         model.addAttribute("user",um);
         return "mymessage";
@@ -66,8 +75,12 @@ public class UserController {
 
     //登录提交地址
     @RequestMapping(value = "/log",method = RequestMethod.POST)
-    public String log(HttpServletResponse response,HttpServletRequest request) throws IOException {
+    public String log(HttpServletResponse response,HttpServletRequest request,ModelMap modelMap) throws IOException {
         String userId = request.getParameter("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
+        userServiceimpl.satisticTime(userId);
 //        System.out.println(userName==null);
         String password = request.getParameter("password");
         if(userId!=null&&password!=null) {
@@ -102,7 +115,6 @@ public class UserController {
         HttpSession session = request.getSession();
         String userId = request.getParameter("userId");
         String password = request.getParameter("password1");
-        System.out.println("password:"+password);
         int flag = userServiceimpl.insertUser(userId,password);
         if(flag==1){
             try {

@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.ZSPicAppMes;
 import com.example.demo.dto.ZSVideoAppMes;
 import com.example.demo.service.impl.PicAppServiceImpl;
+import com.example.demo.service.impl.UserServiceimpl;
 import com.example.demo.service.impl.VideoAppServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,11 +20,17 @@ public class PageController {
     PicAppServiceImpl picAppService;
     @Autowired
     VideoAppServiceImpl videoAppService;
+    @Autowired
+    UserServiceimpl userServiceimpl;
     @RequestMapping(value = "/")
 //    @ResponseBody
-    public String hhh(HttpServletRequest request){
-        request.getSession().setAttribute("userId","1");
-        request.getSession().setAttribute("nickName","天天");
+    public String hhh(HttpServletRequest request,ModelMap modelMap){
+        String userId = (String) request.getSession().getAttribute("userId");
+        if (userId!=null) {
+            userServiceimpl.satisticTime(userId);
+            modelMap.addAttribute("level",userServiceimpl.getLevel(userId));
+        }
+
         return "index";
 
     }
@@ -34,7 +41,15 @@ public class PageController {
     }
     //问题大厅界面
     @RequestMapping(value = "questionhall")
-    public String questionhall(ModelMap modelMap){
+    public String questionhall(ModelMap modelMap,HttpServletRequest request){
+        String userId = (String) request.getSession().getAttribute("userId");
+        if(userId!=null) {
+            Integer level = userServiceimpl.getLevel(userId);
+            modelMap.addAttribute("level",level);
+            //加时长
+            userServiceimpl.satisticTime(userId);
+        }
+
         String region = "北京";
         String type = "未解决";
         List<ZSPicAppMes> zsPicAppMes = picAppService.selectByCity(region, type);
@@ -45,17 +60,30 @@ public class PageController {
 }
     //充值界面
     @RequestMapping(value = "deposit")
-    public String deposit(){
+    public String deposit(HttpServletRequest request,ModelMap modelMap){
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
         return "deposit";
     }
 
 
     @RequestMapping(value = "addpicapppage")
-    public String picAddMes() {
+    public String picAddMes(HttpServletRequest request,ModelMap modelMap) {
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
         return "addpicapp";
     }
     @RequestMapping(value = "addvideoapppage")
-    public String picVideoMes() {
+    public String picVideoMes(HttpServletRequest request,ModelMap modelMap)
+    {
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
         return "addvideoapp";
     }
 }

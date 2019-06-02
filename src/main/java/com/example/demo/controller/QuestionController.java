@@ -38,6 +38,9 @@ public class QuestionController {
     public String addPicMes(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
         HttpSession session = request.getSession();
         String userId = (String )session.getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        model.addAttribute("level",level);
         String subject = request.getParameter("subject");
         String introduce = request.getParameter("introduce");
         String region = request.getParameter("city-picker3");
@@ -88,6 +91,9 @@ public class QuestionController {
     public String addVideoAppMes(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
         HttpSession session = request.getSession();
         String userId = (String )session.getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        model.addAttribute("level",level);
         String subject = request.getParameter("subject");
         String introduce = request.getParameter("introduce");
         String region = request.getParameter("city-picker3");
@@ -131,6 +137,10 @@ public class QuestionController {
     public String myQuestion(HttpServletRequest request,ModelMap model)
     {
         String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+
+        model.addAttribute("level",level);
         List<ZSPicAppMes> zsAppMesss = picAppService.getPicAppsByUserId(userId);
         List<ZSVideoAppMes> videoAppMes = videoAppService.selectByUserId(userId);
         model.addAttribute("picapps",zsAppMesss);
@@ -144,6 +154,9 @@ public class QuestionController {
     public String deletePicApp(@RequestParam Integer id,HttpServletRequest request,ModelMap model){
         picAppService.deleteApp(id);
         String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        model.addAttribute("level",level);
         List<ZSPicAppMes> zsAppMesss = picAppService.getPicAppsByUserId(userId);
         model.addAttribute("picapps",zsAppMesss);
         return "myquestion";
@@ -152,9 +165,13 @@ public class QuestionController {
      *查询一个城市的申请
      * */
     @RequestMapping(value = "selectbycity" ,method = RequestMethod.POST)
-    public String selectByCity(HttpServletRequest request,ModelMap modelMap,@RequestParam String region,@RequestParam String type){
+    public String selectByCity(HttpServletRequest request,ModelMap modelMap,@RequestParam String region){
         String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
         //未解决返回questionhall界面
+        String type = "未解决";
         if (type.equals("未解决")) {
             List<ZSPicAppMes> zsPicAppMes = picAppService.selectByCity(region, type);
             modelMap.addAttribute("picapps", zsPicAppMes);

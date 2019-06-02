@@ -1,7 +1,12 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.config.AdminRealm;
+import com.example.demo.dao.LevelScore;
+import com.example.demo.dao.TimeSatistic;
 import com.example.demo.dao.UserMes;
+import com.example.demo.mapper.LevelMapper;
+import com.example.demo.mapper.LevelScoreMapper;
+import com.example.demo.mapper.TimeSatisticMapper;
 import com.example.demo.mapper.UserMesMapper;
 import com.example.demo.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -13,6 +18,8 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 //import com.example.demo.dao.UserPass;
 //import com.example.demo.mapper.UserPassMapper;
 
@@ -21,6 +28,12 @@ public class UserServiceimpl implements UserService {
 
     @Autowired
     UserMesMapper userMesMapper;
+    @Autowired
+    LevelScoreMapper levelScoreMapper;
+    @Autowired
+    LevelMapper levelMapper;
+    @Autowired
+    TimeSatisticMapper timeSatisticMapper;
     //检查密码
     @Override
     public int checkPass(String id, String pwd) {
@@ -54,6 +67,9 @@ public class UserServiceimpl implements UserService {
     }
     //添加用户（账号，密码）
     public int insertUser(String userId,String password){
+
+        Md5Hash md5Hash = new Md5Hash(password,"xth.com",10);
+        password = md5Hash.toString();
         UserMes um = new UserMes();
         um.setUserId(userId);
         um.setPassword(password);
@@ -65,8 +81,10 @@ public class UserServiceimpl implements UserService {
         um.setMoney(0.0);
         um.setAsk(0);
         um.setAnswer(0);
+
         try{
             userMesMapper.insert(um);
+            levelScoreMapper.insert(userId);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return 0;
@@ -138,5 +156,23 @@ public class UserServiceimpl implements UserService {
             return 1;
         else
             return 0;
+    }
+    /**
+     * 计算等级
+     * */
+    public int getLevel(String userId){
+        LevelScore levelScore = levelScoreMapper.selectSumScoreByUserId(userId);
+        int sumScore = (int) (levelScore.getAnswerScore() +0.1*levelScore.getLoginTime());
+        int level = levelMapper.selectLevel(sumScore);
+        return level;
+    }
+    public void satisticTime(String userId){
+        TimeSatistic timeSatistic = timeSatisticMapper.selectByUserId(userId);
+        if(timeSatistic==null){//首次登录，插入数据
+            timeSatisticMapper.insert(userId);
+        }else {//不是首次登录，更新操作时间
+            timeSatistic.setLatestoptime(new Date());
+            timeSatisticMapper.updateByPrimaryKey(timeSatistic);
+        }
     }
 }

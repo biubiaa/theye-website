@@ -11,17 +11,18 @@
         .div-inline{
             display: inline;
         }</style>
-    <title>刷一刷</title>
+
+    <title>图片答案</title>
 </head>
 <body style="background-color: #bce8f1">
 
 <div class="top_div">
-    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/3.png"></div>
-    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/4.png"></div>
+    <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
+    <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
     <div class="div-inline">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">悬赏大厅</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" th:if="${session.userId!=null}" style="font-size: 20px">刷一刷</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" style="font-size: 20px">刷一刷</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的悬赏</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
 
@@ -32,7 +33,7 @@
     <ul style="float: right; " th:if="${session.userId!=null}" class="nav nav-tabs">
 
         <li class="dropdown">
-            <a th:if="${session.userId!=null}" th:text="'lv'+${level+'  '}+${session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
+            <a th:if="${session.userId!=null}" th:text="${'你好，'+session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu" style="min-width:100%;">
@@ -42,25 +43,22 @@
                     <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
                 <li >
                     <a href="#">修改密码</a></li>
-                <li >
-                    <a href="http://127.0.0.1:8080/deposit">充值</a></li>
+
                 <li >
                     <a href="http://127.0.0.1:8080/signout">注销</a></li>
             </ul>
         </li>
     </ul>
 
-</div>
-<div style="width: 800px;margin: 0 auto">
-    <form action="http://127.0.0.1:8080/shuatype" class="form-inline " role="form" style="float: right">
-        <div class="form-group">
-            <select id="type" name="type" class="form-control">
-                <option value="pic">图片悬赏</option>
-                <option value="video">视频悬赏</option>
-            </select>
-        </div>
-        <button type="submit" id="submit" class="btn btn-default">确认</button>
-    </form>
-</div>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;答案详情</p>
+    <!--    遍历图片-->
+    <table style="margin: 0 auto;">
+        <tr th:each="img:${picAnswerInfo.getImgs()}">
+            <td><img th:src="${img}" width="500px "></td>
+        </tr>
+    </table>
 
+
+</div>
 </body>
+</html>

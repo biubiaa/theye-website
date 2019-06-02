@@ -58,12 +58,14 @@ public class SaServiceImpl {
             PicAnswer picAnswer = picAnswerMapper.selectByPrimaryKey(authId);
             UserMes userMes = userMesMapper.selectByPrimaryKey(picAnswer.getUserId());
             PicAppMes picAppMes =  picAppMesMapper.selectByPrimaryKey(picAnswer.getPicappId());
+            UserMes askUserMes = userMesMapper.selectByPrimaryKey(picAppMes.getUserId());
             saPicAnswer.setAnswerId(authId);
             saPicAnswer.setAnswerUserId(picAnswer.getUserId());
             saPicAnswer.setAwsome(picAnswer.getAwsome());
             saPicAnswer.setIntroduce(picAppMes.getIntroduce());
             saPicAnswer.setSubject(picAppMes.getAppSubject());
             saPicAnswer.setNickName(userMes.getNickname());
+            saPicAnswer.setAskUserId(askUserMes.getUserId());
             ArrayList<String> imgPaths = new ArrayList<String>();
 
 //            List<String> imgPaths = new ArrayList<String>();
@@ -90,7 +92,8 @@ public class SaServiceImpl {
                     PicAnswer picAnswer = picAnswerMapper.selectByPrimaryKey(authId);
                     UserMes userMes = userMesMapper.selectByPrimaryKey(picAnswer.getUserId());
                     PicAppMes picAppMes =  picAppMesMapper.selectByPrimaryKey(picAnswer.getPicappId());
-
+                    UserMes um = userMesMapper.selectByPrimaryKey(picAppMes.getUserId());
+                    saPicAnswer.setAskUserId(um.getUserId());
                     saPicAnswer.setAnswerId(authId);
                     saPicAnswer.setAnswerUserId(picAnswer.getUserId());
                     saPicAnswer.setAwsome(picAnswer.getAwsome());
@@ -142,6 +145,8 @@ public class SaServiceImpl {
             VideoAnswer videoAnswer = videoAnswerMapper.selectByPrimaryKey(authId);
             UserMes userMes = userMesMapper.selectByPrimaryKey(videoAnswer.getUserId());
             VideoAppMes videoAppMes =  videoAppMesMapper.selectByPrimaryKey(videoAnswer.getVedioappId());
+            UserMes askUserMes = userMesMapper.selectByPrimaryKey(videoAppMes.getUserId());
+            saVideoAnswer.setAskUserId(askUserMes.getUserId());
             saVideoAnswer.setAnswerId(authId);
             saVideoAnswer.setAnswerUserId(videoAnswer.getUserId());
             saVideoAnswer.setAwsome(videoAnswer.getAwsome());
@@ -173,6 +178,8 @@ public class SaServiceImpl {
                     VideoAnswer videoAnswer = videoAnswerMapper.selectByPrimaryKey(authId);
                     UserMes userMes = userMesMapper.selectByPrimaryKey(videoAnswer.getUserId());
                     VideoAppMes videoAppMes =  videoAppMesMapper.selectByPrimaryKey(videoAnswer.getVedioappId());
+                    UserMes askUserMes = userMesMapper.selectByPrimaryKey(videoAppMes.getUserId());
+                    saVideoAnswer.setAskUserId(askUserMes.getUserId());
                     saVideoAnswer.setAnswerId(authId);
                     saVideoAnswer.setAnswerUserId(videoAnswer.getUserId());
                     saVideoAnswer.setAwsome(videoAnswer.getAwsome());
@@ -213,6 +220,8 @@ public class SaServiceImpl {
         PicAnswer picAnswer = picAnswerMapper.selectByPrimaryKey(picAnswerId);
         UserMes userMes = userMesMapper.selectByPrimaryKey(picAnswer.getUserId());
         PicAppMes picAppMes =  picAppMesMapper.selectByPrimaryKey(picAnswer.getPicappId());
+        UserMes askUserMes = userMesMapper.selectByPrimaryKey(picAppMes.getUserId());
+        saPicAnswer.setAskUserId(askUserMes.getUserId());
         saPicAnswer.setAnswerId(picAnswerId);
         saPicAnswer.setAnswerUserId(picAnswer.getUserId());
         saPicAnswer.setAwsome(picAnswer.getAwsome());
@@ -240,6 +249,8 @@ public class SaServiceImpl {
         VideoAnswer videoAnswer = videoAnswerMapper.selectByPrimaryKey(videoAnswerId);
         UserMes userMes = userMesMapper.selectByPrimaryKey(videoAnswer.getUserId());
         VideoAppMes videoAppMes =  videoAppMesMapper.selectByPrimaryKey(videoAnswer.getVedioappId());
+        UserMes askUserMes = userMesMapper.selectByPrimaryKey(videoAppMes.getUserId());
+        saVideoAnswer.setAskUserId(askUserMes.getUserId());
         saVideoAnswer.setAnswerId(videoAnswerId);
         saVideoAnswer.setAnswerUserId(videoAnswer.getUserId());
         saVideoAnswer.setAwsome(videoAnswer.getAwsome());

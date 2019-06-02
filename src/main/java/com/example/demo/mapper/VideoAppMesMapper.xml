@@ -32,11 +32,11 @@
     -->
     insert into video_app_mes (app_id, app_subject, introduction, 
       user_id, solve,
-      amazing, money, right_user_id, 
+      amazing, money,
       region)
     values (#{appId,jdbcType=INTEGER}, #{appSubject,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
       #{userId,jdbcType=VARCHAR}, #{solve,jdbcType=INTEGER},
-      #{amazing,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE}, #{rightUserId,jdbcType=VARCHAR}, 
+      #{amazing,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE},
       #{region,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.dao.VideoAppMes">

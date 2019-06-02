@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dao.LevelScore;
 import com.example.demo.dao.PicAnswer;
 import com.example.demo.dao.PicAppMes;
 import com.example.demo.dao.UserMes;
@@ -7,10 +8,7 @@ import com.example.demo.dto.SpecificPicAnswer;
 import com.example.demo.dto.VerifyNum;
 import com.example.demo.dto.VerifyPicAnswer;
 import com.example.demo.dto.ZSPicMyAnswer;
-import com.example.demo.mapper.PicAnswerMapper;
-import com.example.demo.mapper.PicAppMesMapper;
-import com.example.demo.mapper.UserMesMapper;
-import com.example.demo.mapper.VideoAnswerMapper;
+import com.example.demo.mapper.*;
 import com.example.demo.util.DeleteFileFolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +29,8 @@ public class PicAnswerImpl {
     UserMesMapper userMesMapper;
     @Autowired
     VideoAnswerMapper videoAnswerMapper;
+    @Autowired
+    LevelScoreMapper levelScoreMapper;
     public int insertNewAnswer(PicAnswer picAnswer){
 
         //先查询是否有该条记录，若没有则添加，有则不进行操作
@@ -74,11 +74,17 @@ public class PicAnswerImpl {
         return  picAnswers;
     }
 
-    public int deletePicAnswer(int picAnswerId,String path){
-        picAnswerMapper.deleteByPrimaryKey(picAnswerId);
-        //删除文件夹
-        DeleteFileFolder.traverseFolder(path);
-        return 1;
+    public int deletePicAnswer(int picAnswerId,String userId) throws FileNotFoundException {
+        PicAnswer p = picAnswerMapper.selectByPrimaryKey(picAnswerId);
+        if (p.getUserId().equals(userId)) {
+            String path = p.getPicAdress();
+            picAnswerMapper.deleteByPrimaryKey(picAnswerId);
+            //删除文件夹
+            File savePath = new File(ResourceUtils.getURL("classpath:").getPath());
+            DeleteFileFolder.traverseFolder(savePath.getAbsolutePath() + path);
+            return 1;
+        }else
+            return 0;
     }
     /**
      * 根据请求id和用户id返回用户的答案信息
@@ -104,7 +110,7 @@ public class PicAnswerImpl {
         PicAppMes picAppMes = picAppMesMapper.selectByPrimaryKey(picAnswer.getPicappId());
         UserMes appUserMes = userMesMapper.selectByPrimaryKey(picAppMes.getUserId());
         UserMes answerUserMes = userMesMapper.selectByPrimaryKey(picAnswer.getUserId());
-
+        specificPicAnswer.setIntroction(picAppMes.getIntroduce());
         specificPicAnswer.setSum(sum);
         specificPicAnswer.setAnswerTIme(picAnswer.getAppTime());
         specificPicAnswer.setAnswerUserId(picAnswer.getUserId());
@@ -117,6 +123,7 @@ public class PicAnswerImpl {
         specificPicAnswer.setOriginUserName(appUserMes.getNickname());
         specificPicAnswer.setSubject(picAppMes.getAppSubject());
         specificPicAnswer.setPicAnswerId(picAnswer.getPicId());
+        specificPicAnswer.setAwsome(picAnswer.getAwsome().toString());
         specificPicAnswer.setPicAppId(picAppId);
         //查看路径下有多少文件
 
@@ -156,8 +163,10 @@ public class PicAnswerImpl {
             UserMes appUserMes = userMesMapper.selectByPrimaryKey(picAppMes.getUserId());
             UserMes answerUserMes = userMesMapper.selectByPrimaryKey(picAnswer.getUserId());
             specificPicAnswer.setSum(sum);
+            specificPicAnswer.setIntroction(picAppMes.getIntroduce());
             specificPicAnswer.setAnswerTIme(picAnswer.getAppTime());
             specificPicAnswer.setAnswerUserId(picAnswer.getUserId());
+            specificPicAnswer.setAwsome(picAnswer.getAwsome().toString());
             //是第几个
             specificPicAnswer.setCount(count);
             specificPicAnswer.setAskTime(picAppMes.getAppTime());
@@ -228,6 +237,11 @@ public class PicAnswerImpl {
      * 答案审核通过
      * */
     public int yesPicAnswer(int picAnswerId,int state){
+        //给回答的人加经验
+        PicAnswer picAnswer = picAnswerMapper.selectByPrimaryKey(picAnswerId);
+        LevelScore levelScore = levelScoreMapper.selectSumScoreByUserId(picAnswer.getUserId());
+        levelScore.setAnswerScore(levelScore.getAnswerScore()+30);
+        levelScoreMapper.updateByPrimaryKey(levelScore);
        return picAnswerMapper.changeState(picAnswerId,state);
     }
 }

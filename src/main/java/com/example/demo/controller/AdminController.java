@@ -102,9 +102,8 @@ public class AdminController {
      * 图片通过审核
      * */
     @RequestMapping(value = "yespicanswer")
-    public String yesPicAnswer(ModelMap modelMap,HttpServletResponse response,@RequestParam(value = "picAnswerId")Integer picAnswerId) throws IOException {
+    public String yesPicAnswer(HttpServletRequest request,ModelMap modelMap,HttpServletResponse response,@RequestParam(value = "picAnswerId")Integer picAnswerId) throws IOException {
         int flag = picAnswer.yesPicAnswer(picAnswerId,1);
-
         VerifyPicAnswer verifyPicAnswer = picAnswer.verifyPicAnswer();
         VerifyNum sum = picAnswer.getNoVerifiedAnswerNum();
         if(verifyPicAnswer == null){

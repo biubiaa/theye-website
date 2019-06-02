@@ -10,6 +10,15 @@ public class SaPicAnswer {
     private String nickName;
     private ArrayList<String> imgs;
     private Integer awsome;
+    private String askUserId;
+
+    public String getAskUserId() {
+        return askUserId;
+    }
+
+    public void setAskUserId(String askUserId) {
+        this.askUserId = askUserId;
+    }
 
     public Integer getAnswerId() {
         return answerId;

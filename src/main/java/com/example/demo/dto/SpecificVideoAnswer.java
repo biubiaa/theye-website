@@ -20,6 +20,24 @@ public class SpecificVideoAnswer {
     private int count;
     private int sum;
     private int picAppId;
+    private String introduction;
+    private String awsome;
+
+    public String getAwsome() {
+        return awsome;
+    }
+
+    public void setAwsome(String awsome) {
+        this.awsome = awsome;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
 
     public int getVideoAnswerId() {
         return videoAnswerId;

@@ -9,7 +9,6 @@ public class SpecificPicAnswer {
     private int picAnswerId;
     private String subject;
     private String originUserId;
-
     private String originUserName;
     private String answerUserId;
     private String answerUserName;
@@ -19,6 +18,25 @@ public class SpecificPicAnswer {
     private int count;
     private int sum;
     private int picAppId;
+    private String introction;
+    private String awsome;
+
+    public String getAwsome() {
+        return awsome;
+    }
+
+    public void setAwsome(String awsome) {
+        this.awsome = awsome;
+    }
+
+    public String getIntroction() {
+        return introction;
+    }
+
+    public void setIntroction(String introction) {
+        this.introction = introction;
+    }
+
     public int getPicAppId() {
         return picAppId;
     }

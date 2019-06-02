@@ -34,14 +34,14 @@
     <title>请求大厅</title>
 
 </head>
-<body>
+<body style="background-color: #bce8f1">
 <div class="top_div">
-    <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
-    <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/3.png"></div>
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/4.png"></div>
     <div class="div-inline">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">悬赏大厅</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" style="font-size: 20px">刷一刷</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" th:if="${session.userId!=null}" style="font-size: 20px">刷一刷</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的悬赏</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
 
@@ -52,7 +52,7 @@
     <ul style="float: right; " th:if="${session.userId!=null}" class="nav nav-tabs">
 
         <li class="dropdown">
-            <a th:if="${session.userId!=null}" th:text="${'你好，'+session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
+            <a th:if="${session.userId!=null}" th:text="'lv'+${level+'  '}+${session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu" style="min-width:100%;">
@@ -80,12 +80,6 @@
             <div class="form-inline">
                 <button type="submit" id="ccc" style="float: right" class="btn btn-default" >查询</button>
                 <label for="ccc" class="col-sm-2 control-label" style="float: right;width: 1px"></label>
-                <select id="selecrr" name="type" class="form-control" style="float: right">
-                    <option>已解决</option>
-                    <option>未解决</option>
-                </select>
-                <label for="selecrr" class="col-sm-2 control-label" style="float: right;width: 90px">选择类型</label>
-
                 <input type="text" class="form-control " style="width: 200px;float: right"  id="citySelect" name="region" placeholder="请输入目的地">
                </a> <label for="citySelect" class="col-sm-2 control-label" style="float: right"> 选择地区</label>
             </div>
@@ -97,7 +91,7 @@
 </form>
     <div style="margin: 20px auto;width: 900px">
         <label for="picapptable">图片请求</label>
-        <table id="picapptable" class="table table-striped table-sm" align="center">
+        <table id="picapptable" class="table table-hover" align="center">
             <thead>
             <tr>
                 <!--            <th>#</th>-->
@@ -119,16 +113,16 @@
                 <td th:text="${picapp.getAppTime()}"></td>
                 <td>
                     <div class="form-inline">
-                        <button class="btn btn-primary btn-sm" data-toggle="modal"  th:href="'#myModalpic1'+${picapp.getAppId()}" >
+                        <button class="btn btn-info btn-sm" data-toggle="modal"  th:href="'#myModalpic1'+${picapp.getAppId()}" >
                             查看介绍
                         </button>
-                        <button class="btn btn-primary btn-sm" data-toggle="modal" th:href="'#myModalpic2'+${picapp.getAppId()}" >
+                        <button class="btn btn-success btn-sm" data-toggle="modal" th:href="'#myModalpic2'+${picapp.getAppId()}" >
                             回答
                         </button>
                     </div>
                     <div class="modal fade" th:id="'myModalpic1'+${picapp.getAppId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
+                        <div  class="modal-dialog">
+                            <div  style="background-color: #bce8f1" class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     <h4 class="modal-title" id="myModalLabel">简介</h4>
@@ -141,19 +135,14 @@
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div>
-                    <div class="modal fade" th:id="'myModalpic2'+${picapp.getAppId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
+                    <div class="modal fade"  style="background-color: #bce8f1" th:id="'myModalpic2'+${picapp.getAppId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
                         <div class="modal-dialog" >
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     <h4 class="modal-title" id="myModalLabel3">上传答案</h4>
                                 </div>
-                                <div style="width: 300px;margin: 0 auto;">
-                                        <form class="form" action="http://127.0.0.1:8080/addpicpic" method="post" enctype="multipart/form-data"  id="pollutionForm">
-                                        <input type="file" class="file"  th:id="'pic'+${picapp.getAppId()}" multiple="multiple" name="images">
-                                            <textarea name="appid" th:text="${picapp.getAppId()}" hidden="hidden"></textarea>
-                                            <button   type="submit"  class="btn btn-default" >确认上传</button>
-                                        </form>
+                                <div style="width: 300px;margin: 0 auto;text-align: center">
                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;<script  th:inline="javascript">/**/
 
                                     var imageData = []; //多图上传返回的图片属性接受数组  这里是因为我在做表单其他属性提交的时候使用，在这里我没有将别的input写出来
@@ -161,7 +150,7 @@
                                     $("#pic"+[[${picapp.getAppId()}]]).fileinput({
                                         language : 'zh',
                                         uploadUrl : "/image/save-test",
-                                        showUpload: false, //是否显示上传按钮
+                                        showUpload: true, //是否显示上传按钮
                                         showRemove : true, //显示移除按钮
                                         showPreview : true, //是否显示预览
                                         showCaption: false,//是否显示标题
@@ -174,7 +163,7 @@
                                         enctype: 'multipart/form-data',
                                         // overwriteInitial: false,//不覆盖已上传的图片
                                         allowedFileExtensions : [ "jpg", "png", "gif" ],
-                                        browseClass : "btn btn-primary", //按钮样式
+                                        browseClass : "btn btn-info", //按钮样式
                                         previewFileIcon : "<i class='glyphicon glyphicon-king'></i>"
                                     }).on("fileuploaded", function(e, data) {//文件上传成功的回调函数，还有其他的一些回调函数，比如上传之前...
                                         var res = data.response;
@@ -186,13 +175,14 @@
                                         console.log(imageData);
                                     });
                                     </script>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<!--                                        <button   type="submit" id="ccc2" class="btn btn-default" >确认上传</button>-->
-                                        <!--</div>-->
-
                                 </div>
-
                                 <div class="modal-footer" style="margin: 40px auto;">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+                                    <form  class="form" th:action="'http://127.0.0.1:8080/addpicpic?pic'+${picapp.getAppId()}" method="post" enctype="multipart/form-data"  id="pollutionForm">
+                                        <input  type="file" class="file"  th:id="'pic'+${picapp.getAppId()}" multiple="multiple" name="images">
+                                        <textarea name="appid" th:text="${picapp.getAppId()}" hidden="hidden"></textarea>
+                                        <button type="button" class="btn btn-warning" data-dismiss="modal">关闭</button>
+                                    </form>
                                 </div>
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
@@ -212,7 +202,7 @@
     </div>
 <div style="margin: 20px auto;width: 900px">
     <label for="picapptable1">视频请求</label>
-    <table id="picapptable1" class="table table-striped table-sm" align="center">
+    <table id="picapptable1" class="table table-hover" align="center">
         <thead>
         <tr>
             <!--            <th>#</th>-->
@@ -234,17 +224,17 @@
             <td th:text="${picapp.getAppTime()}"></td>
             <td>
                 <div class="form-inline">
-                    <button class="btn btn-primary btn-sm" data-toggle="modal" th:href="'#myModalvideo1'+${picapp.getAppId()}" >
+                    <button class="btn btn-info btn-sm" data-toggle="modal" th:href="'#myModalvideo1'+${picapp.getAppId()}" >
                         查看介绍
                     </button>
-                    <button class="btn btn-primary btn-sm" data-toggle="modal" th:href="'#myModalvideo2'+${picapp.getAppId()}">
+                    <button class="btn btn-success btn-sm" data-toggle="modal" th:href="'#myModalvideo2'+${picapp.getAppId()}">
                         回答
                     </button>
                 </div>
 <!--                查看简介-->
                 <div class="modal fade" th:id="'myModalvideo1'+${picapp.getAppId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content">
+                        <div style="background-color: #bce8f1" class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title" id="myModalLabel1">简介</h4>
@@ -258,7 +248,7 @@
                     </div><!-- /.modal-dialog -->
                 </div>
 <!--                上传答案-->
-                <div class="modal fade" th:id="'myModalvideo2'+${picapp.getAppId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
+                <div class="modal fade" style="background-color: #bce8f1" th:id="'myModalvideo2'+${picapp.getAppId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
                     <div class="modal-dialog" >
                         <div class="modal-content">
                             <div class="modal-header">
@@ -266,11 +256,6 @@
                                 <h4 class="modal-title" id="myModalLabel7">上传答案</h4>
                             </div>
                             <div style="width: 300px;margin: 0 auto;">
-                                <form class="form" action="http://127.0.0.1:8080/addvideovideo" method="post" enctype="multipart/form-data"  >
-                                    <input type="file" class="file"  th:id="'pic'+${picapp.getAppId()}" multiple="multiple" name="video">
-                                    <textarea name="appid" th:text="${picapp.getAppId()}" hidden="hidden"></textarea>
-                                    <button   type="submit"  class="btn btn-default" >确认上传</button>
-                                </form>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;<script  th:inline="javascript">/**/
 
                             var imageData = []; //多图上传返回的图片属性接受数组  这里是因为我在做表单其他属性提交的时候使用，在这里我没有将别的input写出来
@@ -278,7 +263,7 @@
                             $("#pic"+[[${picapp.getAppId()}]]).fileinput({
                                 language : 'zh',
                                 uploadUrl : "/image/save-test",
-                                showUpload: false, //是否显示上传按钮
+                                showUpload: true, //是否显示上传按钮
                                 showRemove : true, //显示移除按钮
                                 showPreview : true, //是否显示预览
                                 showCaption: false,//是否显示标题
@@ -309,7 +294,11 @@
                             </div>
 
                             <div class="modal-footer" style="margin: 40px auto;">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <form class="form" action="http://127.0.0.1:8080/addvideovideo" method="post" enctype="multipart/form-data"  >
+                                    <input type="file" class="file"  th:id="'pic'+${picapp.getAppId()}" multiple="multiple" name="video">
+                                    <textarea name="appid" th:text="${picapp.getAppId()}" hidden="hidden"></textarea>
+                                    <button type="button" class="btn btn-warning" data-dismiss="modal">关闭</button>
+                                </form>
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->

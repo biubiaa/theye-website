@@ -1,17 +1,20 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.UserMes;
-import com.example.demo.dao.VideoAnswer;
-import com.example.demo.dao.VideoAppMes;
+import com.example.demo.dao.*;
 import com.example.demo.dto.SpecificVideoAnswer;
 import com.example.demo.dto.VerifyVideoAnswer;
 import com.example.demo.dto.ZSVideoMyAnswer;
+import com.example.demo.mapper.LevelScoreMapper;
 import com.example.demo.mapper.UserMesMapper;
 import com.example.demo.mapper.VideoAnswerMapper;
 import com.example.demo.mapper.VideoAppMesMapper;
+import com.example.demo.util.DeleteFileFolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,8 @@ public class VideoAnswerServiceImpl {
     VideoAnswerMapper videoAnswerMapper;
     @Autowired
     UserMesMapper userMesMapper;
+    @Autowired
+    LevelScoreMapper levelScoreMapper;
 
     /**
      * 添加视频答案*******************************************************没写完
@@ -103,6 +108,8 @@ public class VideoAnswerServiceImpl {
         specificVideoAnswer.setPicAppId(videoAppMes.getAppId());
         specificVideoAnswer.setSubject(videoAppMes.getAppSubject());
         specificVideoAnswer.setSum(sum);
+        specificVideoAnswer.setAwsome(videoAnswer.getAwsome().toString());
+        specificVideoAnswer.setIntroduction(videoAppMes.getIntroduction());
         specificVideoAnswer.setVideoAnswerId(videoAnswer.getVedioId());
 
         specificVideoAnswer.setVideo("http://127.0.0.1:8080/"+videoAnswer.getVedioAdress());
@@ -134,6 +141,8 @@ public class VideoAnswerServiceImpl {
             specificVideoAnswer.setPicAppId(videoAppMes.getAppId());
             specificVideoAnswer.setSubject(videoAppMes.getAppSubject());
             specificVideoAnswer.setSum(sum);
+            specificVideoAnswer.setAwsome(videoAnswer.getAwsome().toString());
+            specificVideoAnswer.setIntroduction(videoAppMes.getIntroduction());
             specificVideoAnswer.setVideoAnswerId(videoAnswer.getVedioId());
             specificVideoAnswer.setVideo("http://127.0.0.1:8080/" + videoAnswer.getVedioAdress());
             return specificVideoAnswer;
@@ -161,6 +170,23 @@ public class VideoAnswerServiceImpl {
      * 视频答案审核通过
      * */
     public int changeState(int videoAnswerId,int state){
+        //给回答的人经验
+        VideoAnswer videoAnswer = videoAnswerMapper.selectByPrimaryKey(videoAnswerId);
+        LevelScore levelScore = levelScoreMapper.selectSumScoreByUserId(videoAnswer.getUserId());
+        levelScore.setAnswerScore(levelScore.getAnswerScore()+30);
+        levelScoreMapper.updateByPrimaryKey(levelScore);
         return videoAnswerMapper.changeState(videoAnswerId,state);
+    }
+    public int deleteVideoAnswer(int videoAnswerId,String userId) throws FileNotFoundException {
+        VideoAnswer v = videoAnswerMapper.selectByPrimaryKey(videoAnswerId);
+        if (v.getUserId().equals(userId)) {
+            String path = v.getVedioAdress();
+            videoAnswerMapper.deleteByPrimaryKey(videoAnswerId);
+            //删除文件夹
+            File savePath = new File(ResourceUtils.getURL("classpath:").getPath());
+            DeleteFileFolder.traverseFolder(savePath.getAbsolutePath() + path);
+            return 1;
+        }else
+            return 0;
     }
 }

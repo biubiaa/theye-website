@@ -16,15 +16,15 @@
     </style>
     <title>我的回答</title>
 </head>
-<body>
+<body style="background-color: #bce8f1">
 
 <div class="top_div">
-    <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
-    <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/3.png"></div>
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/4.png"></div>
     <div class="div-inline">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">悬赏大厅</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" style="font-size: 20px">刷一刷</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" th:if="${session.userId!=null}" style="font-size: 20px">刷一刷</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的悬赏</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
 
@@ -35,7 +35,7 @@
     <ul style="float: right; " th:if="${session.userId!=null}" class="nav nav-tabs">
 
         <li class="dropdown">
-            <a th:if="${session.userId!=null}" th:text="${'你好，'+session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
+            <a th:if="${session.userId!=null}" th:text="'lv'+${level+'  '}+${session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu" style="min-width:100%;">
@@ -57,7 +57,7 @@
 </div>
 <div style="margin: 60px auto;width: 900px">
     <label for="picapptable">图片回答</label>
-    <table id="picapptable" th:if="${picAnswers}!=null" class="table table-striped table-sm" align="center">
+    <table id="picapptable" th:if="${picAnswers}!=null" class="table table-hover" align="center">
         <thead>
         <tr>
             <!--            <th>#</th>-->
@@ -83,46 +83,17 @@
 
             <td>
                 <div class="form-inline">
-
-                    <button class="btn btn-primary btn-sm" data-toggle="modal" th:href="'#myModalvideo1'+${picAnswer.getPicAnswerId()}" >
-                        查看介绍
-                    </button>
-                    <a class="btn btn-primary btn-sm" th:href="'http://127.0.0.1:8080/picanswer?picAnswerId='+${picAnswer.getPicAnswerId()}">查看详情</a>
-
-
+                    <a class="btn btn-info btn-sm" th:href="'http://127.0.0.1:8080/picanswer?picAnswerId='+${picAnswer.getPicAnswerId()}">查看详情</a>
+                    <a class="btn btn-warning btn-sm" onclick="confirmdelete()" th:href="'http://127.0.0.1:8080/deletepicanswer?picAnswerId='+${picAnswer.getPicAnswerId()}">删除</a>
                 </div>
-                <!--                    查看简介-->
-                <div class="modal fade" th:id="'myModalvideo1'+${picAnswer.getPicAnswerId()}"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel11" aria-hidden="true">
-                    <div class="modal-dialog" style="margin: 150px auto;">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title" id="myModalLabel11">描述</h4>
-                            </div>
-                            <div class="modal-body" th:text="${picAnswer.getIntroduce()}"></div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                <!--                                <button type="button" class="btn btn-primary">提交更改</button>-->
-                            </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div>
-
             </td>
-            <!--          <td th:if="${not #strings.isEmpty(picapp.getAppSubject())}">-->
-            <!--                    <a class="btn btn-sm btn-primary" th:if="${not #strings.isEmpty(picapp.getAppSubject())}" >编辑</a>-->
-            <!--            <button  th:if="${not #strings.isEmpty(picapp.getAppSubject())}" class="btn btn-sm btn-danger deleteBtn">删除-->
-            <!--            </button>-->
-            <!--            </td>-->
-
         </tr>
         </tbody>
     </table>
-
 </div>
 <div style="margin: 60px auto;width: 900px">
     <label for="videoanswertable">视频回答</label>
-    <table id="videoanswertable" th:if="${videoAnswers}!=null" class="table table-striped table-sm" align="center">
+    <table id="videoanswertable" th:if="${videoAnswers}!=null" class="table table-hover" align="center">
         <thead>
         <tr>
             <!--            <th>#</th>-->
@@ -148,38 +119,10 @@
 
             <td>
                 <div class="form-inline">
-
-                    <button class="btn btn-primary btn-sm" data-toggle="modal" th:href="'#myModalvideo1'+${videoAnswer.getVideoAnswerId()}" >
-                        查看介绍
-                    </button>
-                    <a class="btn btn-primary btn-sm" th:href="'http://127.0.0.1:8080/videoanswer?videoAnswerId='+${videoAnswer.getVideoAnswerId()}">查看详情</a>
-
-
+                    <a class="btn btn-info btn-sm" th:href="'http://127.0.0.1:8080/videoanswer?videoAnswerId='+${videoAnswer.getVideoAnswerId()}">查看详情</a>
+                    <a class="btn btn-warning btn-sm" onclick="confirmdelete()" th:href="'http://127.0.0.1:8080/deletevideoanswer?videoAnswerId='+${videoAnswer.getVideoAnswerId()}">删除</a>
                 </div>
-                <!--                    查看简介-->
-                <div class="modal fade" th:id="'myModalvideo1'+${videoAnswer.getVideoAnswerId()}"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel12" aria-hidden="true">
-                    <div class="modal-dialog" style="margin: 150px auto;">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title" id="myModalLabel12">描述</h4>
-                            </div>
-                            <div class="modal-body" th:text="${videoAnswer.getIntroduce()}"></div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                <!--<button type="button" class="btn btn-primary">提交更改</button>-->
-                            </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div>
-
             </td>
-            <!--          <td th:if="${not #strings.isEmpty(picapp.getAppSubject())}">-->
-            <!--                    <a class="btn btn-sm btn-primary" th:if="${not #strings.isEmpty(picapp.getAppSubject())}" >编辑</a>-->
-            <!--            <button  th:if="${not #strings.isEmpty(picapp.getAppSubject())}" class="btn btn-sm btn-danger deleteBtn">删除-->
-            <!--            </button>-->
-            <!--            </td>-->
-
         </tr>
         </tbody>
     </table>

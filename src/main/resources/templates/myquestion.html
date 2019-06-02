@@ -16,15 +16,15 @@
     </style>
     <title>我的提问</title>
 </head>
-<body>
+<body style="background-color: #bce8f1">
 
 <div class="top_div">
-    <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
-    <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/3.png"></div>
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/4.png"></div>
     <div class="div-inline">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">悬赏大厅</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" style="font-size: 20px">刷一刷</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" th:if="${session.userId!=null}" style="font-size: 20px">刷一刷</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的悬赏</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
 
@@ -35,7 +35,7 @@
     <ul style="float: right; " th:if="${session.userId!=null}" class="nav nav-tabs">
 
         <li class="dropdown">
-            <a th:if="${session.userId!=null}" th:text="${'你好，'+session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
+            <a th:if="${session.userId!=null}" th:text="'lv'+${level+'  '}+${session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu" style="min-width:100%;">
@@ -71,7 +71,7 @@
 </div>
 <div style="margin: 60px auto;width: 900px">
     <label for="picapptable">图片悬赏</label>
-    <table id="picapptable" th:if="${picapps}!=null" class="table table-striped table-sm" align="center">
+    <table id="picapptable" th:if="${picapps}!=null" class="table table-hover" align="center">
         <thead>
         <tr>
 <!--            <th>#</th>-->
@@ -93,10 +93,10 @@
             <td th:text="${picapp.getAppTime()}"></td>
             <td>
                 <div class="form-inline">
-                <a class="btn btn-primary btn-sm"  th:href="'http://127.0.0.1:8080/getPicFirstAnswer?picAppId='+${picapp.getAppId()}">
+                <a class="btn btn-info btn-sm"  th:href="'http://127.0.0.1:8080/getPicFirstAnswer?picAppId='+${picapp.getAppId()}">
                     查看回答
                 </a>
-                    <a class="btn btn-primary btn-sm" onclick="confirmdelete()" th:href="@{'http://127.0.0.1:8080/deletepicapp?id='+${picapp.getAppId()}}">删除</a>
+                    <a class="btn btn-warning btn-sm" onclick="confirmdelete()" th:href="@{'http://127.0.0.1:8080/deletepicapp?id='+${picapp.getAppId()}}">删除</a>
                 </div>
             </td>
         </tr>
@@ -106,7 +106,7 @@
 </div>
 <div style="margin: 60px auto;width: 900px">
     <label for="picapptable1">视频悬赏</label>
-    <table id="picapptable1" th:if="${videoapps}!=null" class="table table-striped table-sm" align="center">
+    <table id="picapptable1" th:if="${videoapps}!=null" class="table table-hover" align="center">
         <thead>
         <tr>
             <!--            <th>#</th>-->
@@ -131,10 +131,10 @@
             <td th:text="${picapp.getAppTime()}"></td>
             <td>
                 <div class="form-inline">
-                    <a class="btn btn-primary btn-sm" th:href="'http://127.0.0.1:8080/getVideoFirstAnswer?videoAppId='+${picapp.getAppId()}">
+                    <a class="btn btn-info btn-sm" th:href="'http://127.0.0.1:8080/getVideoFirstAnswer?videoAppId='+${picapp.getAppId()}">
                         查看回答
                     </a>
-                    <a class="btn btn-primary btn-sm" onclick="confirmdelete()" th:href="@{'http://127.0.0.1:8080/deletevideoapp?id='+${picapp.getAppId()}}">删除</a>
+                    <a class="btn btn-warning btn-sm" onclick="confirmdelete()" th:href="@{'http://127.0.0.1:8080/deletevideoapp?id='+${picapp.getAppId()}}">删除</a>
                 </div>
 
             </td>

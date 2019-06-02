@@ -14,15 +14,15 @@
 
     <title>图片答案</title>
 </head>
-<body>
+<body style="background-color: #bce8f1">
 
 <div class="top_div">
-    <div class="div-inline"><img src="http://127.0.0.1:8080/3.png"></div>
-    <div class="div-inline"><img src="http://127.0.0.1:8080/4.png"></div>
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/3.png"></div>
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/4.png"></div>
     <div class="div-inline">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">悬赏大厅</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" style="font-size: 20px">刷一刷</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" th:if="${session.userId!=null}" style="font-size: 20px">刷一刷</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的悬赏</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
 
@@ -33,7 +33,7 @@
     <ul style="float: right; " th:if="${session.userId!=null}" class="nav nav-tabs">
 
         <li class="dropdown">
-            <a th:if="${session.userId!=null}" th:text="${'你好，'+session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
+            <a th:if="${session.userId!=null}" th:text="'lv'+${level+'  '}+${session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu" style="min-width:100%;">
@@ -50,19 +50,27 @@
         </li>
     </ul>
 
-    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;答案详情</p>
+    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;答案详情</h3>
+    <div style="width: 600px;height: 1000px;margin: 0 auto;text-align: center;line-height: 20px">
+    <label id="subject" th:text="'地点：'+${picAnswerInfo.getSubject()}"></label><p></p>
+    <label id="introduce" th:text="'悬赏描述：'+${picAnswerInfo.getIntroction()}"></label><p></p>
+    <label id="askUserId" >提问人：</label><a th:href="' '" th:text="${picAnswerInfo.getOriginUserName()}"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label id="answerUserAndAwsome" >回答人：</label><a th:href="' '" th:text="${picAnswerInfo.getAnswerUserName()}"></a><p></p>
+    <label th:text="'点赞数量：'+${picAnswerInfo.getAwsome()}"></label>
 <!--    遍历图片-->
     <table style="margin: 0 auto;">
         <tr th:each="img:${picAnswerInfo.getImgs()}">
             <td><img th:src="${img}" width="500px "></td>
         </tr>
     </table>
-
+    <a class="btn btn-success" th:if="${picAnswerInfo.get}">
     <nav aria-label="Page navigation" style="text-align: center" >
         <ul class="pagination" th:each="i:${#numbers.sequence(1,picAnswerInfo.getSum())}">
             <li th:class="${i==picAnswerInfo.getCount()?'active':''}" th:id="'img'+${i}"><a  th:text="${i}" th:href="'http://127.0.0.1:8080/ppicanswer?count='+${i}+'&picId='+${picAnswerInfo.getPicAppId()}"></a></li>
+            <li><p>&nbsp;</p></li>
         </ul>
     </nav>
+    </div>
 </div>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.SaPicAnswer;
 import com.example.demo.dto.SaVideoAnswer;
 import com.example.demo.service.impl.SaServiceImpl;
+import com.example.demo.service.impl.UserServiceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +21,8 @@ import java.io.PrintWriter;
 public class SaController {
     @Autowired
     SaServiceImpl saService;
+    @Autowired
+    UserServiceimpl userServiceimpl;
 
     /**
      * 初次访问刷一刷
@@ -27,6 +30,9 @@ public class SaController {
     @RequestMapping(value = "shuayishu")
     public String shuayishua(HttpServletRequest request, ModelMap modelMap, HttpServletResponse response) throws IOException {
         String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
         SaPicAnswer saPicAnswer = saService.getRandomPic(userId);
         System.out.println(saPicAnswer);
         if(saPicAnswer==null){//没有满足条件的图片回答
@@ -44,7 +50,9 @@ public class SaController {
     public String choosePicShu(@RequestParam(value = "type")String type, HttpServletRequest request, ModelMap modelMap, HttpServletResponse response) throws IOException {
 
         String userId = (String) request.getSession().getAttribute("userId");
-
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
         if(type.equals("pic")) {//选择的是图片
             SaPicAnswer saPicAnswer = saService.getRandomPic(userId);
             if (saPicAnswer == null) {//没有满足条件的图片回答
@@ -77,6 +85,9 @@ public class SaController {
     @RequestMapping(value = "picshuanext")
     public String picShuaNext(@RequestParam(value = "picAnswerId")int picAnswerId, HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
         String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
         SaPicAnswer saPicAnswer = saService.getRandomPic(userId);
         if(saPicAnswer==null){//没有满足条件的图片回答,返回当前的页面，并提示
             response.setContentType("text/html;charset=utf-8");
@@ -97,6 +108,9 @@ public class SaController {
     @RequestMapping(value = "videoshuanext")
     public String videoShuaNext(@RequestParam(value = "videoAnswerId")int videoAnswerId, HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
         String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
         SaVideoAnswer saVideoAnswer = saService.getRandomVideo(userId);
         if(saVideoAnswer==null){//没有满足条件的图片回答,返回当前的页面，并提示
             response.setContentType("text/html;charset=utf-8");
@@ -115,6 +129,9 @@ public class SaController {
     @RequestMapping(value = "picawsome",method = RequestMethod.GET)
     public String picAwsome(@RequestParam(value = "picAnswerId")Integer picAnswerId,HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws IOException {
         String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
         int flag = saService.picAwsome(userId,picAnswerId);
         System.out.println("flag:"+flag);
         if(flag==1){//点赞成功

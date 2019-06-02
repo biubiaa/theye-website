@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
 
-    <classPathEntry location="/home/terry/Documents/mysql-connector-java-8.0.15.jar"/>
+    <classPathEntry location="C:\Users\11013\.IntelliJIdea2019.1\config\jdbc-drivers\MySQL Connector\J 8\8.0.15\mysql-connector-java-8.0.15.jar"/>
 
     <context id="context" targetRuntime="MyBatis3Simple">
         <commentGenerator>
@@ -33,9 +33,9 @@
         </javaClientGenerator>
 
 
-        <table schema="bteye" tableName="admin" enableCountByExample="false" enableDeleteByExample="false"
+        <table schema="bteye" tableName="time_satistic" enableCountByExample="false" enableDeleteByExample="false"
         enableSelectByExample="false" enableUpdateByExample="false"/>
-<!--        <table schema="bteye" tableName="pic_answer" enableCountByExample="false" enableDeleteByExample="false"-->
+<!--        <table schema="bteye" tableName="message" enableCountByExample="false" enableDeleteByExample="false"-->
 <!--        enableSelectByExample="false" enableUpdateByExample="false"/>-->
 <!--        <table schema="bteye" tableName="pic_app_mes" enableCountByExample="false" enableDeleteByExample="false"-->
 <!--        enableSelectByExample="false" enableUpdateByExample="false"/>-->
