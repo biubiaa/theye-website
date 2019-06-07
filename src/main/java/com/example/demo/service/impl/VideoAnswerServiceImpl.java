@@ -103,6 +103,7 @@ public class VideoAnswerServiceImpl {
         specificVideoAnswer.setAnswerUserName(answerUserMes.getNickname());
         specificVideoAnswer.setAskTime(videoAppMes.getAsktime());
         specificVideoAnswer.setCount(count);
+        specificVideoAnswer.setRightUserId(videoAppMes.getRightUserId());
         specificVideoAnswer.setOriginUserId(askUserMes.getUserId());
         specificVideoAnswer.setOriginUserName(askUserMes.getNickname());
         specificVideoAnswer.setPicAppId(videoAppMes.getAppId());
@@ -136,6 +137,7 @@ public class VideoAnswerServiceImpl {
             specificVideoAnswer.setAnswerUserName(answerUserMes.getNickname());
             specificVideoAnswer.setAskTime(videoAppMes.getAsktime());
             specificVideoAnswer.setCount(count);
+            specificVideoAnswer.setRightUserId(videoAppMes.getRightUserId());
             specificVideoAnswer.setOriginUserId(askUserMes.getUserId());
             specificVideoAnswer.setOriginUserName(askUserMes.getNickname());
             specificVideoAnswer.setPicAppId(videoAppMes.getAppId());

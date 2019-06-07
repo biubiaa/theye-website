@@ -353,4 +353,12 @@ public class AnswerController {
         modelMap.addAttribute("videoAnswers",videos);
         return "myanswer";
     }
+    /**
+     * 图片答案中标
+     * */
+//    @RequestMapping(value = "picAnswerOOk",method = RequestMethod.GET)
+//    public String picAnswerOOK(@RequestParam(value = "picAppId")int picAppId,@RequestParam(value = "rightUserId")String rightUserId){
+//
+//    }
+
 }

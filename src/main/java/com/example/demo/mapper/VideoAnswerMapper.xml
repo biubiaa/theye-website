@@ -122,4 +122,12 @@
         set state = #{state,jdbcType=INTEGER}
         where vedio_id = #{videoId,jdbcType=INTEGER}
     </update>
+    <select id="selectWeekBestPicAnswer" resultMap="BaseResultMap">
+SELECT * FROM video_answer
+where app_time>DATE_SUB(CURDATE(), INTERVAL 1 WEEK) ORDER BY awsome ASC LIMIT 0,5
+</select>
+    <select id="selectMonthBestPicAnswer" resultMap="BaseResultMap">
+SELECT * FROM video_answer
+where app_time>DATE_SUB(CURDATE(), INTERVAL 1 MONTH ) ORDER BY awsome ASC LIMIT 0,5
+</select>
 </mapper>

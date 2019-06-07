@@ -101,8 +101,7 @@
  select pic_id, user_id, picapp_id, pic_adress, app_time,state,awsome
     from pic_answer
     where state =0;
-</select>
-    <select id="selectCountOfNoVerified" resultType="java.lang.Integer">
+</select><select id="selectCountOfNoVerified" resultType="java.lang.Integer">
 select count(pic_id)
     from pic_answer
     where state =0;
@@ -116,4 +115,12 @@ select count(pic_id)
         set state = #{state,jdbcType=INTEGER}
         where pic_id = #{picId,jdbcType=INTEGER}
 </update>
+    <select id="selectWeekBestPicAnswer" resultMap="BaseResultMap">
+SELECT * FROM pic_answer
+where app_time>DATE_SUB(CURDATE(), INTERVAL 1 WEEK) ORDER BY awsome ASC LIMIT 0,5
+</select>
+    <select id="selectMonthBestPicAnswer" resultMap="BaseResultMap">
+SELECT * FROM pic_answer
+where app_time>DATE_SUB(CURDATE(), INTERVAL 1 MONTH ) ORDER BY awsome ASC LIMIT 0,5
+</select>
 </mapper>

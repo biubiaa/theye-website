@@ -120,6 +120,7 @@ public class PicAnswerImpl {
         specificPicAnswer.setAnswerUserName(answerUserMes.getNickname());
         specificPicAnswer.setAnswerUserId(answerUserMes.getUserId());
         specificPicAnswer.setOriginUserId(appUserMes.getUserId());
+        specificPicAnswer.setRightUserId(picAppMes.getRightUserId());
         specificPicAnswer.setOriginUserName(appUserMes.getNickname());
         specificPicAnswer.setSubject(picAppMes.getAppSubject());
         specificPicAnswer.setPicAnswerId(picAnswer.getPicId());
@@ -167,6 +168,7 @@ public class PicAnswerImpl {
             specificPicAnswer.setAnswerTIme(picAnswer.getAppTime());
             specificPicAnswer.setAnswerUserId(picAnswer.getUserId());
             specificPicAnswer.setAwsome(picAnswer.getAwsome().toString());
+            specificPicAnswer.setRightUserId(picAppMes.getRightUserId());
             //是第几个
             specificPicAnswer.setCount(count);
             specificPicAnswer.setAskTime(picAppMes.getAppTime());

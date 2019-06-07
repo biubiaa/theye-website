@@ -56,20 +56,26 @@
     <label id="introduce" th:text="'悬赏描述：'+${picAnswerInfo.getIntroction()}"></label><p></p>
     <label id="askUserId" >提问人：</label><a th:href="' '" th:text="${picAnswerInfo.getOriginUserName()}"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <label id="answerUserAndAwsome" >回答人：</label><a th:href="' '" th:text="${picAnswerInfo.getAnswerUserName()}"></a><p></p>
-    <label th:text="'点赞数量：'+${picAnswerInfo.getAwsome()}"></label>
+        <div class="form-inline">
+            <a class="btn btn-success" th:if="${picAnswerInfo.getRightUserId().equals('')}">中标</a>
+            <label class="label label-success" th:if="${picAnswerInfo.getAnswerUserId().equals(picAnswerInfo.getRightUserId())}">最优答案</label>
+            <label th:text="'点赞数量：'+${picAnswerInfo.getAwsome()}"></label>
+        </div>
 <!--    遍历图片-->
     <table style="margin: 0 auto;">
         <tr th:each="img:${picAnswerInfo.getImgs()}">
             <td><img th:src="${img}" width="500px "></td>
         </tr>
     </table>
-    <a class="btn btn-success" th:if="${picAnswerInfo.get}">
+
     <nav aria-label="Page navigation" style="text-align: center" >
         <ul class="pagination" th:each="i:${#numbers.sequence(1,picAnswerInfo.getSum())}">
             <li th:class="${i==picAnswerInfo.getCount()?'active':''}" th:id="'img'+${i}"><a  th:text="${i}" th:href="'http://127.0.0.1:8080/ppicanswer?count='+${i}+'&picId='+${picAnswerInfo.getPicAppId()}"></a></li>
             <li><p>&nbsp;</p></li>
         </ul>
     </nav>
+
+
     </div>
 </div>
 </body>

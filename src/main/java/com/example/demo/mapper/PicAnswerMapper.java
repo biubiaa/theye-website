@@ -59,5 +59,7 @@ public interface PicAnswerMapper {
     ArrayList<PicAnswer> selectNoVerifyAnswer();
     int selectCountOfNoVerified();
     int changeState(int picId,int state);
-
+    //得到本周最佳答案
+    List<PicAnswer> selectWeekBestPicAnswer();
+    List<PicAnswer> selectMonthBestPicAnswer();
 }

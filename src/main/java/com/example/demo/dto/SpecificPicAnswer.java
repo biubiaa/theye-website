@@ -20,6 +20,15 @@ public class SpecificPicAnswer {
     private int picAppId;
     private String introction;
     private String awsome;
+    private String  rightUserId;
+
+    public String getRightUserId() {
+        return rightUserId;
+    }
+
+    public void setRightUserId(String rightUserId) {
+        this.rightUserId = rightUserId;
+    }
 
     public String getAwsome() {
         return awsome;

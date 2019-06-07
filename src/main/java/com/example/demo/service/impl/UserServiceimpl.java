@@ -39,10 +39,7 @@ public class UserServiceimpl implements UserService {
     public int checkPass(String id, String pwd) {
         Md5Hash md5Hash = new Md5Hash(pwd,"xth.com",10);
         pwd = md5Hash.toString();
-
-        //先加密这里还没有写
         UsernamePasswordToken token = new UsernamePasswordToken(id,pwd);
-
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         AdminRealm adminRealm = new AdminRealm();
         adminRealm.setPwd(userMesMapper.selectByPrimaryKey(id).getPassword());

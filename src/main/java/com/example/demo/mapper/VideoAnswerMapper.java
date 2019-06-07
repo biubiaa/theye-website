@@ -57,4 +57,6 @@ public interface VideoAnswerMapper {
     int selectCountOfNoVerified();
     ArrayList<VideoAnswer> selectNoVerifyAnswer();
     int changeState(int videoId,int state);
+    List<VideoAnswer> selectWeekBestPicAnswer();
+    List<VideoAnswer> selectMonthBestPicAnswer();
 }
