@@ -1,16 +1,17 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.PicMasterAnswer;
+import com.example.demo.dto.VIdeoMasterMaster;
 import com.example.demo.dto.ZSPicAppMes;
 import com.example.demo.dto.ZSVideoAppMes;
-import com.example.demo.service.impl.PicAppServiceImpl;
-import com.example.demo.service.impl.UserServiceimpl;
-import com.example.demo.service.impl.VideoAppServiceImpl;
+import com.example.demo.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,14 +23,29 @@ public class PageController {
     VideoAppServiceImpl videoAppService;
     @Autowired
     UserServiceimpl userServiceimpl;
+    @Autowired
+    PicAnswerImpl picAnswer;
+    @Autowired
+    VideoAnswerServiceImpl videoAnswerService;
+    /**
+     * 主页
+     * */
     @RequestMapping(value = "/")
-//    @ResponseBody
     public String hhh(HttpServletRequest request,ModelMap modelMap){
         String userId = (String) request.getSession().getAttribute("userId");
         if (userId!=null) {
             userServiceimpl.satisticTime(userId);
             modelMap.addAttribute("level",userServiceimpl.getLevel(userId));
         }
+        //展示最佳信息
+        ArrayList<PicMasterAnswer> picWeekMasterAnswers = picAnswer.getWeekAwsomeMaswerAnswer();
+        ArrayList<PicMasterAnswer> picMonthMasterAnswers = picAnswer.getMonthAwsomeMaswerAnswer();
+        ArrayList<VIdeoMasterMaster> videoWeekMasterAnswers = videoAnswerService.getWeekAwsomeMasterVideo();
+        ArrayList<VIdeoMasterMaster> videoMonthMasterAnswers = videoAnswerService.getMonthAwsomeMasterVideo();
+        modelMap.addAttribute("monthAwosomeAnswers",picMonthMasterAnswers);
+        modelMap.addAttribute("weekAwosomeAnswers",picWeekMasterAnswers);
+        modelMap.addAttribute("monthAwosomeAnswers",videoMonthMasterAnswers);
+        modelMap.addAttribute("weekAwosomeAnswers",videoWeekMasterAnswers);
 
         return "index";
 

@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dao.*;
 import com.example.demo.dto.SpecificVideoAnswer;
+import com.example.demo.dto.VIdeoMasterMaster;
 import com.example.demo.dto.VerifyVideoAnswer;
 import com.example.demo.dto.ZSVideoMyAnswer;
 import com.example.demo.mapper.LevelScoreMapper;
@@ -190,5 +191,43 @@ public class VideoAnswerServiceImpl {
             return 1;
         }else
             return 0;
+    }
+    /**
+     * 获取本周最佳五个视频
+     * */
+    public ArrayList<VIdeoMasterMaster> getWeekAwsomeMasterVideo(){
+        ArrayList<VIdeoMasterMaster> vIdeoMasterMasters = new ArrayList<VIdeoMasterMaster>();
+        List<VideoAnswer> videoAnswers = videoAnswerMapper.selectWeekBestPicAnswer();
+        for (VideoAnswer v : videoAnswers
+             ) {
+            VIdeoMasterMaster vIdeoMasterMaster = new VIdeoMasterMaster();
+            vIdeoMasterMaster.setAnswerTime(v.getSubtime());
+            vIdeoMasterMaster.setLink("http://127.0.0.1:8080/videoMaster?videoId="+v.getVedioId());
+            UserMes userMes = userMesMapper.selectByPrimaryKey(v.getUserId());
+            vIdeoMasterMaster.setNickName(userMes.getNickname());
+            VideoAppMes videoAppMes = videoAppMesMapper.selectByPrimaryKey(v.getVedioappId());
+            vIdeoMasterMaster.setSubject(videoAppMes.getAppSubject());
+            vIdeoMasterMasters.add(vIdeoMasterMaster);
+        }
+        return vIdeoMasterMasters;
+    }
+    /**
+     * 获取本月最佳视频五个
+     * */
+    public ArrayList<VIdeoMasterMaster> getMonthAwsomeMasterVideo(){
+        ArrayList<VIdeoMasterMaster> vIdeoMasterMasters = new ArrayList<VIdeoMasterMaster>();
+        List<VideoAnswer> videoAnswers = videoAnswerMapper.selectMonthBestPicAnswer();
+        for (VideoAnswer v : videoAnswers
+        ) {
+            VIdeoMasterMaster vIdeoMasterMaster = new VIdeoMasterMaster();
+            vIdeoMasterMaster.setAnswerTime(v.getSubtime());
+            vIdeoMasterMaster.setLink("http://127.0.0.1:8080/videoMaster?videoId="+v.getVedioId());
+            UserMes userMes = userMesMapper.selectByPrimaryKey(v.getUserId());
+            vIdeoMasterMaster.setNickName(userMes.getNickname());
+            VideoAppMes videoAppMes = videoAppMesMapper.selectByPrimaryKey(v.getVedioappId());
+            vIdeoMasterMaster.setSubject(videoAppMes.getAppSubject());
+            vIdeoMasterMasters.add(vIdeoMasterMaster);
+        }
+        return vIdeoMasterMasters;
     }
 }

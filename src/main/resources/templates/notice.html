@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/css/mac.css">
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/bootstrap.min.js"></script>
+
+    <style>
+        .div-inline{
+            display: inline;
+        }
+        .div-second{
+            width: 980px;
+            height: 500px;
+            margin: 40px auto;
+            background-color: #bce8f1;
+        }
+    </style>
+
+    <title>我的信息</title>
+</head>
+<body style="background-color: #bce8f1">
+
+<div class="top_div">
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/3.png"></div>
+    <div class="div-inline"><img style="height: 50px" src="http://127.0.0.1:8080/4.png"></div>
+    <div class="div-inline">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">悬赏大厅</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" th:if="${session.userId!=null}" style="font-size: 20px">刷一刷</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的悬赏</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
+
+        <a  style="float: right"  th:if="${session.userId==null}" href="http://127.0.0.1:8080/register1" >注册&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href="http://127.0.0.1:8080/login" th:if="${session.userId==null}" style="float: right"  >登录&nbsp;&nbsp;</a>
+    </div>
+    <!--<a th:if="${session.user != null}" style="float: right"  >我的信息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>-->
+    <ul style="float: right; " th:if="${session.userId!=null}" class="nav nav-tabs">
+
+        <li class="dropdown">
+            <a th:if="${session.userId!=null}" th:text="'lv'+${level+'  '}+${session.nickName}" class="dropdown-toggle" data-toggle="dropdown">
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" style="min-width:100%;">
+                <li >
+                    <a href="http://127.0.0.1:8080/message" th:text="'消息'"></a></li>
+                <li >
+                    <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
+                <li >
+                    <a href="#">修改密码</a></li>
+                <li >
+                    <a href="http://127.0.0.1:8080/deposit">充值</a></li>
+                <li >
+                    <a href="http://127.0.0.1:8080/signout">注销</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<table id="videoanswertable" style="background-color: #d6e9c6;width: 700px;margin :30px auto;" class="table table-hover" align="center">
+    <thead>
+    <tr>
+        <!--            <th>#</th>-->
+        <th width="50px">状态</th>
+        <th width="250px">消息内容</th>
+        <th width="50px">回答时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>未读</td>
+        <td>您成功充值了368个悬赏币</td>
+        <td>2019年6月7日</td>
+    </tr>
+    <tr>
+        <td>未读</td>
+        <td>天天Ss回答了您的悬赏：故宫</td>
+        <td>2019年6月9日</td>
+    </tr>
+    <tr>
+        <td>已读</td>
+        <td>您提交的关于清华园的答案通过了审核</td>
+        <td>2019年6月9日</td>
+    </tr>
+    <tr>
+        <td>已读</td>
+        <td>您提交的关于杭州西湖的答案涉嫌违规，请核对内容后再进行上传</td>
+        <td>2019年6月7日</td>
+    </tr>
+
+    </tbody>
+</table>
+</div>
+</body>
+
+</html>

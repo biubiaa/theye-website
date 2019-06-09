@@ -4,10 +4,7 @@ import com.example.demo.dao.LevelScore;
 import com.example.demo.dao.PicAnswer;
 import com.example.demo.dao.PicAppMes;
 import com.example.demo.dao.UserMes;
-import com.example.demo.dto.SpecificPicAnswer;
-import com.example.demo.dto.VerifyNum;
-import com.example.demo.dto.VerifyPicAnswer;
-import com.example.demo.dto.ZSPicMyAnswer;
+import com.example.demo.dto.*;
 import com.example.demo.mapper.*;
 import com.example.demo.util.DeleteFileFolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -245,5 +242,47 @@ public class PicAnswerImpl {
         levelScore.setAnswerScore(levelScore.getAnswerScore()+30);
         levelScoreMapper.updateByPrimaryKey(levelScore);
        return picAnswerMapper.changeState(picAnswerId,state);
+    }
+    /**
+     * 获取本周最佳五个
+     * */
+    public ArrayList<PicMasterAnswer> getWeekAwsomeMaswerAnswer(){
+        List<PicAnswer> answers = picAnswerMapper.selectWeekBestPicAnswer();
+        ArrayList<PicMasterAnswer> picMasterAnswers = new ArrayList<PicMasterAnswer>();
+        //显示地点、用户、时间
+        for (PicAnswer p : answers
+             ) {
+            PicMasterAnswer picMasterAnswer = new PicMasterAnswer();
+            picMasterAnswer.setAnswerTime(p.getAppTime());
+            //申请访问该图片答案的链接
+            picMasterAnswer.setLink("http://127.0.0.1:8080/picMaster?picId="+p.getPicId());
+            PicAppMes picAppMes = picAppMesMapper.selectByPrimaryKey(p.getPicappId());
+            picMasterAnswer.setSubject(picAppMes.getAppSubject());
+            UserMes userMes = userMesMapper.selectByPrimaryKey(p.getUserId());
+            picMasterAnswer.setNickName(userMes.getNickname());
+            picMasterAnswers.add(picMasterAnswer);
+        }
+        return picMasterAnswers;
+    }
+    /**
+     * 获取本月最佳五个
+     * */
+    public ArrayList<PicMasterAnswer> getMonthAwsomeMaswerAnswer(){
+        List<PicAnswer> answers = picAnswerMapper.selectMonthBestPicAnswer();
+        ArrayList<PicMasterAnswer> picMasterAnswers = new ArrayList<PicMasterAnswer>();
+        //显示地点、用户、时间
+        for (PicAnswer p : answers
+        ) {
+            PicMasterAnswer picMasterAnswer = new PicMasterAnswer();
+            picMasterAnswer.setAnswerTime(p.getAppTime());
+            //申请访问该图片答案的链接
+            picMasterAnswer.setLink("http://127.0.0.1:8080/picMaster?picId="+p.getPicId());
+            PicAppMes picAppMes = picAppMesMapper.selectByPrimaryKey(p.getPicappId());
+            picMasterAnswer.setSubject(picAppMes.getAppSubject());
+            UserMes userMes = userMesMapper.selectByPrimaryKey(p.getUserId());
+            picMasterAnswer.setNickName(userMes.getNickname());
+            picMasterAnswers.add(picMasterAnswer);
+        }
+        return picMasterAnswers;
     }
 }
