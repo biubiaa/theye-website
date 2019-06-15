@@ -94,6 +94,12 @@ public class VideoAppServiceImpl implements VideoAppService {
         return 0;
     }
     /**
+     * 删除视频请求
+     * */
+    public int deleteVideoApp(int appId){
+       return videoAppMesMapper.deleteByPrimaryKey(appId);
+    }
+    /**
      * 查询by userId
      * */
     public List<ZSVideoAppMes> selectByUserId(String userId){

@@ -121,6 +121,7 @@ public class PicAnswerImpl {
         specificPicAnswer.setOriginUserName(appUserMes.getNickname());
         specificPicAnswer.setSubject(picAppMes.getAppSubject());
         specificPicAnswer.setPicAnswerId(picAnswer.getPicId());
+        specificPicAnswer.setState(picAnswer.getState());
         specificPicAnswer.setAwsome(picAnswer.getAwsome().toString());
         specificPicAnswer.setPicAppId(picAppId);
         //查看路径下有多少文件

@@ -78,7 +78,17 @@ public class UserController {
     public String log(HttpServletResponse response,HttpServletRequest request,ModelMap modelMap) throws IOException {
         String userId = request.getParameter("userId");
         userServiceimpl.satisticTime(userId);
-        Integer level = userServiceimpl.getLevel(userId);
+        Integer level;
+        try {
+            level = userServiceimpl.getLevel(userId);
+        }catch (NullPointerException e){
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.println ("<script language=javascript>alert('账号或密码不正确')</script>");
+
+            return "login";
+        }
+
         modelMap.addAttribute("level",level);
         userServiceimpl.satisticTime(userId);
 //        System.out.println(userName==null);

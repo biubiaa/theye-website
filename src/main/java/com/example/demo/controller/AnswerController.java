@@ -197,10 +197,12 @@ public class AnswerController {
         userServiceimpl.satisticTime(userId);
         Integer level = userServiceimpl.getLevel(userId);
         modelMap.addAttribute("level",level);
+        modelMap.addAttribute("userId",userId);
+
 //        System.out.println(picAnswerId);
         //这里读取的answerId在之前写入的是appId
         SpecificPicAnswer specificPicAnswer = picAnswerimpl.getAnswersBy(picAnswerId,userId);
-
+        modelMap.addAttribute("userId",userId);
         modelMap.addAttribute("picAnswerInfo",specificPicAnswer);
         //查询该问题所有答案
 
@@ -217,6 +219,7 @@ public class AnswerController {
         modelMap.addAttribute("level",level);
         //这里读取的answerId在之前写入的是appId*****************************************8
         SpecificVideoAnswer specificVideoAnswer = videoAnswerService.getAnswerByAppId_UserId(videoAnswerId,userId);
+        modelMap.addAttribute("userId",userId);
         modelMap.addAttribute("videoAnswerInfo",specificVideoAnswer);
         return "videoanswer";
     }

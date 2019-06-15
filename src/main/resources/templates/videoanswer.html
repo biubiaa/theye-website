@@ -52,6 +52,17 @@
     </ul>
 
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;答案详情</p>
+    <div style="width: 600px;height: 1000px;margin: 0 auto;text-align: center;line-height: 20px">
+        <label id="subject" th:text="'地点：'+${videoAnswerInfo.getSubject()}"></label><p></p>
+        <label id="introduce" th:text="'悬赏描述：'+${videoAnswerInfo.getIntroduction()}"></label><p></p>
+        <label id="askUserId" >提问人：</label><a th:href="' '" th:text="${videoAnswerInfo.getOriginUserName()}"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label id="answerUserAndAwsome" >回答人：</label><a th:href="' '" th:text="${videoAnswerInfo.getAnswerUserName()}"></a><p></p>
+        <div class="form-inline">
+            <a class="btn btn-success" th:if="${videoAnswerInfo.getOriginUserId()}eq ${userId}">中标</a>
+            <!--            <a class="btn btn-success" th:text="${userId}">中标</a>-->
+            <label class="label label-success" th:if="${videoAnswerInfo.getState()=='2'}">最优答案</label>
+            <label th:text="'点赞数量：'+${videoAnswerInfo.getAwsome()}"></label>
+        </div>
 <!--    播放视频-->
     <div style="text-align: center">
     <video controls="controls" autoplay="autoplay" style="width: 600px;margin: 0 auto;">
@@ -69,7 +80,7 @@
 
         <!--    </div>-->
 </div>
-
+</div>
 
 </body>
 </html>

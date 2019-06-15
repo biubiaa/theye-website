@@ -109,6 +109,7 @@ public class VideoAnswerServiceImpl {
         specificVideoAnswer.setOriginUserName(askUserMes.getNickname());
         specificVideoAnswer.setPicAppId(videoAppMes.getAppId());
         specificVideoAnswer.setSubject(videoAppMes.getAppSubject());
+        specificVideoAnswer.setState(videoAnswer.getState());
         specificVideoAnswer.setSum(sum);
         specificVideoAnswer.setAwsome(videoAnswer.getAwsome().toString());
         specificVideoAnswer.setIntroduction(videoAppMes.getIntroduction());

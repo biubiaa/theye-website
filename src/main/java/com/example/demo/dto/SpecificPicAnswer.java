@@ -8,6 +8,15 @@ public class SpecificPicAnswer {
     //pic界面显示信息
     private int picAnswerId;
     private String subject;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     private String originUserId;
     private String originUserName;
     private String answerUserId;
@@ -18,6 +27,8 @@ public class SpecificPicAnswer {
     private int count;
     private int sum;
     private int picAppId;
+    private int state;
+
     private String introction;
     private String awsome;
     private String  rightUserId;

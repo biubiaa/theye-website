@@ -120,13 +120,13 @@ public class QuestionController {
                 response.setContentType("text/html;charset=utf-8");
                 PrintWriter out = response.getWriter();
                 out.println("<script language=javascript>alert('系统错误，请稍后再试‘)</script>");
-                return "addpicmes";
+                return "addpicapp";
             }
         }else {
             response.setContentType("text/html;charset=utf-8");
             PrintWriter out = response.getWriter();
             out.println("<script language=javascript>alert('您的账户余额不足，请充值或修改奖赏金额')</script>");
-            return "addpicmes";
+            return "addpicapp";
         }
 
     }
@@ -158,7 +158,25 @@ public class QuestionController {
         Integer level = userServiceimpl.getLevel(userId);
         model.addAttribute("level",level);
         List<ZSPicAppMes> zsAppMesss = picAppService.getPicAppsByUserId(userId);
+        List<ZSVideoAppMes> videoAppMes = videoAppService.selectByUserId(userId);
         model.addAttribute("picapps",zsAppMesss);
+        model.addAttribute("videoapps",videoAppMes);
+        return "myquestion";
+    }
+    /**
+     * 删除我的视频请求
+     * */
+    @RequestMapping(value = "deletevideoapp",method = RequestMethod.GET)
+    public String deleteVideoApp(@RequestParam Integer id,HttpServletRequest request,ModelMap model){
+       videoAppService.deleteVideoApp(id);
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        model.addAttribute("level",level);
+        List<ZSPicAppMes> zsAppMesss = picAppService.getPicAppsByUserId(userId);
+        List<ZSVideoAppMes> videoAppMes = videoAppService.selectByUserId(userId);
+        model.addAttribute("picapps",zsAppMesss);
+        model.addAttribute("videoapps",videoAppMes);
         return "myquestion";
     }
     /**

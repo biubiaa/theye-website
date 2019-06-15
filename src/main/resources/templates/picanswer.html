@@ -57,8 +57,11 @@
     <label id="askUserId" >提问人：</label><a th:href="' '" th:text="${picAnswerInfo.getOriginUserName()}"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <label id="answerUserAndAwsome" >回答人：</label><a th:href="' '" th:text="${picAnswerInfo.getAnswerUserName()}"></a><p></p>
         <div class="form-inline">
-            <a class="btn btn-success" th:if="${picAnswerInfo.getRightUserId().equals('')}">中标</a>
-            <label class="label label-success" th:if="${picAnswerInfo.getAnswerUserId().equals(picAnswerInfo.getRightUserId())}">最优答案</label>
+            <a class="btn btn-success" th:if="${picAnswerInfo.getOriginUserId()} eq ${userId}">中标</a>
+            <p th:text="${picAnswerInfo.getOriginUserId()}"></p>
+            <p th:text="${userId}"></p>
+<!--            <a class="btn btn-success" th:text="${userId}">中标</a>-->
+            <label class="label label-success" th:if="${picAnswerInfo.getState()=='2'}">最优答案</label>
             <label th:text="'点赞数量：'+${picAnswerInfo.getAwsome()}"></label>
         </div>
 <!--    遍历图片-->
