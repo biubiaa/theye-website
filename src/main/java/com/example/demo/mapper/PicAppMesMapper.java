@@ -51,5 +51,6 @@ public interface PicAppMesMapper {
     int selectMaxappid();
     List<PicAppMes> getAppsByUserId(String userId);
     List<PicAppMes> selectBycity(String region, int solve);
+    int selectCountByUserId(String userId);
 
 }

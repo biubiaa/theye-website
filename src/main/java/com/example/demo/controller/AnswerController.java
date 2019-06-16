@@ -276,6 +276,8 @@ public class AnswerController {
             return "picanswer";
         }
     }
+
+
     /**
      * 查看一个请求的第一个视频答案
      * */
@@ -363,5 +365,55 @@ public class AnswerController {
 //    public String picAnswerOOK(@RequestParam(value = "picAppId")int picAppId,@RequestParam(value = "rightUserId")String rightUserId){
 //
 //    }
-
+    /**
+     * 首页最佳推荐点击某图片答案
+     * */
+    @RequestMapping("picMaster")
+    public String picMaster(@RequestParam("picId")Integer id, HttpServletRequest request ,HttpServletResponse response,ModelMap modelMap) throws FileNotFoundException {
+        String userId = (String) request.getSession().getAttribute("userId");
+        if(userId!=null){
+            userServiceimpl.satisticTime(userId);
+            Integer level = userServiceimpl.getLevel(userId);
+            modelMap.addAttribute("level",level);
+            //获取答案的请求id
+            int appId = picAnswerimpl.getAppid(id);
+            int count = picAnswerimpl.getCountByAnswerId(id);
+            SpecificPicAnswer specificPicAnswer = picAnswerimpl.selectByAppIdAndCount(appId,count);
+            modelMap.addAttribute("level",level);
+            modelMap.addAttribute("picAnswerInfo",specificPicAnswer);
+            return "bestpic";
+        }else {
+            int appId = picAnswerimpl.getAppid(id);
+            int count = picAnswerimpl.getCountByAnswerId(id);
+            SpecificPicAnswer specificPicAnswer = picAnswerimpl.selectByAppIdAndCount(appId,count);
+            modelMap.addAttribute("picAnswerInfo",specificPicAnswer);
+            return "bestpic";
+        }
+    }
+    /**
+     * 首页最佳推荐点击某视频答案
+     * */
+    @RequestMapping("videoMaster")
+    public String videoMaster(@RequestParam("videoId")Integer id, HttpServletRequest request ,HttpServletResponse response,ModelMap modelMap) throws FileNotFoundException{
+        String userId = (String) request.getSession().getAttribute("userId");
+        if (userId != null) {
+            userServiceimpl.satisticTime(userId);
+            Integer level = userServiceimpl.getLevel(userId);
+            int Appid = videoAnswerService.getAppid(id);
+            int count = videoAnswerService.getCountByAnswerId(id);
+            modelMap.addAttribute("level",level);
+            SpecificVideoAnswer specificVideoAnswer = videoAnswerService.selectByAppIdAndCount(Appid,count);
+            modelMap.addAttribute("videoAnswerInfo",specificVideoAnswer);
+            return "bestvideo";
+        }else {
+            int Appid = videoAnswerService.getAppid(id);
+            int count = videoAnswerService.getCountByAnswerId(id);
+            SpecificVideoAnswer specificVideoAnswer = videoAnswerService.selectByAppIdAndCount(Appid,count);
+            System.out.println("appid"+Appid);
+            System.out.println("count"+count);
+            System.out.println(specificVideoAnswer.getSubject());
+            modelMap.addAttribute("videoAnswerInfo",specificVideoAnswer);
+            return "bestvideo";
+        }
+    }
 }

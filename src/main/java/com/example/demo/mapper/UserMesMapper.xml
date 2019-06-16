@@ -83,4 +83,9 @@
     money =money+ #{money,jdbcType=DOUBLE}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
+  <update id="changePassword" >
+    update user_mes
+    password = #{password,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
 </mapper>

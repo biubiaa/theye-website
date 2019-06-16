@@ -62,4 +62,6 @@ public interface PicAnswerMapper {
     //得到本周最佳答案
     List<PicAnswer> selectWeekBestPicAnswer();
     List<PicAnswer> selectMonthBestPicAnswer();
+    int selectCountByUserId(String userId);
+
 }

@@ -8,6 +8,15 @@ public class VIdeoMasterMaster {
     private String answerTime;
     private String nickName;
     private String link;
+    private int awsome;
+
+    public int getAwsome() {
+        return awsome;
+    }
+
+    public void setAwsome(int awsome) {
+        this.awsome = awsome;
+    }
 
     public String getSubject() {
         return subject;

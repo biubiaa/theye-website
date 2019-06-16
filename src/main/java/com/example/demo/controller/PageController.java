@@ -42,10 +42,10 @@ public class PageController {
         ArrayList<PicMasterAnswer> picMonthMasterAnswers = picAnswer.getMonthAwsomeMaswerAnswer();
         ArrayList<VIdeoMasterMaster> videoWeekMasterAnswers = videoAnswerService.getWeekAwsomeMasterVideo();
         ArrayList<VIdeoMasterMaster> videoMonthMasterAnswers = videoAnswerService.getMonthAwsomeMasterVideo();
-        modelMap.addAttribute("monthAwosomeAnswers",picMonthMasterAnswers);
-        modelMap.addAttribute("weekAwosomeAnswers",picWeekMasterAnswers);
-        modelMap.addAttribute("monthAwosomeAnswers",videoMonthMasterAnswers);
-        modelMap.addAttribute("weekAwosomeAnswers",videoWeekMasterAnswers);
+        modelMap.addAttribute("picMonthAwosomeAnswers",picMonthMasterAnswers);
+        modelMap.addAttribute("picWeekAwosomeAnswers",picWeekMasterAnswers);
+        modelMap.addAttribute("videoMonthAwosomeAnswers",videoMonthMasterAnswers);
+        modelMap.addAttribute("videoWeekAwosomeAnswers",videoWeekMasterAnswers);
 
         return "index";
 
@@ -102,4 +102,13 @@ public class PageController {
         modelMap.addAttribute("level",level);
         return "addvideoapp";
     }
+    @RequestMapping("changepassword")
+    public String changePassword(HttpServletRequest request,ModelMap modelMap){
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
+        return "changepassword";
+    }
+
 }

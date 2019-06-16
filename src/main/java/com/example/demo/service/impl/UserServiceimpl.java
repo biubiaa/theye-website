@@ -4,10 +4,7 @@ import com.example.demo.config.AdminRealm;
 import com.example.demo.dao.LevelScore;
 import com.example.demo.dao.TimeSatistic;
 import com.example.demo.dao.UserMes;
-import com.example.demo.mapper.LevelMapper;
-import com.example.demo.mapper.LevelScoreMapper;
-import com.example.demo.mapper.TimeSatisticMapper;
-import com.example.demo.mapper.UserMesMapper;
+import com.example.demo.mapper.*;
 import com.example.demo.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -34,6 +31,14 @@ public class UserServiceimpl implements UserService {
     LevelMapper levelMapper;
     @Autowired
     TimeSatisticMapper timeSatisticMapper;
+    @Autowired
+    PicAppMesMapper picAppMesMapper;
+    @Autowired
+    VideoAppMesMapper videoAppMesMapper;
+    @Autowired
+    PicAnswerMapper picAnswerMapper;
+    @Autowired
+    VideoAnswerMapper videoAnswerMapper;
     //检查密码
     @Override
     public int checkPass(String id, String pwd) {
@@ -50,6 +55,29 @@ public class UserServiceimpl implements UserService {
             subject.login(token);
             if (subject.isAuthenticated()) {
                 return 1;
+            }
+        }catch (AuthenticationException e){
+            return 0;
+        }
+        return 0;
+    }
+    //修改密码
+    public int changepPsswod(String id,String oldPassword,String newPassword){
+        Md5Hash md5Hash = new Md5Hash(oldPassword,"xth.com",10);
+        oldPassword = md5Hash.toString();
+        UsernamePasswordToken token = new UsernamePasswordToken(id,oldPassword);
+        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        AdminRealm adminRealm = new AdminRealm();
+        adminRealm.setPwd(userMesMapper.selectByPrimaryKey(id).getPassword());
+        securityManager.setRealm(adminRealm);
+        SecurityUtils.setSecurityManager(securityManager);
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            subject.login(token);
+            if (subject.isAuthenticated()) {//密码正确
+                Md5Hash md5HashNew = new Md5Hash(newPassword,"xth.com",10);
+                newPassword = md5Hash.toString();
+                return userMesMapper.changePassword(id,newPassword);
             }
         }catch (AuthenticationException e){
             return 0;
@@ -98,6 +126,10 @@ public class UserServiceimpl implements UserService {
 //    }
     public UserMes selectById(String id){
         UserMes um = userMesMapper.selectByPrimaryKey(id);
+        um.setAsk(picAppMesMapper.selectCountByUserId(id)+videoAppMesMapper.selectCountByUserId(id));
+        um.setAnswer(picAnswerMapper.selectCountByUserId(id) + videoAnswerMapper.selectCountByUserId(id));
+        System.out.println("ask:" + um.getAsk());
+        System.out.println("answer:" + um.getAnswer());
         return um;
     }
     @Override
@@ -171,5 +203,14 @@ public class UserServiceimpl implements UserService {
             timeSatistic.setLatestoptime(new Date());
             timeSatisticMapper.updateByPrimaryKey(timeSatistic);
         }
+    }
+    //获取在线时长
+    public String   getOnlineTime(String userId){
+        String time = "";
+        LevelScore levelScore = levelScoreMapper.selectSumScoreByUserId(userId);
+        int hour = levelScore.getLoginTime()/60;
+        int minute = levelScore.getLoginTime()%60;
+        time = hour+"小时"+minute+"分钟";
+        return time;
     }
 }

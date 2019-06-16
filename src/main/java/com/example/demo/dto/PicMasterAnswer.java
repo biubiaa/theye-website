@@ -9,6 +9,15 @@ public class PicMasterAnswer {
     private String nickName;
     private String link;
 
+    public int getAwsome() {
+        return awsome;
+    }
+
+    public void setAwsome(int awsome) {
+        this.awsome = awsome;
+    }
+
+    private int awsome;
     public String getSubject() {
         return subject;
     }

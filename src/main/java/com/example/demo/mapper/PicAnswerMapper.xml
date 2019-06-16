@@ -123,4 +123,8 @@ where app_time>DATE_SUB(CURDATE(), INTERVAL 1 WEEK) ORDER BY awsome ASC LIMIT 0,
 SELECT * FROM pic_answer
 where app_time>DATE_SUB(CURDATE(), INTERVAL 1 MONTH ) ORDER BY awsome ASC LIMIT 0,5
 </select>
+    <select id="selectCountByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(*) FROM pic_answer
+where user_id = #{userId,jdbcType=INTEGER}
+</select>
 </mapper>

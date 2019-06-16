@@ -59,4 +59,5 @@ public interface VideoAnswerMapper {
     int changeState(int videoId,int state);
     List<VideoAnswer> selectWeekBestPicAnswer();
     List<VideoAnswer> selectMonthBestPicAnswer();
+    int selectCountByUserId(String userId);
 }

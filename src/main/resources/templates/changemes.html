@@ -55,7 +55,7 @@
                 <li >
                     <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
                 <li >
-                    <a href="#">修改密码</a></li>
+                    <a href="http://127.0.0.1:8080/mymessage">修改密码</a></li>
                 <li >
                     <a href="http://127.0.0.1:8080/deposit">充值</a></li>
                 <li >
@@ -69,19 +69,19 @@
     <div class="form-group">
         <label for="nickName" class="col-sm-2 control-label">昵称</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control"  name="nickName" id="nickName" th:placeholder="${userMes.getNickname()}" >
+            <input type="text" class="form-control"  name="nickName" id="nickName" th:text="${userMes.getNickname()}" >
         </div>
     </div>
     <div class="form-group">
         <label for="email" class="col-sm-2 control-label">邮箱</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="email" th:placeholder="${userMes.getEmail()}" id="email" >
+            <input type="text" class="form-control" name="email" th:text="${userMes.getEmail()}" id="email" >
         </div>
     </div>
     <div class="form-group">
         <label for="phone" class="col-sm-2 control-label">手机</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="phone" th:placeholder="${userMes.getPhone()}" id="phone" >
+            <input type="text" class="form-control" name="phone" th:text="${userMes.getPhone()}" id="phone" >
         </div>
     </div>
     <p style="font-weight: bold">常驻地区<p/>
@@ -94,7 +94,7 @@
                     <!--<label for="city-picker3" class="col-sm-2 control-label">常驻地区</label>-->
 
                     <div style="position: relative;">
-                        <input id="city-picker3" name="city-picker3" th:placeholder="${userMes.getRegion()}" class="form-control" readonly type="text" value="" data-toggle="city-picker" style="width: 320px">
+                        <input id="city-picker3" name="city-picker3" th:text="${userMes.getRegion()}" class="form-control" readonly type="text" value="" data-toggle="city-picker" style="width: 320px">
                     </div>
                 </div>
                 <!--<div class="form-group">-->
@@ -112,7 +112,7 @@
     </div>
     <div class="form-group">
         <label for="signature">个性签名</label>
-        <textarea class="form-control" th:placeholder="${userMes.getSignature()}" id="signature" name="signature" rows="3"></textarea>
+        <textarea class="form-control" th:text="${userMes.getSignature()}" id="signature" name="signature" rows="3"></textarea>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">

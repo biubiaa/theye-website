@@ -194,8 +194,8 @@ public class PicAnswerImpl {
             specificPicAnswer.setImgs(imgPaths);
             return specificPicAnswer;
         }
-
     }
+
     /**
      * 返回未经审核的答案信息
      * */
@@ -261,7 +261,9 @@ public class PicAnswerImpl {
             picMasterAnswer.setSubject(picAppMes.getAppSubject());
             UserMes userMes = userMesMapper.selectByPrimaryKey(p.getUserId());
             picMasterAnswer.setNickName(userMes.getNickname());
+            picMasterAnswer.setAwsome(p.getAwsome());
             picMasterAnswers.add(picMasterAnswer);
+
         }
         return picMasterAnswers;
     }
@@ -282,8 +284,29 @@ public class PicAnswerImpl {
             picMasterAnswer.setSubject(picAppMes.getAppSubject());
             UserMes userMes = userMesMapper.selectByPrimaryKey(p.getUserId());
             picMasterAnswer.setNickName(userMes.getNickname());
+            picMasterAnswer.setAwsome(p.getAwsome());
             picMasterAnswers.add(picMasterAnswer);
         }
         return picMasterAnswers;
+    }
+    /**
+     * 获取一个答案的悬赏id
+     * */
+    public int getAppid(int answerId){
+        return picAnswerMapper.selectByPrimaryKey(answerId).getPicappId();
+    }
+    /**
+     * 获取一个答案是第几个
+     * */
+    public int getCountByAnswerId(int answerId){
+        ArrayList<PicAnswer> picAnswers = (ArrayList<PicAnswer>) picAnswerMapper.selectByPicAppId(picAnswerMapper.selectByPrimaryKey(answerId).getPicappId());
+        int count=0;
+        for (int i = 0; i < picAnswers.size() ; i++) {
+            if (picAnswers.get(i).getPicId()==answerId){
+                count  = i;
+                break;
+            }
+        }
+        return count+1;
     }
 }

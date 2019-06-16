@@ -49,5 +49,8 @@ public interface VideoAppMesMapper {
     int selectMaxappid();
     List<VideoAppMes> selectByCity(String region, int solve);
     List<VideoAppMes> selectByUserId(String userId);
+    //查询一个人有多少视频悬赏
+    int selectCountByUserId(String userId);
+
 
 }

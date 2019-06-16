@@ -124,16 +124,16 @@ public class VideoAnswerServiceImpl {
     public SpecificVideoAnswer selectByAppIdAndCount(int videoAppId,int count){
         SpecificVideoAnswer specificVideoAnswer = new SpecificVideoAnswer();
         int sum = videoAnswerMapper.selectSumByAppId(videoAppId);
+        System.out.println("appId"+videoAppId);
+        System.out.println("sum"+sum);
         List<VideoAnswer> videoAnswers = videoAnswerMapper.selectByVideoAppId(videoAppId);
         if(videoAnswers.isEmpty()){
             return null;
         }else {
             VideoAnswer videoAnswer = videoAnswers.get(count - 1);
-
             VideoAppMes videoAppMes = videoAppMesMapper.selectByPrimaryKey(videoAnswer.getVedioappId());
             UserMes answerUserMes = userMesMapper.selectByPrimaryKey(videoAnswer.getUserId());
             UserMes askUserMes = userMesMapper.selectByPrimaryKey(videoAppMes.getUserId());
-
             specificVideoAnswer.setAnswerTIme(videoAnswer.getSubtime());
             specificVideoAnswer.setAnswerUserId(videoAnswer.getUserId());
             specificVideoAnswer.setAnswerUserName(answerUserMes.getNickname());
@@ -208,6 +208,7 @@ public class VideoAnswerServiceImpl {
             vIdeoMasterMaster.setNickName(userMes.getNickname());
             VideoAppMes videoAppMes = videoAppMesMapper.selectByPrimaryKey(v.getVedioappId());
             vIdeoMasterMaster.setSubject(videoAppMes.getAppSubject());
+            vIdeoMasterMaster.setAwsome(v.getAwsome());
             vIdeoMasterMasters.add(vIdeoMasterMaster);
         }
         return vIdeoMasterMasters;
@@ -227,8 +228,29 @@ public class VideoAnswerServiceImpl {
             vIdeoMasterMaster.setNickName(userMes.getNickname());
             VideoAppMes videoAppMes = videoAppMesMapper.selectByPrimaryKey(v.getVedioappId());
             vIdeoMasterMaster.setSubject(videoAppMes.getAppSubject());
+            vIdeoMasterMaster.setAwsome(v.getAwsome());
             vIdeoMasterMasters.add(vIdeoMasterMaster);
         }
         return vIdeoMasterMasters;
+    }
+    /**
+     * 获取一个答案的悬赏id
+     * */
+    public int getAppid(int answerId){
+        return videoAnswerMapper.selectByPrimaryKey(answerId).getVedioappId();
+    }
+    /**
+     * 获取一个答案是第几个
+     * */
+    public int getCountByAnswerId(int answerId){
+        ArrayList<VideoAnswer> videoAnswers = (ArrayList<VideoAnswer>) videoAnswerMapper.selectByVideoAppId(videoAnswerMapper.selectByPrimaryKey(answerId).getVedioappId());
+        int count=0;
+        for (int i = 0; i < videoAnswers.size() ; i++) {
+            if (videoAnswers.get(i).getVedioId()==answerId){
+                count  = i;
+                break;
+            }
+        }
+        return count+1;
     }
 }

@@ -11,7 +11,8 @@
         .div-inline{
             display: inline;
         }</style>
-    <title>刷一刷</title>
+
+    <title>图片答案</title>
 </head>
 <body style="background-color: #bce8f1">
 
@@ -21,7 +22,7 @@
     <div class="div-inline">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">悬赏大厅</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" th:if="${session.userId!=null}"style="font-size: 20px">刷一刷</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" th:if="${session.userId!=null}" style="font-size: 20px">刷一刷</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的悬赏</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
 
@@ -42,39 +43,36 @@
                     <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
                 <li >
                     <a href="http://127.0.0.1:8080/changepassword">修改密码</a></li>
-                <li >
-                    <a href="http://127.0.0.1:8080/deposit">充值</a></li>
+
                 <li >
                     <a href="http://127.0.0.1:8080/signout">注销</a></li>
             </ul>
         </li>
     </ul>
 
-</div>
-<div style="width: 800px;margin: 0 auto;">
-    <form class="form-inline " role="form" style="float: right">
-        <div class="form-group">
-            <select id="type" name="type" class="form-control">
-                <option value="pic">图片悬赏</option>
-                <option value="video">视频悬赏</option>
-            </select>
-        </div>
-        <button type="submit" id="submit" class="btn btn-default">确认</button>
-    </form>
-</div>
-<div style="width: 900px;height: 1000px;margin: 50px auto;text-align: center">
-    <label id="subject" th:text="'地点：'+${saVideoAnswer.getSubject()}"></label>
-    <label id="introduce" th:text="'悬赏描述：'+${saVideoAnswer.getIntroduce()}"></label>
-    <label id="answerUserAndAwsome" th:text="'回答人：'+${saVideoAnswer.getNickName()}+'     点赞数量：'+${saVideoAnswer.getAwsome()}"></label>
-    <video controls="controls" autoplay="autoplay" style="width: 600px;margin: 0 auto;">
-        <source th:src="${saVideoAnswer.getVideo()}" type="video/mp4" />
-    </video>
-    <div class="form-group">
-        <p></p>
+    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;答案详情</h3>
+    <div style="width: 600px;height: 1000px;margin: 0 auto;text-align: center;line-height: 20px">
+        <label id="subject" th:text="'地点：'+${picAnswerInfo.getSubject()}"></label><p></p>
+        <label id="introduce" th:text="'悬赏描述：'+${picAnswerInfo.getIntroction()}"></label><p></p>
+        <label id="askUserId" >提问人：</label><a th:href="' '" th:text="${picAnswerInfo.getOriginUserName()}"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label id="answerUserAndAwsome" >回答人：</label><a th:href="' '" th:text="${picAnswerInfo.getAnswerUserName()}"></a><p></p>
         <div class="form-inline">
-            <a class="btn btn-success" th:href="'http://127.0.0.1:8080/videoawsome?videoAnswerId='+${saVideoAnswer.getAnswerId()}">点赞</a>
-            <a class="btn btn-default" href="http://127.0.0.1:8080/picshuanext">下一条</a>
+            <p th:text="${picAnswerInfo.getOriginUserId()}"></p>
+            <p th:text="${userId}"></p>
+            <!--            <a class="btn btn-success" th:text="${userId}">中标</a>-->
+
+            <label th:text="'点赞数量：'+${picAnswerInfo.getAwsome()}"></label>
         </div>
+        <!--    遍历图片-->
+        <table style="margin: 0 auto;">
+            <tr th:each="img:${picAnswerInfo.getImgs()}">
+                <td><img th:src="${img}" width="500px "></td>
+            </tr>
+        </table>
+
+
+
     </div>
 </div>
 </body>
+</html>

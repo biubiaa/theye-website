@@ -1,23 +1,33 @@
 package com.example.demo.controller;
 
 import com.example.demo.dao.UserMes;
+import com.example.demo.dto.PicMasterAnswer;
+import com.example.demo.dto.VIdeoMasterMaster;
+import com.example.demo.service.impl.PicAnswerImpl;
 import com.example.demo.service.impl.UserServiceimpl;
+import com.example.demo.service.impl.VideoAnswerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 @Controller
 public class UserController {
     @Autowired
     UserServiceimpl userServiceimpl;
+    @Autowired
+    PicAnswerImpl picAnswer;
+    @Autowired
+    VideoAnswerServiceImpl videoAnswerService;
 
     @RequestMapping(value = "changemespage")
     public String changeMesMap(HttpServletRequest request,ModelMap model){
@@ -70,6 +80,9 @@ public class UserController {
         model.addAttribute("level",level);
         UserMes um = userServiceimpl.selectById(userId);
         model.addAttribute("user",um);
+        //插入在线时长，回答积分
+        String time = userServiceimpl.getOnlineTime(userId);
+        model.addAttribute("time",time);
         return "mymessage";
     }
 
@@ -103,6 +116,14 @@ public class UserController {
                 response.setContentType("text/html;charset=utf-8");
                 PrintWriter out = response.getWriter();
                 out.println ("<script language=javascript>alert('登录成功')</script>");
+                ArrayList<PicMasterAnswer> picWeekMasterAnswers = picAnswer.getWeekAwsomeMaswerAnswer();
+                ArrayList<PicMasterAnswer> picMonthMasterAnswers = picAnswer.getMonthAwsomeMaswerAnswer();
+                ArrayList<VIdeoMasterMaster> videoWeekMasterAnswers = videoAnswerService.getWeekAwsomeMasterVideo();
+                ArrayList<VIdeoMasterMaster> videoMonthMasterAnswers = videoAnswerService.getMonthAwsomeMasterVideo();
+                modelMap.addAttribute("picMonthAwosomeAnswers",picMonthMasterAnswers);
+                modelMap.addAttribute("picWeekAwosomeAnswers",picWeekMasterAnswers);
+                modelMap.addAttribute("videoMonthAwosomeAnswers",videoMonthMasterAnswers);
+                modelMap.addAttribute("videoWeekAwosomeAnswers",videoWeekMasterAnswers);
                 return "index";
             }else{
                 response.setContentType("text/html;charset=utf-8");
@@ -179,31 +200,47 @@ public class UserController {
     //注册2提交个人信息
     @RequestMapping(value = "/changemes",method = RequestMethod.POST)
 //    @ResponseBody
-    public String changemes(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        String userId = (String) session.getAttribute("userId");
+    public String changemes(HttpServletRequest request,HttpServletResponse response,ModelMap model) throws IOException {
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        model.addAttribute("level",level);
+
+        //插入在线时长，回答积分
+        String time = userServiceimpl.getOnlineTime(userId);
+        model.addAttribute("time",time);
+        return "mymessage"
         String nickName = (String)request.getParameter("nickName");
         String email = (String)request.getParameter("email");
         String phone = (String ) request.getParameter("phone");
         String region = (String) request.getParameter("city-picker3");
         String signature =  request.getParameter("signature");
-        session.setAttribute("nickName",nickName);
-        UserMes um = new UserMes();
-        um.setUserId(userId);
-        um.setNickname(nickName);
-        um.setEmail(email);
-        um.setPhone(phone);
-        um.setRegion(region);
-        um.setSignature(signature);
-
+        request.getSession().setAttribute("nickName",nickName);
+        UserMes um = userServiceimpl.selectById(userId);
+        if(nickName!=""){
+            um.setNickname(nickName);
+        }
+        if(email!=""){
+            um.setEmail(email);
+        }
+        if(phone!=""){
+            um.setPhone(phone);
+        }
+        if(region!=""){
+            um.setSignature(region);
+        }
+        if(signature!=""){
+            um.setSignature(signature);
+        }
+        model.addAttribute("user",um);
         if(userServiceimpl.updateMes(um)==1)
             return "mymessage";
         else {
             response.setContentType("text/html;charset=utf-8");
             PrintWriter out = response.getWriter();
-            out.println ("<script language=javascript>alert('注册失败，请稍后再试')</script>");
+            out.println ("<script language=javascript>alert('修改失败，请稍后再试')</script>");
         }
-        return "/";
+        return "mymessage";
     }
     //注销
     @RequestMapping(value = "signout")
@@ -211,5 +248,35 @@ public class UserController {
         HttpSession session = request.getSession();
         session.invalidate();
         return "index";
+    }
+    /**
+     * 修改账号密码
+     * */
+    @RequestMapping("ccpassword")
+    public String changePassword(@RequestParam("oldpassword")String oldPassword,@RequestParam("password1")String newPassword, HttpServletRequest request,ModelMap modelMap,HttpServletResponse response) throws IOException {
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
+        int flag = userServiceimpl.changepPsswod(userId,oldPassword,newPassword);
+        if(flag == 1) {//审核成功
+            ArrayList<PicMasterAnswer> picWeekMasterAnswers = picAnswer.getWeekAwsomeMaswerAnswer();
+            ArrayList<PicMasterAnswer> picMonthMasterAnswers = picAnswer.getMonthAwsomeMaswerAnswer();
+            ArrayList<VIdeoMasterMaster> videoWeekMasterAnswers = videoAnswerService.getWeekAwsomeMasterVideo();
+            ArrayList<VIdeoMasterMaster> videoMonthMasterAnswers = videoAnswerService.getMonthAwsomeMasterVideo();
+            modelMap.addAttribute("picMonthAwosomeAnswers", picMonthMasterAnswers);
+            modelMap.addAttribute("picWeekAwosomeAnswers", picWeekMasterAnswers);
+            modelMap.addAttribute("videoMonthAwosomeAnswers", videoMonthMasterAnswers);
+            modelMap.addAttribute("videoWeekAwosomeAnswers", videoWeekMasterAnswers);
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.println ("<script language=javascript>alert('修改成功')</script>");
+            return "index";
+        }else {
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.println ("<script language=javascript>alert('您的原始密码输入错误，请重新尝试')</script>");
+            return "changepassword";
+        }
     }
 }
