@@ -70,8 +70,11 @@ public class SaServiceImpl {
 
 //            List<String> imgPaths = new ArrayList<String>();
             File path1 = new File(ResourceUtils.getURL("classpath:").getPath());//获取Spring boot项目的根路径，在开发时获取到的是/target/classes/
-            File pathth = new File(path1.getAbsolutePath(),"static/images/upload/pic/"+picAnswer.getPicappId()+"/"+originUserId+"/");
+            File pathth = new File(path1.getAbsolutePath(),"static/images/upload/pic/"+picAnswer.getPicappId()+"/"+picAnswer.getUserId()+"/");
+            System.out.println(pathth.toString());
+            System.out.println("dizhi:"+pathth.getAbsolutePath());
             File[] files = pathth.listFiles();
+            System.out.println(files.length);
             for (File f: files
             ) {
                 String fileName = f.getName();
@@ -105,7 +108,7 @@ public class SaServiceImpl {
                     String path = picAnswer.getPicAdress();//url路径
 //                    List<String> imgPaths = new ArrayList<String>();
                     File path1 = new File(ResourceUtils.getURL("classpath:").getPath());//获取Spring boot项目的根路径，在开发时获取到的是/target/classes/
-                    File pathth = new File(path1.getAbsolutePath(),"static/images/upload/pic/"+picAnswer.getPicappId()+"/"+originUserId+"/");
+                    File pathth = new File(path1.getAbsolutePath(),"static/images/upload/pic/"+picAnswer.getPicappId()+"/"+picAnswer.getUserId()+"/");
                     File[] files = pathth.listFiles();
                     for (File f: files
                     ) {

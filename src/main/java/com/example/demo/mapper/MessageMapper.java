@@ -45,4 +45,5 @@ public interface MessageMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Message record);
+    List<Message> selectByUserId(String userId);
 }

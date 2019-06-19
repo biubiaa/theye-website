@@ -5,8 +5,10 @@ import com.example.demo.dao.PicAnswer;
 import com.example.demo.dao.PicAppMes;
 import com.example.demo.dao.UserMes;
 import com.example.demo.dto.ZSPicAppMes;
+import com.example.demo.mapper.PicAnswerMapper;
 import com.example.demo.mapper.PicAppMesMapper;
 import com.example.demo.mapper.UserMesMapper;
+import com.example.demo.mapper.VideoAnswerMapper;
 import com.example.demo.service.BillService;
 import com.example.demo.service.PicAppService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,10 @@ public class PicAppServiceImpl implements PicAppService {
     UserMesMapper userMesMapper;
     @Autowired
     BillService billService;
+    @Autowired
+    PicAnswerMapper picAnswerMapper;
+    @Autowired
+    VideoAnswerMapper videoAnswerMapper;
     /**
      * 插入图片请求
      * */
@@ -68,6 +74,7 @@ public class PicAppServiceImpl implements PicAppService {
             zsPicAppMes1.setMoney(picAppMes.getMoney());
             zsPicAppMes1.setRegion(picAppMes.getRegion());
             zsPicAppMes1.setSolve(picAppMes.getSolve());
+            zsPicAppMes1.setCount(picAnswerMapper.selectCountByAppId(picAppMes.getAppId()));
             zsPicAppMes.add(zsPicAppMes1);
         }
         return zsPicAppMes;
@@ -111,5 +118,11 @@ public class PicAppServiceImpl implements PicAppService {
     @Override
     public int deletePicAppAnswer(int PicAnswerId) {
         return 0;
+    }
+    /**
+     * 修改申请的状态
+     * */
+    public int changeAppState(int appId,int state){
+        return  picAppMesMapper.changeAppState(appId,state);
     }
 }

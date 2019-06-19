@@ -1,9 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.LevelScore;
-import com.example.demo.dao.PicAnswer;
-import com.example.demo.dao.PicAppMes;
-import com.example.demo.dao.UserMes;
+import com.example.demo.dao.*;
 import com.example.demo.dto.*;
 import com.example.demo.mapper.*;
 import com.example.demo.util.DeleteFileFolder;
@@ -28,6 +25,8 @@ public class PicAnswerImpl {
     VideoAnswerMapper videoAnswerMapper;
     @Autowired
     LevelScoreMapper levelScoreMapper;
+    @Autowired
+    MessageMapper messageMapper;
     public int insertNewAnswer(PicAnswer picAnswer){
 
         //先查询是否有该条记录，若没有则添加，有则不进行操作
@@ -49,7 +48,7 @@ public class PicAnswerImpl {
 
             ZSPicMyAnswer z1 = new ZSPicMyAnswer();
             z1.setAnswerTime(p.getAppTime());
-            z1.setPicAnswerId(p.getPicappId());
+            z1.setPicAnswerId(p.getPicId());
             int appId = p.getPicappId();
             PicAppMes picAppMes =  picAppMesMapper.selectByPrimaryKey(appId);
             z1.setIntroduce(picAppMes.getIntroduce());
@@ -166,9 +165,11 @@ public class PicAnswerImpl {
             specificPicAnswer.setAnswerTIme(picAnswer.getAppTime());
             specificPicAnswer.setAnswerUserId(picAnswer.getUserId());
             specificPicAnswer.setAwsome(picAnswer.getAwsome().toString());
+            specificPicAnswer.setState(picAnswer.getState());
             specificPicAnswer.setRightUserId(picAppMes.getRightUserId());
             //是第几个
             specificPicAnswer.setCount(count);
+            specificPicAnswer.setSolve(picAppMes.getSolve());
             specificPicAnswer.setAskTime(picAppMes.getAppTime());
             specificPicAnswer.setAnswerUserName(answerUserMes.getNickname());
             specificPicAnswer.setAnswerUserId(answerUserMes.getUserId());
@@ -242,6 +243,27 @@ public class PicAnswerImpl {
         LevelScore levelScore = levelScoreMapper.selectSumScoreByUserId(picAnswer.getUserId());
         levelScore.setAnswerScore(levelScore.getAnswerScore()+30);
         levelScoreMapper.updateByPrimaryKey(levelScore);
+        //给钱
+        PicAppMes picAppMes = picAppMesMapper.selectByPrimaryKey(picAnswer.getPicappId());
+        UserMes userMes = userMesMapper.selectByPrimaryKey(picAnswer.getUserId());
+        userMes.setMoney(userMes.getMoney()+picAppMes.getMoney());
+        //添加提示信息
+        String userId = picAnswer.getUserId();
+        String comment = "";
+        if(state==1) {
+             comment = "您回答的关于" + picAppMes.getAppSubject() + "的答案通过了审核";
+        }
+        if(state == 2){
+            comment = "您回答的关于" + picAppMes.getAppSubject() + "的答案被选为最佳答案";
+        }
+        if (state==3){
+             comment = "您回答的关于" + picAppMes.getAppSubject() + "的答案涉及不良内容，已被封禁";
+        }
+        Message message = new Message();
+        message.setUserId(userId);
+        message.setState(1);
+        message.setComment(comment);
+        messageMapper.insert(message);
        return picAnswerMapper.changeState(picAnswerId,state);
     }
     /**

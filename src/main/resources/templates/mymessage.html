@@ -45,7 +45,7 @@
             </a>
             <ul class="dropdown-menu" style="min-width:100%;">
                 <li >
-                    <a href="http://127.0.0.1:8080/message" th:text="'消息'"></a></li>
+                    <a href="http://127.0.0.1:8080/notice" th:text="'消息'"></a></li>
                 <li >
                     <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
                 <li >
@@ -59,20 +59,25 @@
     </ul>
 </div>
 <div class="div-second">
-    <div style="width: 400px;margin:  auto;">
-        <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
-        <h3 style="margin: auto"><span class="label label-default">账号</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getUserId()}"></span> </h3>
-    <h3 style="margin: auto"><span class="label label-default">昵称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getNickname()}"></span> </h3>
-    <h3 style="margin: auto"><span style="width: 200px" class="label label-default">个性签名</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getSignature()}"></span> </h3>
-    <h3 style="margin: auto"><span  class="label label-default">邮箱</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getEmail()}"></span> </h3>
-    <h3 style="margin: auto"><span class="label label-default">电话</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getPhone()}"></span> </h3>
-    <h3 style="margin: auto"><span class="label label-default">余额</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getMoney()}"></span> </h3>
-    <h3 style="margin: auto"><span class="label label-default">常住地区</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getRegion()}"></span> </h3>
-    <h3 style="margin: auto"><span class="label label-default">提问数量</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span href="http://127.0.0.1:8080/myquestion" th:text="${user.getAsk()}"></span> </h3>
-        <h3 style="margin: auto"><span class="label label-default">回答数量</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span href="http://127.0.0.1:8080/myanswer" th:text="${user.getAnswer()}"></span> </h3>
-        <h3 style="margin: auto"><span class="label label-default">在线时长</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span  th:text="${time}"></span> </h3>
+    <div style="width: 500px;height: 400px;margin:  auto;background-color: #ffe7db;border-radius: 20px"  >
+        <p>&nbsp;</p><p>&nbsp;
+        <h3 style="margin: auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="label label-default">账号</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getUserId()}"></span> </h3>
+    <h3 style="margin: auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="label label-default">昵称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getNickname()}"></span> </h3>
+    <h3 style="margin: auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="width: 200px" class="label label-default">个性签名</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getSignature()}"></span> </h3>
+    <h3 style="margin: auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span  class="label label-default">邮箱</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getEmail()}"></span> </h3>
+    <h3 style="margin: auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="label label-default">电话</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getPhone()}"></span> </h3>
+    <h3 style="margin: auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="label label-default">余额</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getMoney()}"></span> </h3>
+    <h3 style="margin: auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="label label-default">常住地区</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${user.getRegion()}"></span> </h3>
+    <h3 style="margin: auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="label label-default">提问数量</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span href="http://127.0.0.1:8080/myquestion" th:text="${user.getAsk()}"></span> </h3>
+        <h3 style="margin: auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="label label-default">回答数量</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span href="http://127.0.0.1:8080/myanswer" th:text="${user.getAnswer()}"></span></h3>
+        <h3 style="margin: auto;">&nbsp;&nbsp;&nbsp;&nbsp; <span class="label label-default" >回答积分</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${answerScore}"></span></h3>
+
+        <h3 style="margin: auto 0px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="label label-default">在线时长</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span  th:text="${time}"></span> </h3>
+
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button  type="button" class="btn btn-default" href="http://127.0.0.1:8080/" ><a href="http://127.0.0.1:8080/changemespage" style="color: black" > 修改信息</a></button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <button  style="margin-top: 10px" type="button" class="btn btn-default" href="http://127.0.0.1:8080/" ><a href="http://127.0.0.1:8080/changemespage" style="color: black;" > 修改信息</a></button>
 </div>
 </div>
 </body>

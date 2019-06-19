@@ -5,11 +5,9 @@ import com.example.demo.dto.SpecificVideoAnswer;
 import com.example.demo.dto.VIdeoMasterMaster;
 import com.example.demo.dto.VerifyVideoAnswer;
 import com.example.demo.dto.ZSVideoMyAnswer;
-import com.example.demo.mapper.LevelScoreMapper;
-import com.example.demo.mapper.UserMesMapper;
-import com.example.demo.mapper.VideoAnswerMapper;
-import com.example.demo.mapper.VideoAppMesMapper;
+import com.example.demo.mapper.*;
 import com.example.demo.util.DeleteFileFolder;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -29,6 +27,8 @@ public class VideoAnswerServiceImpl {
     UserMesMapper userMesMapper;
     @Autowired
     LevelScoreMapper levelScoreMapper;
+    @Autowired
+    MessageMapper messageMapper;
 
     /**
      * 添加视频答案*******************************************************没写完
@@ -54,7 +54,7 @@ public class VideoAnswerServiceImpl {
              ) {
             ZSVideoMyAnswer zsVideoMyAnswer = new ZSVideoMyAnswer();
             zsVideoMyAnswer.setAnswerTime(v.getSubtime());
-            zsVideoMyAnswer.setVideoAnswerId(v.getVedioappId());
+            zsVideoMyAnswer.setVideoAnswerId(v.getVedioId());
             int  appId = v.getVedioappId();
             VideoAppMes videoAppMes = videoAppMesMapper.selectByPrimaryKey(appId);
             zsVideoMyAnswer.setIntroduce(videoAppMes.getIntroduction());
@@ -139,6 +139,8 @@ public class VideoAnswerServiceImpl {
             specificVideoAnswer.setAnswerUserName(answerUserMes.getNickname());
             specificVideoAnswer.setAskTime(videoAppMes.getAsktime());
             specificVideoAnswer.setCount(count);
+            specificVideoAnswer.setState(videoAnswer.getState());
+            specificVideoAnswer.setSolve(videoAppMes.getSolve());
             specificVideoAnswer.setRightUserId(videoAppMes.getRightUserId());
             specificVideoAnswer.setOriginUserId(askUserMes.getUserId());
             specificVideoAnswer.setOriginUserName(askUserMes.getNickname());
@@ -179,10 +181,34 @@ public class VideoAnswerServiceImpl {
         LevelScore levelScore = levelScoreMapper.selectSumScoreByUserId(videoAnswer.getUserId());
         levelScore.setAnswerScore(levelScore.getAnswerScore()+30);
         levelScoreMapper.updateByPrimaryKey(levelScore);
+        //给钱
+        VideoAppMes videoAppMes = videoAppMesMapper.selectByPrimaryKey(videoAnswer.getVedioappId());
+        UserMes userMes = userMesMapper.selectByPrimaryKey(videoAnswer.getUserId());
+        userMes.setMoney(userMes.getMoney()+videoAppMes.getMoney());
+        userMesMapper.updateByPrimaryKey(userMes);
+        //改答案状态
+        String userId = videoAnswer.getUserId();
+        String comment = "";
+        if(state==1) {
+            comment = "您回答的关于" + videoAppMes.getAppSubject() + "的答案通过了审核";
+        }
+        if(state == 3){
+             comment = "您回答的关于" + videoAppMes.getAppSubject() + "的答案涉嫌违规，请重新审核后上传";
+        }
+        if(state ==2){
+            comment = "您回答的关于" + videoAppMes.getAppSubject()+"的答案被选为最佳答案";
+        }
+        Message message = new Message();
+        message.setUserId(userId);
+        message.setState(1);
+        message.setComment(comment);
+        messageMapper.insert(message);
         return videoAnswerMapper.changeState(videoAnswerId,state);
     }
     public int deleteVideoAnswer(int videoAnswerId,String userId) throws FileNotFoundException {
         VideoAnswer v = videoAnswerMapper.selectByPrimaryKey(videoAnswerId);
+        System.out.println(v.getUserId());
+        System.out.println(userId);
         if (v.getUserId().equals(userId)) {
             String path = v.getVedioAdress();
             videoAnswerMapper.deleteByPrimaryKey(videoAnswerId);

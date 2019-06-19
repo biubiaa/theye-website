@@ -28,6 +28,15 @@ public class SpecificPicAnswer {
     private int sum;
     private int picAppId;
     private int state;
+    private int solve;
+
+    public int getSolve() {
+        return solve;
+    }
+
+    public void setSolve(int solve) {
+        this.solve = solve;
+    }
 
     private String introction;
     private String awsome;

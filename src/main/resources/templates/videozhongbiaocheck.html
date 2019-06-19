@@ -10,16 +10,9 @@
     <style>
         .div-inline{
             display: inline;
-        }
-        .div-second{
-            width: 980px;
-            height: 500px;
-            margin: 40px auto;
-            background-color: #bce8f1;
-        }
-    </style>
+        }</style>
 
-    <title>我的信息</title>
+    <title>视频答案</title>
 </head>
 <body style="background-color: #bce8f1">
 
@@ -29,7 +22,7 @@
     <div class="div-inline">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/" style="font-size: 20px">首页</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/questionhall" style="font-size: 20px">悬赏大厅</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu" th:if="${session.userId!=null}" style="font-size: 20px">刷一刷</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href="http://127.0.0.1:8080/shuayishu"th:if="${session.userId!=null}" style="font-size: 20px">刷一刷</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myquestion" th:if="${session.userId!=null}" style="font-size: 20px">我的悬赏</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8080/myanswer" th:if="${session.userId!=null}" style="font-size: 20px">我的回答</a>
 
@@ -45,7 +38,7 @@
             </a>
             <ul class="dropdown-menu" style="min-width:100%;">
                 <li >
-                    <a href="http://127.0.0.1:8080/notice//" th:text="'消息'"></a></li>
+                    <a href="http://127.0.0.1:8080/notice" th:text="'消息'"></a></li>
                 <li >
                     <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
                 <li >
@@ -57,27 +50,39 @@
             </ul>
         </li>
     </ul>
-</div>
-<div style="width: 600px;margin: 20px auto">
-<table id="messages"  style="background-color: #f5e79e" class="table table-hover" align="center">
-    <thead >
-    <tr >
 
-        <th style="text-align: center" width="300px">内容</th>
-        <th style="text-align: center"width="100px">回答时间</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="m:${messages}">
-        <td th:text="${m.getComment()}"></td>
-        <td th:text="${m.getCtime()}"></td>
-    </tr>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;答案详情</p>
+    <div style="width: 600px;height: 1000px;margin: 0 auto;text-align: center;line-height: 20px">
+        <label id="subject" th:text="'地点：'+${videoAnswerInfo.getSubject()}"></label><p></p>
+        <label id="introduce" th:text="'悬赏描述：'+${videoAnswerInfo.getIntroduction()}"></label><p></p>
+        <label id="askUserId" >提问人：</label><a th:href="' '" th:text="${videoAnswerInfo.getOriginUserName()}"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label id="answerUserAndAwsome" >回答人：</label><a th:href="' '" th:text="${videoAnswerInfo.getAnswerUserName()}"></a><p></p>
+        <div class="form-inline">
+            <a class="btn btn-success" th:href="'http://127.0.0.1:8080/videoAnswerOOk?videoAnswerId='+${videoAnswerInfo.getVideoAnswerId()}" th:if="${videoAnswerInfo.getSolve()} == '0'">中标</a>
+            <span class="label label-warning" th:if="${picAnswerInfo.getState() }=='0'">审核中</span>
+            <span class="label label-primary" th:if="${picAnswerInfo.getState()}=='1'">已审核</span>
+            <span class="label label-success" th:if="${picAnswerInfo.getState() }=='2'" >中标</span>
+            <span class="label label-danger" th:if="${picAnswerInfo.getState()}=='3'">违规</span>
+            <label th:text="'点赞数量：'+${videoAnswerInfo.getAwsome()}"></label>
+        </div>
+        <!--    播放视频-->
+        <div style="text-align: center">
+            <video controls="controls" autoplay="autoplay" style="width: 600px;margin: 0 auto;">
+                <source th:src="${videoAnswerInfo.getVideo()}" type="video/mp4" />
+            </video>
+        </div>
 
-    </tbody>
-</table>
+        <nav aria-label="Page navigation" style="text-align: center" >
+            <ul class="pagination" th:each="i:${#numbers.sequence(1,videoAnswerInfo.getSum())}">
+                <li th:class="${i==videoAnswerInfo.getCount()?'active':''}" th:id="'img'+${i}"><a  th:text="${i}" th:href="'http://127.0.0.1:8080/vvvideoanswer?count='+${i}+'&videoId='+${videoAnswerInfo.getPicAppId()}"></a></li>
+            </ul>
+        </nav>
+
+
+
+        <!--    </div>-->
+    </div>
 </div>
 
-</div>
 </body>
-
 </html>

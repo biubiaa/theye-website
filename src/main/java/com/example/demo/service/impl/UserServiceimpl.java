@@ -2,8 +2,10 @@ package com.example.demo.service.impl;
 
 import com.example.demo.config.AdminRealm;
 import com.example.demo.dao.LevelScore;
+import com.example.demo.dao.Message;
 import com.example.demo.dao.TimeSatistic;
 import com.example.demo.dao.UserMes;
+import com.example.demo.dto.ZSMessage;
 import com.example.demo.mapper.*;
 import com.example.demo.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -15,7 +17,9 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 //import com.example.demo.dao.UserPass;
 //import com.example.demo.mapper.UserPassMapper;
@@ -39,6 +43,8 @@ public class UserServiceimpl implements UserService {
     PicAnswerMapper picAnswerMapper;
     @Autowired
     VideoAnswerMapper videoAnswerMapper;
+    @Autowired
+    MessageMapper messageMapper;
     //检查密码
     @Override
     public int checkPass(String id, String pwd) {
@@ -212,5 +218,35 @@ public class UserServiceimpl implements UserService {
         int minute = levelScore.getLoginTime()%60;
         time = hour+"小时"+minute+"分钟";
         return time;
+    }
+    //获取回答积分
+    public String   getAnswerScore(String userId){
+        String score = "";
+        LevelScore levelScore = levelScoreMapper.selectSumScoreByUserId(userId);
+        score = levelScore.getAnswerScore().toString();
+        return score;
+    }
+    //获取消息
+    public List<ZSMessage> getMessageByUserId(String userId){
+        List<Message> messages = messageMapper.selectByUserId(userId);
+        List<ZSMessage> zsMessages = new ArrayList<ZSMessage>();
+        for (Message m: messages
+             ) {
+            ZSMessage zsMessage = new ZSMessage();
+            zsMessage.setId(m.getId());
+            zsMessage.setCtime(m.getCtime());
+            zsMessage.setState(m.getState()==1?"已读":"未读");
+            zsMessage.setUserId(m.getUserId());
+            zsMessage.setComment(m.getComment());
+            zsMessages.add(zsMessage);
+        }
+        return zsMessages;
+    }
+    public int addMessage(String  userId,String comment){
+        Message message = new Message();
+        message.setComment(comment);
+        message.setState(0);
+        message.setUserId(userId);
+        return messageMapper.insert(message);
     }
 }

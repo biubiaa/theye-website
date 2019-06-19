@@ -60,4 +60,7 @@ public interface VideoAnswerMapper {
     List<VideoAnswer> selectWeekBestPicAnswer();
     List<VideoAnswer> selectMonthBestPicAnswer();
     int selectCountByUserId(String userId);
+
+    //获取一个请求有多少答案
+    int selectCountByAppId(int picappId);
 }

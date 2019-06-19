@@ -105,7 +105,7 @@ public class SaController {
     /**
      * 视频刷下一条
      * */
-    @RequestMapping(value = "videoshuanext")
+    @RequestMapping(value = "videoshuanext",method = RequestMethod.GET)
     public String videoShuaNext(@RequestParam(value = "videoAnswerId")int videoAnswerId, HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
         String userId = (String) request.getSession().getAttribute("userId");
         userServiceimpl.satisticTime(userId);
@@ -115,7 +115,7 @@ public class SaController {
         if(saVideoAnswer==null){//没有满足条件的图片回答,返回当前的页面，并提示
             response.setContentType("text/html;charset=utf-8");
             PrintWriter out = response.getWriter();
-            out.println("<script language=javascript>alert('您已经刷完了全部的图片悬赏回答，请过段时间在来刷一刷')</script>");
+            out.println("<script language=javascript>alert('您已经刷完了全部的视频悬赏回答，请过段时间在来刷一刷')</script>");
             return "nilshua";
         }
         else {

@@ -33,7 +33,7 @@
         </javaClientGenerator>
 
 
-        <table schema="bteye" tableName="time_satistic" enableCountByExample="false" enableDeleteByExample="false"
+        <table schema="bteye" tableName="message" enableCountByExample="false" enableDeleteByExample="false"
         enableSelectByExample="false" enableUpdateByExample="false"/>
 <!--        <table schema="bteye" tableName="message" enableCountByExample="false" enableDeleteByExample="false"-->
 <!--        enableSelectByExample="false" enableUpdateByExample="false"/>-->

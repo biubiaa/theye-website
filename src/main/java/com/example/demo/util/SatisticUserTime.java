@@ -22,11 +22,11 @@ public class SatisticUserTime extends Thread {
     public void run(){
         while (true){
             List<TimeSatistic>tss = timeSatisticMapper.selectAll();
+//            System.out.println("aaaaaaaaaaaaaaaaaaaaa");
             if(tss.size()==0){//没有账户登录
                 try {
                     sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }else {//有账户在登录
                 for (TimeSatistic ts: tss

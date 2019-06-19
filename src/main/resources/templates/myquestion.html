@@ -40,7 +40,7 @@
             </a>
             <ul class="dropdown-menu" style="min-width:100%;">
                 <li >
-                    <a href="http://127.0.0.1:8080/message" th:text="'消息'"></a></li>
+                    <a href="http://127.0.0.1:8080/notice" th:text="'消息'"></a></li>
                 <li >
                     <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
                 <li >
@@ -93,8 +93,8 @@
             <td th:text="${picapp.getAppTime()}"></td>
             <td>
                 <div class="form-inline">
-                <a class="btn btn-info btn-sm"  th:href="'http://127.0.0.1:8080/getPicFirstAnswer?picAppId='+${picapp.getAppId()}">
-                    查看回答
+                <a class="btn btn-info btn-sm"  th:href="'http://127.0.0.1:8080/getPicFirstAnswer?picAppId='+${picapp.getAppId()}" th:text="'查看回答('+${picapp.getCount()}+')'">
+
                 </a>
                     <a class="btn btn-warning btn-sm" onclick="confirmdelete()" th:href="@{'http://127.0.0.1:8080/deletepicapp?id='+${picapp.getAppId()}}">删除</a>
                 </div>
@@ -131,8 +131,7 @@
             <td th:text="${picapp.getAppTime()}"></td>
             <td>
                 <div class="form-inline">
-                    <a class="btn btn-info btn-sm" th:href="'http://127.0.0.1:8080/getVideoFirstAnswer?videoAppId='+${picapp.getAppId()}">
-                        查看回答
+                    <a class="btn btn-info btn-sm" th:href="'http://127.0.0.1:8080/getVideoFirstAnswer?videoAppId='+${picapp.getAppId()}" th:text="'查看回答('+${picapp.getCount()}+')'">
                     </a>
                     <a class="btn btn-warning btn-sm" onclick="confirmdelete()" th:href="@{'http://127.0.0.1:8080/deletevideoapp?id='+${picapp.getAppId()}}">删除</a>
                 </div>

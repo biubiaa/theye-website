@@ -63,6 +63,8 @@
         var pwd2 = document.getElementById("password2").value;
         var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
         if(reg.test(userId)){alert("账号不能包含包含汉字！");return false }
+        if(userId.length<6){alert("用户名过短！");return false}
+        if(pwd1.length<6){alert("密码过短！");return false}
         <!-- 对比两次输入的密码 -->
         if(pwd1 == pwd2) {
             return true;

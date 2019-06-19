@@ -75,6 +75,7 @@ public class AnswerController {
                 //上传成功
                 List<ZSPicMyAnswer> pics = picAnswerimpl.getPicAnswerByuserId(userId);
                 List<ZSVideoMyAnswer> videos = videoAnswerService.getVidelAnswerByUserId(userId);
+                System.out.println(pics.size());
                 modelMap.addAttribute("picAnswer",pics);
                 modelMap.addAttribute("videoAnswer",videos);
                 return"myanswer";
@@ -201,7 +202,8 @@ public class AnswerController {
 
 //        System.out.println(picAnswerId);
         //这里读取的answerId在之前写入的是appId
-        SpecificPicAnswer specificPicAnswer = picAnswerimpl.getAnswersBy(picAnswerId,userId);
+        int appId = picAnswerimpl.getAppid(picAnswerId);
+        SpecificPicAnswer specificPicAnswer = picAnswerimpl.getAnswersBy(appId,userId);
         modelMap.addAttribute("userId",userId);
         modelMap.addAttribute("picAnswerInfo",specificPicAnswer);
         //查询该问题所有答案
@@ -218,13 +220,15 @@ public class AnswerController {
         Integer level = userServiceimpl.getLevel(userId);
         modelMap.addAttribute("level",level);
         //这里读取的answerId在之前写入的是appId*****************************************8
-        SpecificVideoAnswer specificVideoAnswer = videoAnswerService.getAnswerByAppId_UserId(videoAnswerId,userId);
+        int appId = videoAnswerService.getAppid(videoAnswerId);
+        SpecificVideoAnswer specificVideoAnswer = videoAnswerService.getAnswerByAppId_UserId(appId,userId);
+
         modelMap.addAttribute("userId",userId);
         modelMap.addAttribute("videoAnswerInfo",specificVideoAnswer);
         return "videoanswer";
     }
     /**
-     * 根据某请求的第几个回答显示图片答案
+     * 根据某请求的第几个回答显示图片答案,回答答案的人用
      * */
     @RequestMapping(value = "ppicanswer",method = RequestMethod.GET)
     public String ppicAnswer(@RequestParam("count") int count,@RequestParam("picId")int picId,HttpServletRequest request,ModelMap modelMap) throws FileNotFoundException {
@@ -237,10 +241,36 @@ public class AnswerController {
         return "picanswer";
     }
     /**
-     * 根据某请求的第几个回答显示视频答案
+     * 根据某请求的第几个回答显示图片答案，发布悬赏的人用
+     * */
+    @RequestMapping(value = "pppicanswer",method = RequestMethod.GET)
+    public String ppicAnswera(@RequestParam("count") int count,@RequestParam("picId")int picId,HttpServletRequest request,ModelMap modelMap) throws FileNotFoundException {
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        SpecificPicAnswer specificPicAnswer = picAnswerimpl.selectByAppIdAndCount(picId,count);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
+        modelMap.addAttribute("picAnswerInfo",specificPicAnswer);
+        return "piczhongbiaocheck";
+    }
+    /**
+     * 根据某请求的第几个回答显示视频答案,回答悬赏的人用
      * */
     @RequestMapping(value = "vvideoanswer",method = RequestMethod.GET)
     public String vvideoAnswer(@RequestParam("count")int count,@RequestParam("videoId")int videoId,HttpServletRequest request,ModelMap modelMap){
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
+        SpecificVideoAnswer specificVideoAnswer = videoAnswerService.selectByAppIdAndCount(videoId,count);
+        modelMap.addAttribute("videoAnswerInfo",specificVideoAnswer);
+        return "videoanswer";
+    }
+    /**
+     * 根据某请求的第几个回答显示视频答案，发布悬赏的任用
+     * */
+    @RequestMapping(value = "vvvideoanswer",method = RequestMethod.GET)
+    public String vvvideoAnswer(@RequestParam("count")int count,@RequestParam("videoId")int videoId,HttpServletRequest request,ModelMap modelMap){
         String userId = (String) request.getSession().getAttribute("userId");
         userServiceimpl.satisticTime(userId);
         Integer level = userServiceimpl.getLevel(userId);
@@ -273,7 +303,7 @@ public class AnswerController {
             return "myquestion";
         }else {
             modelMap.addAttribute("picAnswerInfo", specificPicAnswer);
-            return "picanswer";
+            return "piczhongbiaocheck";
         }
     }
 
@@ -302,7 +332,7 @@ public class AnswerController {
             return "myquestion";
         }else {
             modelMap.addAttribute("videoAnswerInfo", specificVideoAnswer);
-            return "videoanswer";
+            return "videozhongbiaocheck";
         }
     }
     /**
@@ -361,10 +391,66 @@ public class AnswerController {
     /**
      * 图片答案中标
      * */
-//    @RequestMapping(value = "picAnswerOOk",method = RequestMethod.GET)
-//    public String picAnswerOOK(@RequestParam(value = "picAppId")int picAppId,@RequestParam(value = "rightUserId")String rightUserId){
-//
-//    }
+    @RequestMapping(value = "picAnswerOOk",method = RequestMethod.GET)
+    public String picAnswerOOK(@RequestParam(value = "picAnswerId")int picAnswerId,
+                               HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws IOException {
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
+        int flag = picAnswerimpl.yesPicAnswer(picAnswerId,2);
+        if(flag == 1){//中标成功
+            int appId = picAnswerimpl.getAppid(picAnswerId);
+            int count = picAnswerimpl.getCountByAnswerId(picAnswerId);
+            SpecificPicAnswer specificPicAnswer = picAnswerimpl.selectByAppIdAndCount(appId,count);
+            //修改悬赏的解决标志为1
+            picAppService.changeAppState(appId,1);
+            modelMap.addAttribute("picAnswerInfo",specificPicAnswer);
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script language=javascript>alert('操作成功')</script>");
+        }else {//中标失败
+            int appId = picAnswerimpl.getAppid(picAnswerId);
+            int count = picAnswerimpl.getCountByAnswerId(picAnswerId);
+            SpecificPicAnswer specificPicAnswer = picAnswerimpl.selectByAppIdAndCount(appId,count);
+            modelMap.addAttribute("picAnswerInfo",specificPicAnswer);
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script language=javascript>alert('操作失败，请稍后再进行尝试')</script>");
+        }
+        return "piczhongbiaocheck";
+    }
+    /**
+     * 视频答案中标
+     * */
+    @RequestMapping(value = "videoAnswerOOk",method = RequestMethod.GET)
+    public  String videoAnswerOOK(@RequestParam(value = "videoAnswerId")int videoAnswerId,
+                                  HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws IOException {
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
+        int flag = videoAnswerService.changeState(videoAnswerId,2);
+        if(flag == 1){//中标成功
+            int appId = videoAnswerService.getAppid(videoAnswerId);
+            int count = videoAnswerService.getCountByAnswerId(videoAnswerId);
+            SpecificVideoAnswer specificVideoAnswer = videoAnswerService.selectByAppIdAndCount(videoAnswerId,count);
+            videoAppService.changeAppState(appId,1);
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script language=javascript>alert('操作成功')</script>");
+        }else {//中标失败
+            int appId = videoAnswerService.getAppid(videoAnswerId);
+            int count = videoAnswerService.getCountByAnswerId(videoAnswerId);
+            SpecificVideoAnswer specificVideoAnswer = videoAnswerService.selectByAppIdAndCount(videoAnswerId,count);
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script language=javascript>alert('操作失败，请稍后再进行尝试')</script>");
+        }
+        return  "videozhongbiaocheck";
+
+
+    }
     /**
      * 首页最佳推荐点击某图片答案
      * */
@@ -379,7 +465,7 @@ public class AnswerController {
             int appId = picAnswerimpl.getAppid(id);
             int count = picAnswerimpl.getCountByAnswerId(id);
             SpecificPicAnswer specificPicAnswer = picAnswerimpl.selectByAppIdAndCount(appId,count);
-            modelMap.addAttribute("level",level);
+//            modelMap.addAttribute("level",level);
             modelMap.addAttribute("picAnswerInfo",specificPicAnswer);
             return "bestpic";
         }else {

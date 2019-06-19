@@ -12,6 +12,15 @@ public class ZSVideoAppMes {
     private String rightUserId;
     private String region;
     private String introduce;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public String getIntroduce() {
         return introduce;

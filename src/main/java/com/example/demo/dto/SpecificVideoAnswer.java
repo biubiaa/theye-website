@@ -11,6 +11,15 @@ public class SpecificVideoAnswer {
     private String subject;
     private String originUserId;
     private int state;
+private int solve;
+
+    public int getSolve() {
+        return solve;
+    }
+
+    public void setSolve(int solve) {
+        this.solve = solve;
+    }
 
     public int getState() {
         return state;

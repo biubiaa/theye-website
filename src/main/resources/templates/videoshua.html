@@ -37,7 +37,7 @@
             </a>
             <ul class="dropdown-menu" style="min-width:100%;">
                 <li >
-                    <a href="http://127.0.0.1:8080/message" th:text="'消息'"></a></li>
+                    <a href="http://127.0.0.1:8080/notice" th:text="'消息'"></a></li>
                 <li >
                     <a href="http://127.0.0.1:8080/mymessage">我的信息</a></li>
                 <li >
@@ -63,9 +63,11 @@
     </form>
 </div>
 <div style="width: 900px;height: 1000px;margin: 50px auto;text-align: center">
-    <label id="subject" th:text="'地点：'+${saVideoAnswer.getSubject()}"></label>
-    <label id="introduce" th:text="'悬赏描述：'+${saVideoAnswer.getIntroduce()}"></label>
-    <label id="answerUserAndAwsome" th:text="'回答人：'+${saVideoAnswer.getNickName()}+'     点赞数量：'+${saVideoAnswer.getAwsome()}"></label>
+    <label id="subject" th:text="'地点：'+${saVideoAnswer.getSubject()}"></label><p></p>
+    <label id="introduce" th:text="'悬赏描述：'+${saVideoAnswer.getIntroduce()}"></label><p></p>
+    <label id="answerUserAndAwsome" th:text="'回答人：'+${saVideoAnswer.getNickName()}+'     点赞数量：'+${saVideoAnswer.getAwsome()}"></label><p></p>
+
+
     <video controls="controls" autoplay="autoplay" style="width: 600px;margin: 0 auto;">
         <source th:src="${saVideoAnswer.getVideo()}" type="video/mp4" />
     </video>
@@ -73,7 +75,7 @@
         <p></p>
         <div class="form-inline">
             <a class="btn btn-success" th:href="'http://127.0.0.1:8080/videoawsome?videoAnswerId='+${saVideoAnswer.getAnswerId()}">点赞</a>
-            <a class="btn btn-default" href="http://127.0.0.1:8080/picshuanext">下一条</a>
+            <a class="btn btn-default" th:href="'http://127.0.0.1:8080/videoshuanext?videoAnswerId='+${saVideoAnswer.getAnswerId()}">下一条</a>
         </div>
     </div>
 </div>

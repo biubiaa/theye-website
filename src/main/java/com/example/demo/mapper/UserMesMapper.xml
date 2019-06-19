@@ -85,6 +85,7 @@
   </update>
   <update id="changePassword" >
     update user_mes
+    set
     password = #{password,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>

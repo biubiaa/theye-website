@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.dao.Message;
 import com.example.demo.dao.UserMes;
 import com.example.demo.dto.PicMasterAnswer;
 import com.example.demo.dto.VIdeoMasterMaster;
+import com.example.demo.dto.ZSMessage;
 import com.example.demo.service.impl.PicAnswerImpl;
 import com.example.demo.service.impl.UserServiceimpl;
 import com.example.demo.service.impl.VideoAnswerServiceImpl;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -83,6 +86,8 @@ public class UserController {
         //插入在线时长，回答积分
         String time = userServiceimpl.getOnlineTime(userId);
         model.addAttribute("time",time);
+        String score = userServiceimpl.getAnswerScore(userId);
+        model.addAttribute("answerScore",score);
         return "mymessage";
     }
 
@@ -209,7 +214,6 @@ public class UserController {
         //插入在线时长，回答积分
         String time = userServiceimpl.getOnlineTime(userId);
         model.addAttribute("time",time);
-        return "mymessage"
         String nickName = (String)request.getParameter("nickName");
         String email = (String)request.getParameter("email");
         String phone = (String ) request.getParameter("phone");
@@ -217,6 +221,8 @@ public class UserController {
         String signature =  request.getParameter("signature");
         request.getSession().setAttribute("nickName",nickName);
         UserMes um = userServiceimpl.selectById(userId);
+        //插入在线时长，回答积分
+        model.addAttribute("time",time);
         if(nickName!=""){
             um.setNickname(nickName);
         }
@@ -233,8 +239,12 @@ public class UserController {
             um.setSignature(signature);
         }
         model.addAttribute("user",um);
-        if(userServiceimpl.updateMes(um)==1)
+        if(userServiceimpl.updateMes(um)==1) {
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script language=javascript>alert('账户信息修改成功')</script>");
             return "mymessage";
+        }
         else {
             response.setContentType("text/html;charset=utf-8");
             PrintWriter out = response.getWriter();
@@ -244,9 +254,18 @@ public class UserController {
     }
     //注销
     @RequestMapping(value = "signout")
-    public String signout(HttpServletRequest request){
+    public String signout(HttpServletRequest request,ModelMap modelMap){
         HttpSession session = request.getSession();
         session.invalidate();
+        ArrayList<PicMasterAnswer> picWeekMasterAnswers = picAnswer.getWeekAwsomeMaswerAnswer();
+        ArrayList<PicMasterAnswer> picMonthMasterAnswers = picAnswer.getMonthAwsomeMaswerAnswer();
+        ArrayList<VIdeoMasterMaster> videoWeekMasterAnswers = videoAnswerService.getWeekAwsomeMasterVideo();
+        ArrayList<VIdeoMasterMaster> videoMonthMasterAnswers = videoAnswerService.getMonthAwsomeMasterVideo();
+        modelMap.addAttribute("picMonthAwosomeAnswers",picMonthMasterAnswers);
+        modelMap.addAttribute("picWeekAwosomeAnswers",picWeekMasterAnswers);
+        modelMap.addAttribute("videoMonthAwosomeAnswers",videoMonthMasterAnswers);
+        modelMap.addAttribute("videoWeekAwosomeAnswers",videoWeekMasterAnswers);
+
         return "index";
     }
     /**
@@ -278,5 +297,18 @@ public class UserController {
             out.println ("<script language=javascript>alert('您的原始密码输入错误，请重新尝试')</script>");
             return "changepassword";
         }
+    }
+    /**
+     * 跳转到我的消息界面
+     * */
+    @RequestMapping(value = "notice")
+    public String getNotice(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
+        String userId = (String) request.getSession().getAttribute("userId");
+        userServiceimpl.satisticTime(userId);
+        Integer level = userServiceimpl.getLevel(userId);
+        modelMap.addAttribute("level",level);
+        List<ZSMessage> messages = userServiceimpl.getMessageByUserId(userId);
+        modelMap.addAttribute("messages",messages);
+        return "notice";
     }
 }
