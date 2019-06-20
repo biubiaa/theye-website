@@ -39,7 +39,7 @@ public class BeanConfig {
 
     //权限管理，配置主要是Realm的管理认证
     @Bean
-    public SecurityManager securityManager() {
+    public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
         return securityManager;

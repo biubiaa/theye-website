@@ -51,7 +51,8 @@ public interface VideoAppMesMapper {
     List<VideoAppMes> selectByUserId(String userId);
     //查询一个人有多少视频悬赏
     int selectCountByUserId(String userId);
-    int changeAppState(int appId,int solve);
+    int changeAppState(int appId, int solve);
+    String selectUserIdByAppId(int appId);
 
 
 }

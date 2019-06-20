@@ -53,6 +53,8 @@ public interface PicAppMesMapper {
     List<PicAppMes> selectBycity(String region, int solve);
     int selectCountByUserId(String userId);
     //修改悬赏的状态
-    int changeAppState(int appId,int solve);
+    int changeAppState(int appId, int solve);
+    //获取一个发布悬赏的userId
+    String selectUserIdByAppId(int appId);
 
 }

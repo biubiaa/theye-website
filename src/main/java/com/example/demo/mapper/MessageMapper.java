@@ -4,6 +4,7 @@ import com.example.demo.dao.Message;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+
 @Mapper
 public interface MessageMapper {
     /**
@@ -45,5 +46,11 @@ public interface MessageMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Message record);
+
     List<Message> selectByUserId(String userId);
+    List<Message> selectByUserIdAndState(String userId,int state);
+    /**
+     * 设置一个人的信息状态
+     * */
+    int setStateByuserId(String userId,int state);
 }

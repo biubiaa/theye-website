@@ -13,6 +13,15 @@ public class ZSVideoAppMes {
     private String region;
     private String introduce;
     private int count;
+    private int answerCount;
+
+    public int getAnswerCount() {
+        return answerCount;
+    }
+
+    public void setAnswerCount(int answerCount) {
+        this.answerCount = answerCount;
+    }
 
     public int getCount() {
         return count;

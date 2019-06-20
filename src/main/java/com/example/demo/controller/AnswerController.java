@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.config.BeanConfig;
 import com.example.demo.dao.PicAnswer;
+import com.example.demo.dao.PicAppMes;
 import com.example.demo.dao.VideoAnswer;
 import com.example.demo.dto.*;
 import com.example.demo.service.impl.*;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -292,14 +293,28 @@ public class AnswerController {
         if(specificPicAnswer==null){
             //没有人回答
 
-            List<ZSPicAppMes> zsAppMesss = picAppService.getPicAppsByUserId(userId);
-            List<ZSVideoAppMes> videoAppMes = videoAppService.selectByUserId(userId);
-            modelMap.addAttribute("picapps",zsAppMesss);
-            modelMap.addAttribute("videoapps",videoAppMes);
 
-            response.setContentType("text/html;charset=utf-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script language=javascript>alert('您的请求目前没有人回答')</script>");
+            String appAweUserId = picAppService.getUserIdByAppId(picAppId);
+            if(userId.equals(appAweUserId)) {//本人访问请求，跳转回我的请求界面
+                List<ZSPicAppMes> zsAppMesss = picAppService.getPicAppsByUserId(userId);
+                List<ZSVideoAppMes> videoAppMes = videoAppService.selectByUserId(userId);
+                modelMap.addAttribute("picapps",zsAppMesss);
+                modelMap.addAttribute("videoapps",videoAppMes);
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.println("<script language=javascript>alert('您的请求目前没有人回答')</script>");
+            }else {//他人访问悬赏答案，跳转会悬赏大厅
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.println("<script language=javascript>alert('该请求目前没有人回答')</script>");
+                String region = "北京";
+                String type = "未解决";
+                List<ZSPicAppMes> zsPicAppMes = picAppService.selectByCity(region, type);
+                modelMap.addAttribute("picapps", zsPicAppMes);
+                List<ZSVideoAppMes> zsVideoAppMes = videoAppService.selectByCity(region,type);
+                modelMap.addAttribute("videoapps",zsVideoAppMes);
+                return "questionhall";
+            }
             return "myquestion";
         }else {
             modelMap.addAttribute("picAnswerInfo", specificPicAnswer);
@@ -321,15 +336,30 @@ public class AnswerController {
 
         if(specificVideoAnswer==null){
             //没有人回答
-            List<ZSPicAppMes> zsAppMesss = picAppService.getPicAppsByUserId(userId);
-            List<ZSVideoAppMes> videoAppMes = videoAppService.selectByUserId(userId);
-            modelMap.addAttribute("picapps",zsAppMesss);
-            modelMap.addAttribute("videoapps",videoAppMes);
 
-            response.setContentType("text/html;charset=utf-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script language=javascript>alert('您的请求目前没有人回答')</script>");
-            return "myquestion";
+            String appAweUserId = videoAppService.getUserIdByAppId(videoAppId);
+            if(userId.equals(appAweUserId)) {
+                List<ZSPicAppMes> zsAppMesss = picAppService.getPicAppsByUserId(userId);
+                List<ZSVideoAppMes> videoAppMes = videoAppService.selectByUserId(userId);
+                modelMap.addAttribute("picapps",zsAppMesss);
+                modelMap.addAttribute("videoapps",videoAppMes);
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.println("<script language=javascript>alert('您的请求目前没有人回答')</script>");
+                return "myquestion";
+            }else {
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.println("<script language=javascript>alert('该请求目前没有人回答')</script>");
+                String region = "北京";
+                String type = "未解决";
+                List<ZSPicAppMes> zsPicAppMes = picAppService.selectByCity(region, type);
+                modelMap.addAttribute("picapps", zsPicAppMes);
+                List<ZSVideoAppMes> zsVideoAppMes = videoAppService.selectByCity(region,type);
+                modelMap.addAttribute("videoapps",zsVideoAppMes);
+                return "questionhall";
+            }
+
         }else {
             modelMap.addAttribute("videoAnswerInfo", specificVideoAnswer);
             return "videozhongbiaocheck";

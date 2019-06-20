@@ -47,5 +47,5 @@ public interface UserMesMapper {
      */
     int updateByPrimaryKey(UserMes record);
     int recharge(String userId, int money);
-    int changePassword(String userId,String password);
+    int changePassword(String userId, String password);
 }

@@ -4,6 +4,7 @@ import com.example.demo.dao.PicAwsome;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+
 @Mapper
 public interface PicAwsomeMapper {
     /**
@@ -44,5 +45,5 @@ public interface PicAwsomeMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(PicAwsome record);
-    PicAwsome check(String userId,Integer answerId);
+    PicAwsome check(String userId, Integer answerId);
 }

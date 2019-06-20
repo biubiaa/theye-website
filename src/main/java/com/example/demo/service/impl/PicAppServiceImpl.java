@@ -99,6 +99,8 @@ public class PicAppServiceImpl implements PicAppService {
             zsPicAppMes1.setMoney(picAppMes1.getMoney());
             zsPicAppMes1.setRegion(picAppMes1.getRegion());
             zsPicAppMes1.setSolve(picAppMes1.getSolve());
+            int answerCount = picAnswerMapper.selectSumByAppId(picAppMes1.getAppId());
+            zsPicAppMes1.setAnswerCount(answerCount);
             zsPicAppMes.add(zsPicAppMes1);
         }
         return zsPicAppMes;
@@ -124,5 +126,11 @@ public class PicAppServiceImpl implements PicAppService {
      * */
     public int changeAppState(int appId,int state){
         return  picAppMesMapper.changeAppState(appId,state);
+    }
+    /**
+     * 获取一个申请的userId
+     * */
+    public String getUserIdByAppId(int appId){
+        return picAppMesMapper.selectUserIdByAppId(appId);
     }
 }

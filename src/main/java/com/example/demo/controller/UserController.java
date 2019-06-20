@@ -129,6 +129,9 @@ public class UserController {
                 modelMap.addAttribute("picWeekAwosomeAnswers",picWeekMasterAnswers);
                 modelMap.addAttribute("videoMonthAwosomeAnswers",videoMonthMasterAnswers);
                 modelMap.addAttribute("videoWeekAwosomeAnswers",videoWeekMasterAnswers);
+                //查询未读信息
+                List<Message> messages = userServiceimpl.getNoReadMessage(userId);
+                modelMap.addAttribute("messages",messages);
                 return "index";
             }else{
                 response.setContentType("text/html;charset=utf-8");
@@ -305,6 +308,8 @@ public class UserController {
     public String getNotice(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
         String userId = (String) request.getSession().getAttribute("userId");
         userServiceimpl.satisticTime(userId);
+        //消息设为已读,点击过一次消息之后全部设为已读
+        userServiceimpl.changeMessageState(userId,1);
         Integer level = userServiceimpl.getLevel(userId);
         modelMap.addAttribute("level",level);
         List<ZSMessage> messages = userServiceimpl.getMessageByUserId(userId);

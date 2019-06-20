@@ -7,7 +7,6 @@ import com.example.demo.dto.VerifyVideoAnswer;
 import com.example.demo.dto.ZSVideoMyAnswer;
 import com.example.demo.mapper.*;
 import com.example.demo.util.DeleteFileFolder;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -200,7 +199,7 @@ public class VideoAnswerServiceImpl {
         }
         Message message = new Message();
         message.setUserId(userId);
-        message.setState(1);
+        message.setState(0);
         message.setComment(comment);
         messageMapper.insert(message);
         return videoAnswerMapper.changeState(videoAnswerId,state);

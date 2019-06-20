@@ -91,31 +91,32 @@
 </form>
     <div style="margin: 20px auto;width: 900px">
         <label for="picapptable">图片请求</label>
-        <table id="picapptable" class="table table-hover" align="center">
+        <table style="text-align: center" id="picapptable" class="table table-hover" align="center">
             <thead>
             <tr>
                 <!--            <th>#</th>-->
-                <th width="150px">主题</th>
-                <th width="150px">区域</th>
+                <th style="text-align: center" width="100px">主题</th>
+                <th style="text-align: center" width="150px">区域</th>
 <!--                <th width="50px">是否解决</th>-->
-                <th width="25px">奖金</th>
-                <th width="120px">发布时间</th>
-                <th width="50px">操作</th>
+                <th style="text-align: center" width="25px">奖金</th>
+                <th style="text-align: center" width="120px">发布时间</th>
+                <th style="text-align: center" width="150px">操作</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="picapp:${picapps}">
-                <td th:text="${picapp.getAppSubject()}"></td>
-                <td th:text="${picapp.getRegion()}"></td>
+                <td style="text-align: center" th:text="${picapp.getAppSubject()}"></td>
+                <td style="text-align: center" th:text="${picapp.getRegion()}"></td>
 <!--                <td th:text="${picapp.getSolve()==0?'否':'是'}"></td>-->
 
-                <td th:text="${picapp.getMoney()}"></td>
-                <td th:text="${picapp.getAppTime()}"></td>
-                <td>
+                <td style="text-align: center" th:text="${picapp.getMoney()}"></td>
+                <td style="text-align: center" th:text="${picapp.getAppTime()}"></td>
+                <td style="text-align: center">
                     <div class="form-inline">
                         <button class="btn btn-info btn-sm" data-toggle="modal"  th:href="'#myModalpic1'+${picapp.getAppId()}" >
                             查看介绍
                         </button>
+                        <a class="btn btn-warning btn-sm" th:text="'查看回答('+${picapp.getAnswerCount()}" th:href="'http://127.0.0.1:8080/getPicFirstAnswer?picAppId='+${picapp.getAppId()}"></a>
                         <button class="btn btn-success btn-sm" data-toggle="modal" th:href="'#myModalpic2'+${picapp.getAppId()}" >
                             回答
                         </button>
@@ -202,31 +203,32 @@
     </div>
 <div style="margin: 20px auto;width: 900px">
     <label for="picapptable1">视频请求</label>
-    <table id="picapptable1" class="table table-hover" align="center">
-        <thead>
+    <table style="text-align: center" id="picapptable1" class="table table-hover" align="center">
+        <thead style="text-align: center">
         <tr>
             <!--            <th>#</th>-->
-            <th width="150px">主题</th>
-            <th width="150px">区域</th>
+            <th style="text-align: center" width="100px">主题</th>
+            <th style="text-align: center" width="150px">区域</th>
 <!--            <th width="50px">是否解决</th>-->
-            <th width="25px">奖金</th>
-            <th width="120px">发布时间</th>
-            <th width="50px">操作</th>
+            <th style="text-align: center" width="25px">奖金</th>
+            <th style="text-align: center" width="120px">发布时间</th>
+            <th style="text-align: center"width="150px">操作</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="picapp:${videoapps}">
-            <td th:text="${picapp.getAppSubject()}"></td>
-            <td th:text="${picapp.getRegion()}"></td>
+            <td style="text-align: center" th:text="${picapp.getAppSubject()}"></td>
+            <td style="text-align: center" th:text="${picapp.getRegion()}"></td>
 <!--            <td th:text="${picapp.getSolve()==0?'否':'是'}"></td>-->
 
-            <td th:text="${picapp.getMoney()}"></td>
-            <td th:text="${picapp.getAppTime()}"></td>
-            <td>
+            <td style="text-align: center" th:text="${picapp.getMoney()}"></td>
+            <td style="text-align: center" th:text="${picapp.getAppTime()}"></td>
+            <td style="text-align: center" >
                 <div class="form-inline">
                     <button class="btn btn-info btn-sm" data-toggle="modal" th:href="'#myModalvideo1'+${picapp.getAppId()}" >
                         查看介绍
                     </button>
+                    <a class="btn btn-warning btn-sm" th:text="'查看回答('+${picapp.getAnswerCount()}" th:href="'http://127.0.0.1:8080/getPicFirstAnswer?picAppId='+${picapp.getAppId()}"></a>
                     <button class="btn btn-success btn-sm" data-toggle="modal" th:href="'#myModalvideo2'+${picapp.getAppId()}">
                         回答
                     </button>

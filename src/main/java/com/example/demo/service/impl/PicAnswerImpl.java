@@ -85,7 +85,7 @@ public class PicAnswerImpl {
     /**
      * 根据请求id和用户id返回用户的答案信息
      * */
-    public SpecificPicAnswer getAnswersBy(int picAppId,String userId) throws FileNotFoundException {
+    public SpecificPicAnswer getAnswersBy(int picAppId, String userId) throws FileNotFoundException {
         SpecificPicAnswer specificPicAnswer = new SpecificPicAnswer();
         //获取该请求的回答总数量
         int sum = picAnswerMapper.selectSumByAppId(picAppId);
@@ -142,7 +142,7 @@ public class PicAnswerImpl {
     /**
      * 根据请求id和第几个来返回答案信息
      * */
-    public SpecificPicAnswer selectByAppIdAndCount(int picAppId,int count) throws FileNotFoundException {
+    public SpecificPicAnswer selectByAppIdAndCount(int picAppId, int count) throws FileNotFoundException {
         SpecificPicAnswer specificPicAnswer = new SpecificPicAnswer();
         //获取该请求的回答总数量
         int sum = picAnswerMapper.selectSumByAppId(picAppId);
@@ -261,7 +261,7 @@ public class PicAnswerImpl {
         }
         Message message = new Message();
         message.setUserId(userId);
-        message.setState(1);
+        message.setState(0);
         message.setComment(comment);
         messageMapper.insert(message);
        return picAnswerMapper.changeState(picAnswerId,state);

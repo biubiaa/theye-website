@@ -1,7 +1,6 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dao.PicAnswer;
-import com.example.demo.dao.PicAppMes;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
@@ -52,13 +51,13 @@ public interface PicAnswerMapper {
     List<PicAnswer> selectAnswerByUserId(String userId);
     int selectSumByAppId(int picId);
     List<PicAnswer> selectByPicAppId(int picAppId);
-    PicAnswer selectByAnswerUserId(int picappId,String userId);
+    PicAnswer selectByAnswerUserId(int picappId, String userId);
     ArrayList<Integer> getAllAuthId();
     int picAwsome(PicAnswer picAnswer);
     //返回未审核的图片信息
     ArrayList<PicAnswer> selectNoVerifyAnswer();
     int selectCountOfNoVerified();
-    int changeState(int picId,int state);
+    int changeState(int picId, int state);
     //得到本周最佳答案
     List<PicAnswer> selectWeekBestPicAnswer();
     List<PicAnswer> selectMonthBestPicAnswer();

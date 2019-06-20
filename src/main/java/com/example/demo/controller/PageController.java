@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dao.Message;
 import com.example.demo.dto.PicMasterAnswer;
 import com.example.demo.dto.VIdeoMasterMaster;
 import com.example.demo.dto.ZSPicAppMes;
@@ -11,6 +12,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +35,18 @@ public class PageController {
      * 主页
      * */
     @RequestMapping(value = "/")
-    public String hhh(HttpServletRequest request,ModelMap modelMap){
+    public String hhh(HttpServletRequest request, ModelMap modelMap, HttpServletResponse response) throws IOException {
         String userId = (String) request.getSession().getAttribute("userId");
         if (userId!=null) {
             userServiceimpl.satisticTime(userId);
             modelMap.addAttribute("level",userServiceimpl.getLevel(userId));
+            List<Message> messages = userServiceimpl.getNoReadMessage(userId);
+            if(messages!=null && messages.size()!=0) {
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.println("<script language=javascript>alert('您有" + messages.size() + "条未读信息，请及时查阅')</script>");
+            }
+
         }
         //展示最佳信息
         ArrayList<PicMasterAnswer> picWeekMasterAnswers = picAnswer.getWeekAwsomeMaswerAnswer();

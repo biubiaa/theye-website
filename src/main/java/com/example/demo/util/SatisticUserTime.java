@@ -2,14 +2,11 @@ package com.example.demo.util;
 
 import com.example.demo.dao.LevelScore;
 import com.example.demo.dao.TimeSatistic;
-import com.example.demo.dao.UserMes;
 import com.example.demo.mapper.LevelScoreMapper;
 import com.example.demo.mapper.TimeSatisticMapper;
-import com.example.demo.mapper.UserMesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

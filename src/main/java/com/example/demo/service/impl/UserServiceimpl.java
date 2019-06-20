@@ -249,4 +249,17 @@ public class UserServiceimpl implements UserService {
         message.setUserId(userId);
         return messageMapper.insert(message);
     }
+    /**
+     * 获取唯消息
+     * */
+    public List<Message> getNoReadMessage(String userId){
+        List<Message> messages = messageMapper.selectByUserIdAndState(userId,0);
+        return messages;
+    }
+    /**
+     * 修改信息状态
+     * */
+    public int changeMessageState(String userId,int state){
+        return messageMapper.setStateByuserId(userId,state);
+    }
 }

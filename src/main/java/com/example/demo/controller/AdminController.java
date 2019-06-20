@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.dto.VerifyNum;
 import com.example.demo.dto.VerifyPicAnswer;
 import com.example.demo.dto.VerifyVideoAnswer;
-import com.example.demo.mapper.VideoAnswerMapper;
 import com.example.demo.service.impl.AdminServiceImpl;
 import com.example.demo.service.impl.PicAnswerImpl;
 import com.example.demo.service.impl.VideoAnswerServiceImpl;
@@ -16,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 @Controller
 public class AdminController {
     @Autowired

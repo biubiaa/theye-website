@@ -1,7 +1,5 @@
 package com.example.demo.dto;
 
-import java.util.ArrayList;
-
 public class SaVideoAnswer {
     private Integer answerId;
     private String subject;

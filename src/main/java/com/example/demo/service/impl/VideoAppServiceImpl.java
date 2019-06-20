@@ -149,12 +149,21 @@ public class VideoAppServiceImpl implements VideoAppService {
             zsVideoAppMes1.setRegion(v.getRegion());
             zsVideoAppMes1.setRightUserId(v.getRightUserId());
             zsVideoAppMes1.setSolve(v.getSolve());
+            int sum = videoAnswerMapper.selectSumByAppId(v.getAppId());
+            zsVideoAppMes1.setAnswerCount(sum);
             zsVideoAppMes.add(zsVideoAppMes1);
+
 
         }
         return zsVideoAppMes;
     }
     public int changeAppState(int appId,int state){
         return videoAppMesMapper.changeAppState(appId,state);
+    }
+    /**
+     * 获取一个申请的userId
+     * */
+    public String getUserIdByAppId(int appId){
+        return videoAppMesMapper.selectUserIdByAppId(appId);
     }
 }

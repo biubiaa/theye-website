@@ -2,7 +2,7 @@ package com.example.demo.dto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+
 /**
  * 视频答案界面展示信息
  * */

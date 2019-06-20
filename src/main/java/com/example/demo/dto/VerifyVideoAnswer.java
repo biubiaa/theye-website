@@ -1,7 +1,5 @@
 package com.example.demo.dto;
 
-import java.util.ArrayList;
-
 public class VerifyVideoAnswer {
     public int picAnswerId;
     public String subject;

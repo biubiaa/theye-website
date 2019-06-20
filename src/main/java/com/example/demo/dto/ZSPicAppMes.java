@@ -12,6 +12,15 @@ public class ZSPicAppMes {
     private String rightUserId;
     private String region;
     private int count;//回答的个数
+    private int answerCount;
+
+    public int getAnswerCount() {
+        return answerCount;
+    }
+
+    public void setAnswerCount(int answerCount) {
+        this.answerCount = answerCount;
+    }
 
     public int getCount() {
         return count;

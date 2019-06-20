@@ -49,14 +49,14 @@ public interface VideoAnswerMapper {
     int updateByPrimaryKey(VideoAnswer record);
 //    VideoAnswer selectByUserAndAppId(String userId,int )
     List<VideoAnswer> selectByUserId(String userId);
-    List<VideoAnswer> chachong(String userId,int vedioappId);
+    List<VideoAnswer> chachong(String userId, int vedioappId);
     int selectSumByAppId(int vedioappId);
-    VideoAnswer selectByAnswerUserId(int vedioappId,String userId);
+    VideoAnswer selectByAnswerUserId(int vedioappId, String userId);
     List<VideoAnswer> selectByVideoAppId(int vedioappId);
     ArrayList<Integer> getAllAuthId();
     int selectCountOfNoVerified();
     ArrayList<VideoAnswer> selectNoVerifyAnswer();
-    int changeState(int videoId,int state);
+    int changeState(int videoId, int state);
     List<VideoAnswer> selectWeekBestPicAnswer();
     List<VideoAnswer> selectMonthBestPicAnswer();
     int selectCountByUserId(String userId);
